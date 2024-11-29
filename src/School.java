@@ -1,8 +1,9 @@
 public class School {
     private String name;
-    private Employee dean;
+    private Teacher dean;
+    private Student[] students;
     private Employee[] employees; // may have teachers and researchers
-    private Discipline[] courses;
+    private Discipline[] disciplines;
 }
 
 /*
