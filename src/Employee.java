@@ -1,7 +1,13 @@
+import java.util.Date;
+
 public abstract class Employee extends User {
-    private String employeeID;
-    private String department;
+    private static int employeeID = 1;
     private double salary;
-    private String jobTitle;
-    private String employeeemail;
+
+    public Employee(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary) {
+        super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password);
+        this.salary = salary;
+        super.email = name.charAt(0) + "." + surname + "@kbtu.kz";
+        employeeID++;
+    }
 }

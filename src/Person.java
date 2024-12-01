@@ -1,23 +1,29 @@
 import java.util.Date;
+import java.util.Objects;
 
-public abstract class Person {
-    private String ID;
+public abstract class Person implements Comparable<Person>, Cloneable {
+    private String ID; // ИИН
     private String name;
     private String surname;
-    private String sex;
-    private int age;
+    private SEX sex;
     private Date birthDate;
     private String phoneNumber;
     private String citizenship;
 
 
-    public Person(String ID, String name, String surname, String sex, int age, Date birthDate, String phoneNumber, String citizenship) {
-        if (ID.substring(0, 1).equals(birthDate.getYear()))
-        this.ID = ID;
+    public Person(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship) {
+        if (ID.substring(0, 6).equals(String.valueOf(birthDate.getYear()).substring(2,4)+String.format("%02d", birthDate.getMonth())+String.format("%02d", birthDate.getDate()))
+                && ID.length() == 12
+                && ID.matches("[0-9]+")
+//                && ( (ID.substring(7,7).equals("0") && citizenship.equals("Kazakhstan")) || (ID.substring(7,7).equals("6") && sex.equals("female") && birthDate.getYear()>=2000) || (ID.substring(7,7).equals("5") && sex.equals("male") && birthDate.getYear()>=2000) || (ID.substring(7,7).equals("4") && sex.equals("female") && birthDate.getYear()>=1900) || (ID.substring(7,7).equals("3") && sex.equals("female") && birthDate.getYear()>=1900))
+        ) {
+            this.ID = ID;
+        } else {
+            throw new IllegalArgumentException("invalid ID");
+        }
         this.name = name;
         this.surname = surname;
         this.sex = sex;
-        this.age = age;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.citizenship = citizenship;
@@ -32,11 +38,8 @@ public abstract class Person {
     public String getSurname() {
         return surname;
     }
-    public String getSex() {
+    public SEX getSex() {
         return sex;
-    }
-    public int getAge() {
-        return age;
     }
 //    public Date getBirthDate() {
 //        return birthDate;
@@ -48,6 +51,24 @@ public abstract class Person {
 //        return citizenship;
 //    }
 
+
+    @Override
+    public int compareTo(Person o) {
+        return this.birthDate.compareTo(o.birthDate);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(sex, person.sex) && Objects.equals(birthDate, person.birthDate) && Objects.equals(phoneNumber, person.phoneNumber) && Objects.equals(citizenship, person.citizenship);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, surname, sex, birthDate, phoneNumber, citizenship);
+    }
+
     @Override
     public String toString() {
         return "Person[" +
@@ -55,10 +76,25 @@ public abstract class Person {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", sex='" + sex + '\'' +
-                ", age=" + age +
                 ", birthDate=" + birthDate +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", citizenship='" + citizenship + '\'' +
                 ']';
     }
+
+    @Override
+    public Person clone() {
+        try {
+            Person clone = (Person) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+}
+
+enum SEX {
+    male,
+    female
 }

@@ -5,5 +5,5 @@ public interface Admin {
     public void addDiscipline(Discipline discipline);
     public void removeDiscipline(Discipline discipline);
     public void updateDiscipline(Discipline discipline);
-
+    public void addStudentToSchool(Student student);
 }
