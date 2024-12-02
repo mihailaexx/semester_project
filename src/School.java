@@ -36,6 +36,14 @@ public class School {
     public void addDiscipline(Discipline discipline) {
         disciplines.add(discipline);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
 }
 
 /*

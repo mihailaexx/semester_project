@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Discipline {
     private String code;
     private String name;
@@ -8,19 +10,24 @@ public class Discipline {
     private int n_labs;
     private int year;
     private int semester;
-    private Teacher[] teacher;
+    private Vector<Teacher> teachers;
 
-    private Discipline(String code, String name, School school, int credits, int n_lectures, int n_practices, int n_labs, int year, int semester, Teacher[] teacher) {
+    public Discipline() {}
+    public Discipline(String code, String name, School school, int credits, int n_lectures, int n_practices, int n_labs, int year, int semester) {
         this.code = code;
         this.name = name;
-        this.school = school;
+        this.school = school; school.addDiscipline(this);
         this.credits = credits;
         this.n_lectures = n_lectures;
         this.n_practices = n_practices;
         this.n_labs = n_labs;
         this.year = year;
         this.semester = semester;
-        this.teacher = teacher;
+        this.teachers = new Vector<>();
+    }
+
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
     }
 
     public String getCode() {

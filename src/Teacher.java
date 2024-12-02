@@ -9,7 +9,7 @@ public class Teacher extends Employee {
 
     public Teacher(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, School school, TEACHERDEGREE degree) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
-        this.school = school; school.addEmployee(this);
+        this.school = school; school.addEmployee(this); // school.getUniversity().addEmployee(this);
         this.degree = degree;
     }
 

@@ -1,7 +1,9 @@
 import java.util.Date;
 import java.util.Vector;
 
-public class ResearchPaper {
+public class ResearchProject {
+    private Vector<ResearchPaper> researchPapers;
+
     private String title;
     private String description;
     private Vector<Researcher> authors;
@@ -9,5 +11,4 @@ public class ResearchPaper {
     private String location;
     private Vector<String> references;
     private Vector<String> keywords;
-    private int quotationCount;
 }

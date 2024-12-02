@@ -1,5 +1,8 @@
 public class Mark {
     private int int_mark;
+    private int int_mark_firs_attestation;
+    private int int_mark_second_attestation;
+    private int int_mark_final;
     private String string_mark;
 
     public String int_to_string(int int_mark) {
