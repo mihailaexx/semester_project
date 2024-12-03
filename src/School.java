@@ -5,8 +5,8 @@ public class School {
 
     private String name;
     private Teacher dean;
-    private Vector<Employee> employees;
-    private Vector<Student> students; // may have teachers and researchers
+    private Vector<Employee> employees; // may have teachers and researchers
+    private Vector<Student> students;
     private Vector<Discipline> disciplines;
 
     public School(String name, University university) {
@@ -41,8 +41,8 @@ public class School {
         return name;
     }
 
-    public University getUniversity() {
-        return university;
+    public Teacher getDean() {
+        return dean;
     }
 }
 

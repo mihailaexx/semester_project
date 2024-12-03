@@ -10,4 +10,7 @@ public abstract class Employee extends User {
         super.email = name.charAt(0) + "." + surname + "@kbtu.kz";
         employeeID++;
     }
+
+    public void sendMessages(Employee employee, String message) {}
+
 }

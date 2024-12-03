@@ -39,16 +39,15 @@ public class Main {
         schedule1.addDiscipline(discrete, DISCIPLINETYPE.LECTURE, 2, 10); // 10 - 12 lecture
         schedule1.addDiscipline(discrete, DISCIPLINETYPE.LECTURE, 2, 11);
         schedule1.addDiscipline(discrete, DISCIPLINETYPE.LAB, 3, 14); // 14 - 15 lab
-        // Eng every mon, wed, fri
+        // Eng every mon, wed, fri 9 - 10 lab
         schedule1.addDiscipline(engA2, DISCIPLINETYPE.LAB, 0, 9);
         schedule1.addDiscipline(engA2, DISCIPLINETYPE.LAB, 2, 9);
         schedule1.addDiscipline(engA2, DISCIPLINETYPE.LAB, 4, 9);
         Course course1 = new Course(2023, 1);
-        course1.add
     }
 }
-
+//
 // TODO: Оценки, расписание, курс
 // TODO: Админка, привелегии (несколько уровней), лог
 // TODO: Регистрация на курс студента - запрос для менержера
-// TODO: ...
+// TODO: Перенести enum'ы в отдельные файлы

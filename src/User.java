@@ -10,6 +10,8 @@ public abstract class User extends Person {
         this.password = password;
     }
 
+
+
     @Override
     public int compareTo(Person o) {
         return super.compareTo(o);

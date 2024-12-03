@@ -12,6 +12,10 @@ public class Discipline {
     private int semester;
     private Vector<Teacher> teachers;
 
+    public void sync(University university) {
+        university.addDiscipline(this);
+    }
+
     public Discipline() {}
     public Discipline(String code, String name, School school, int credits, int n_lectures, int n_practices, int n_labs, int year, int semester) {
         this.code = code;
