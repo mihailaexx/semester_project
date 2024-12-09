@@ -15,8 +15,8 @@ public class FinanceManager extends Employee implements Comparable<Person> {
         // add check for student's grand and n of retakes
     }
 
-    public void paySalary() {
-        //
+    public void paySalary(Employee employee, double amount) {
+        // Implementation
     }
 
     @Override

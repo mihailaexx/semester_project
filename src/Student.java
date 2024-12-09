@@ -12,9 +12,9 @@ public class Student extends User implements Comparable<Person> {
 
     private String studentID;
     private STUDENTDEGREE degree;
+    private STUDENTTYPE type;
     private double gpa;
     private int yearOfStudy;
-    private STUDENTTYPE type;
     private Vector<Course> courses;
     private Vector<StudentOrganization> organizations;
     private HashMap<Discipline, Integer> retakes;
@@ -51,13 +51,28 @@ public class Student extends User implements Comparable<Person> {
     public Vector<Course> getCourses() {
         return courses;
     }
-    public void registerToCourse(Course course) {
+
+    public void registerForCourse(Course course) {
         // create request for OR manager
+        // Check credits < 21, failedCoursesCount < 3
+        courses.add(course);
     }
     public void printCourses() {
         for (Course course : courses) {
             System.out.println(course);
         }
+    }
+
+    public void viewMarks() {
+        // Implementation
+    }
+
+    public void viewTranscript() {
+        // Implementation
+    }
+
+    public void rateTeacher(Teacher teacher, int rating) {
+        // Implementation
     }
 
     public Vector<StudentOrganization> getOrganizations() {
