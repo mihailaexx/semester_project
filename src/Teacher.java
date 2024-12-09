@@ -1,5 +1,8 @@
 import java.util.Date;
+import java.util.Objects;
 import java.util.Vector;
+import enums.SEX;
+import enums.TEACHERDEGREE;
 
 public class Teacher extends Employee {
     private School school;
@@ -41,13 +44,25 @@ public class Teacher extends Employee {
     public void updateMark(Student student, Discipline discipline, double mark, int i) {
         student.getCourses().lastElement().updateDisciplineMark(discipline, mark, i);
     }
-}
 
-enum TEACHERDEGREE {
-    PROFESSOR,
-    ASSOCIATE_PROFESSOR,
-    ASSISTANT_PROFESSOR,
-    SENIOR_LECTURER,
-    LECTURER,
-    TUTOR
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Teacher teacher)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(school, teacher.school) && Objects.equals(disciplines, teacher.disciplines) && degree == teacher.degree;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), school, disciplines, degree);
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher[[" + super.toString() +
+                "], school=" + school +
+                ", disciplines=" + disciplines +
+                ", degree=" + degree +
+                ']';
+    }
 }

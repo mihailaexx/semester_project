@@ -10,7 +10,6 @@ public class Discipline {
     private int n_labs;
     private int year;
     private int semester;
-    private Vector<Teacher> teachers;
 
     public void sync(University university) {
         university.addDiscipline(this);
@@ -27,11 +26,6 @@ public class Discipline {
         this.n_labs = n_labs;
         this.year = year;
         this.semester = semester;
-        this.teachers = new Vector<>();
-    }
-
-    public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
     }
 
     public String getCode() {
@@ -61,10 +55,4 @@ public class Discipline {
     public String getFormula() {
         return String.format("%d/%d/%d", n_lectures, n_practices, n_labs);
     }
-}
-
-enum DISCIPLINETYPE {
-    LECTURE,
-    PRACTICE,
-    LAB
 }

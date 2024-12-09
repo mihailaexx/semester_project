@@ -3,81 +3,81 @@
   <ID>JAVA</ID>
   <OriginalElement>C:/Users/frosh/IdeaProjects/semester_project/src</OriginalElement>
   <nodes>
-    <node x="100.5" y="-225.0">SEX</node>
-    <node x="397.5" y="3703.0">University</node>
-    <node x="1163.0" y="3787.0">Main</node>
-    <node x="1965.0" y="3091.0">Government</node>
-    <node x="248.5" y="3162.0">School</node>
-    <node x="-5.0" y="-26.0">Person</node>
-    <node x="1064.0" y="859.0">Teacher</node>
-    <node x="458.0" y="1070.5">Pair</node>
     <node x="-10.0" y="411.0">User</node>
-    <node x="429.5" y="2218.0">StudentOrganization</node>
-    <node x="988.5" y="3599.5">CompareStudents</node>
-    <node x="2408.0" y="3259.5">Request</node>
-    <node x="1536.5" y="2279.5">ResearchProject</node>
-    <node x="1044.0" y="1366.0">Discipline</node>
-    <node x="1357.5" y="655.0">TEACHERDEGREE</node>
-    <node x="-227.5" y="3138.0">Admin</node>
-    <node x="769.0" y="1511.0">Mark</node>
+    <node x="1064.0" y="859.0">Teacher</node>
     <node x="429.5" y="2546.0">Student</node>
-    <node x="1096.5" y="2255.0">STUDENTDEGREE</node>
-    <node x="-12.0" y="667.0">Employee</node>
+    <node x="100.5" y="-225.0">SEX</node>
+    <node x="458.0" y="1070.5">Pair</node>
+    <node x="1965.0" y="3091.0">Government</node>
+    <node x="2408.0" y="3259.5">Request</node>
+    <node x="1357.5" y="655.0">TEACHERDEGREE</node>
+    <node x="1536.5" y="2279.5">ResearchProject</node>
+    <node x="2042.0" y="2715.0">GOVROLE</node>
+    <node x="-227.5" y="3138.0">Admin</node>
+    <node x="1044.0" y="1366.0">Discipline</node>
+    <node x="578.5" y="1922.0">Course</node>
+    <node x="248.5" y="3162.0">School</node>
+    <node x="397.5" y="3703.0">University</node>
     <node x="2297.0" y="2715.0">REQUESTSTATUS</node>
     <node x="1602.5" y="2727.0">Researcher</node>
-    <node x="332.0" y="1535.0">Schedule</node>
-    <node x="2042.0" y="2715.0">GOVROLE</node>
-    <node x="841.0" y="3775.0">DISCIPLINETYPE</node>
-    <node x="1521.5" y="3259.5">ResearchPaper</node>
-    <node x="578.5" y="1922.0">Course</node>
-    <node x="743.0" y="3587.0">Test</node>
+    <node x="-12.0" y="667.0">Employee</node>
     <node x="1646.0" y="1995.0">RESEARCHERDEGREE</node>
+    <node x="332.0" y="1535.0">Schedule</node>
+    <node x="-5.0" y="-26.0">Person</node>
+    <node x="1521.5" y="3259.5">ResearchPaper</node>
+    <node x="429.5" y="2218.0">StudentOrganization</node>
+    <node x="1096.5" y="2255.0">STUDENTDEGREE</node>
+    <node x="1163.0" y="3787.0">Main</node>
+    <node x="841.0" y="3775.0">DISCIPLINETYPE</node>
+    <node x="988.5" y="3599.5">CompareStudents</node>
+    <node x="743.0" y="3587.0">Test</node>
+    <node x="769.0" y="1511.0">Mark</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="Course" target="Discipline" relationship="TO_MANY">
+      <point x="0.0" y="-129.0" />
+      <point x="806.0" y="1831.0" />
+      <point x="1026.0" y="1831.0" />
+      <point x="1026.0" y="1311.0" />
+      <point x="1143.501239625562" y="1311.0" />
+      <point x="-82.498760374438" y="-221.52096529655228" />
+    </edge>
     <edge source="University" target="ResearchPaper" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
+      <point x="107.35810364969166" y="-121.42367398076294" />
+      <point x="653.3581036496917" y="3511.0" />
       <point x="1706.0" y="3511.0" />
       <point x="1706.0" y="3231.0" />
       <point x="1606.0" y="3231.0" />
       <point x="0.0" y="-31.5" />
     </edge>
     <edge source="University" target="Discipline" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
+      <point x="72.98417214263873" y="-125.96362719867557" />
+      <point x="618.9841721426387" y="3511.0" />
       <point x="1466.0" y="3511.0" />
       <point x="1466.0" y="1871.0" />
       <point x="1026.0" y="1871.0" />
       <point x="1026.0" y="1311.0" />
-      <point x="1226.0" y="1311.0" />
-      <point x="0.0" y="-225.0" />
-    </edge>
-    <edge source="Course" target="Discipline" relationship="TO_MANY">
-      <point x="0.0" y="-129.0" />
-      <point x="806.0" y="1831.0" />
-      <point x="1026.0" y="1831.0" />
-      <point x="1026.0" y="1311.0" />
-      <point x="1226.0" y="1311.0" />
-      <point x="0.0" y="-225.0" />
-    </edge>
-    <edge source="Teacher" target="Discipline" relationship="TO_MANY">
-      <point x="0.0" y="92.0" />
-      <point x="1266.0" y="1291.0" />
-      <point x="1226.0" y="1291.0" />
-      <point x="0.0" y="-225.0" />
+      <point x="1110.2622964229872" y="1311.0" />
+      <point x="-115.73770357701278" y="-225.57449495540277" />
     </edge>
     <edge source="Teacher" target="TEACHERDEGREE" relationship="TO_ONE">
       <point x="0.0" y="92.0" />
-      <point x="1266.0" y="1171.0" />
-      <point x="1486.0" y="1171.0" />
+      <point x="1266.0" y="711.0" />
+      <point x="1486.0" y="711.0" />
       <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="Teacher" target="Discipline" relationship="TO_MANY">
+      <point x="0.0" y="92.0" />
+      <point x="1266.0" y="1351.0162658339307" />
+      <point x="1266.7285412546194" y="1351.0162658339307" />
+      <point x="40.72854125461936" y="-219.7160858718164" />
     </edge>
     <edge source="Discipline" target="Teacher" relationship="TO_MANY">
       <point x="0.0" y="-225.0" />
       <point x="1226.0" y="1071.0" />
-      <point x="1266.0" y="1071.0" />
-      <point x="0.0" y="92.0" />
+      <point x="1225.3825387343436" y="1071.0" />
+      <point x="-40.6174612656564" y="87.89448210243654" />
     </edge>
     <edge source="Employee" target="User" relationship="GENERALIZATION">
       <point x="0.0" y="-44.0" />
@@ -91,10 +91,8 @@
       <point x="0.0" y="31.5" />
       <point x="1626.0" y="2651.0" />
       <point x="1546.0" y="2651.0" />
-      <point x="1546.0" y="3191.0" />
-      <point x="1586.0" y="3191.0" />
-      <point x="1586.0" y="3211.0" />
-      <point x="1606.0" y="3211.0" />
+      <point x="1546.0" y="3231.0" />
+      <point x="1606.0" y="3231.0" />
       <point x="0.0" y="-31.5" />
     </edge>
     <edge source="School" target="Discipline" relationship="TO_MANY">
@@ -102,24 +100,12 @@
       <point x="366.0" y="1871.0" />
       <point x="1026.0" y="1871.0" />
       <point x="1026.0" y="1311.0" />
-      <point x="1226.0" y="1311.0" />
-      <point x="0.0" y="-225.0" />
+      <point x="1076.2126472886425" y="1311.0" />
+      <point x="-149.78735271135747" y="-223.14237716009256" />
     </edge>
     <edge source="Schedule" target="Pair" relationship="TO_MANY">
       <point x="0.0" y="-56.0" />
       <point x="0.0" y="80.5" />
-    </edge>
-    <edge source="University" target="Employee" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
-      <point x="186.0" y="3511.0" />
-      <point x="0.0" y="44.0" />
-    </edge>
-    <edge source="Request" target="REQUESTSTATUS" relationship="TO_ONE">
-      <point x="0.0" y="-31.5" />
-      <point x="2466.0" y="3231.0" />
-      <point x="2426.0" y="3231.0" />
-      <point x="0.0" y="56.0" />
     </edge>
     <edge source="Course" target="Mark" relationship="TO_MANY">
       <point x="0.0" y="-129.0" />
@@ -127,67 +113,73 @@
       <point x="886.0" y="1691.0" />
       <point x="0.0" y="80.0" />
     </edge>
+    <edge source="Request" target="REQUESTSTATUS" relationship="TO_ONE">
+      <point x="0.0" y="-31.5" />
+      <point x="2466.0" y="3231.0" />
+      <point x="2426.0" y="3231.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="University" target="Employee" relationship="TO_MANY">
+      <point x="-79.42854303014286" y="-115.58659127201827" />
+      <point x="466.57145696985714" y="3511.0" />
+      <point x="186.0" y="3511.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
     <edge source="Teacher" target="School" relationship="TO_ONE">
-      <point x="0.0" y="92.0" />
-      <point x="1266.0" y="1291.0" />
+      <point x="138.54854965553886" y="79.78742278473555" />
+      <point x="1404.5485496555389" y="1291.0" />
       <point x="1466.0" y="1291.0" />
       <point x="1466.0" y="1851.0" />
       <point x="1426.0" y="1851.0" />
       <point x="1426.0" y="3091.0" />
-      <point x="366.0" y="3091.0" />
-      <point x="0.0" y="-129.0" />
+      <point x="456.61270654105" y="3091.0" />
+      <point x="90.61270654104999" y="-130.58193118384588" />
     </edge>
     <edge source="Researcher" target="RESEARCHERDEGREE" relationship="TO_ONE">
-      <point x="-101.75" y="-44.0" />
-      <point x="1704.25" y="2691.0" />
-      <point x="1706.0" y="2691.0" />
-      <point x="1706.0" y="2371.0" />
-      <point x="1786.0" y="2371.0" />
+      <point x="-19.947117374381833" y="-36.11095063187122" />
+      <point x="1786.0528826256182" y="2659.868892220027" />
+      <point x="1786.0" y="2659.868892220027" />
       <point x="0.0" y="56.0" />
     </edge>
     <edge source="School" target="Teacher" relationship="TO_ONE">
-      <point x="0.0" y="-129.0" />
-      <point x="366.0" y="3071.0" />
+      <point x="-38.062538949502596" y="-122.28030244251977" />
+      <point x="327.9374610504974" y="3071.0" />
       <point x="266.0" y="3071.0" />
       <point x="266.0" y="1271.0" />
-      <point x="1226.0" y="1271.0" />
-      <point x="1226.0" y="1071.0" />
-      <point x="1266.0" y="1071.0" />
-      <point x="0.0" y="92.0" />
-    </edge>
-    <edge source="University" target="Admin" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
-      <point x="-34.0" y="3511.0" />
-      <point x="0.0" y="153.0" />
+      <point x="1143.501239625562" y="1271.0" />
+      <point x="1143.501239625562" y="1071.0" />
+      <point x="1144.3119455573321" y="1071.0" />
+      <point x="-121.68805444266786" y="82.21954058004576" />
     </edge>
     <edge source="Discipline" target="School" relationship="TO_ONE">
-      <point x="0.0" y="-225.0" />
-      <point x="1226.0" y="1331.0" />
+      <point x="155.03807763420537" y="-222.3316712283222" />
+      <point x="1381.0380776342054" y="1331.0" />
       <point x="1426.0" y="1331.0" />
       <point x="1426.0" y="1831.0" />
       <point x="1386.0" y="1831.0" />
-      <point x="1386.0" y="3071.0" />
-      <point x="1426.0" y="3071.0" />
-      <point x="1426.0" y="3091.0" />
-      <point x="366.0" y="3091.0" />
-      <point x="0.0" y="-129.0" />
+      <point x="1386.0" y="3091.0" />
+      <point x="426.0004505574105" y="3091.0" />
+      <point x="60.00045055741049" y="-127.46882040584887" />
+    </edge>
+    <edge source="University" target="Admin" relationship="TO_MANY">
+      <point x="-107.96539182845095" y="-112.34376754493769" />
+      <point x="438.03460817154905" y="3511.0" />
+      <point x="-34.0" y="3511.0" />
+      <point x="0.0" y="153.0" />
+    </edge>
+    <edge source="Researcher" target="ResearchPaper" relationship="TO_MANY">
+      <point x="-158.7011205649667" y="-40.008201881011246" />
+      <point x="1647.2988794350333" y="2671.0" />
+      <point x="1606.0" y="2671.0" />
+      <point x="0.0" y="-31.5" />
     </edge>
     <edge source="ResearchPaper" target="Researcher" relationship="TO_MANY">
       <point x="0.0" y="-31.5" />
       <point x="1606.0" y="3071.0" />
       <point x="2026.0" y="3071.0" />
-      <point x="2026.0" y="2631.0" />
-      <point x="1704.25" y="2631.0" />
-      <point x="-101.75" y="-44.0" />
-    </edge>
-    <edge source="Researcher" target="ResearchPaper" relationship="TO_MANY">
-      <point x="-101.75" y="-44.0" />
-      <point x="1704.25" y="2671.0" />
-      <point x="1586.0" y="2671.0" />
-      <point x="1586.0" y="3211.0" />
-      <point x="1606.0" y="3211.0" />
-      <point x="0.0" y="-31.5" />
+      <point x="2026.0" y="2651.0" />
+      <point x="1973.2026640066192" y="2651.0" />
+      <point x="167.20266400661922" y="-47.304555266942316" />
     </edge>
     <edge source="Person" target="SEX" relationship="TO_ONE">
       <point x="0.0" y="-177.0" />
@@ -196,28 +188,32 @@
     <edge source="StudentOrganization" target="Student" relationship="TO_MANY">
       <point x="0.0" y="93.0" />
       <point x="546.0" y="2451.0" />
-      <point x="724.25" y="2451.0" />
-      <point x="98.25" y="-225.0" />
+      <point x="545.7404576485517" y="2451.0" />
+      <point x="-80.25954235144832" y="-229.5037080776092" />
     </edge>
     <edge source="Student" target="StudentOrganization" relationship="TO_MANY">
-      <point x="98.25" y="-225.0" />
-      <point x="724.25" y="2491.0" />
-      <point x="726.0" y="2491.0" />
-      <point x="726.0" y="2431.0" />
+      <point x="-38.91353983117256" y="-223.82876655521795" />
+      <point x="587.0864601688274" y="2431.0" />
       <point x="546.0" y="2431.0" />
       <point x="0.0" y="93.0" />
     </edge>
     <edge source="Student" target="STUDENTDEGREE" relationship="TO_ONE">
-      <point x="98.25" y="-225.0" />
-      <point x="724.25" y="2491.0" />
-      <point x="726.0" y="2491.0" />
-      <point x="726.0" y="2431.0" />
+      <point x="49.453406731769974" y="-223.01806062344804" />
+      <point x="675.45340673177" y="2431.0" />
       <point x="1226.0" y="2431.0" />
       <point x="0.0" y="56.0" />
     </edge>
     <edge source="User" target="Person" relationship="GENERALIZATION">
       <point x="0.0" y="-80.0" />
       <point x="0.0" y="177.0" />
+    </edge>
+    <edge source="School" target="Student" relationship="TO_MANY">
+      <point x="34.057860740766785" y="-129.02537579484715" />
+      <point x="400.0578607407668" y="3051.0" />
+      <point x="406.0" y="3051.0" />
+      <point x="406.0" y="2511.0" />
+      <point x="479.26257124340225" y="2511.0" />
+      <point x="-146.73742875659775" y="-222.20735469167812" />
     </edge>
     <edge source="Government" target="Employee" relationship="GENERALIZATION">
       <point x="100.5" y="-200.0" />
@@ -229,39 +225,29 @@
       <point x="186.0" y="631.0" />
       <point x="0.0" y="-44.0" />
     </edge>
-    <edge source="School" target="Student" relationship="TO_MANY">
-      <point x="0.0" y="-129.0" />
-      <point x="366.0" y="3051.0" />
-      <point x="406.0" y="3051.0" />
-      <point x="406.0" y="2511.0" />
-      <point x="724.25" y="2511.0" />
-      <point x="98.25" y="-225.0" />
-    </edge>
     <edge source="University" target="Student" relationship="TO_MANY">
       <point x="0.0" y="-128.0" />
       <point x="546.0" y="3071.0" />
       <point x="406.0" y="3071.0" />
       <point x="406.0" y="2511.0" />
-      <point x="724.25" y="2511.0" />
-      <point x="98.25" y="-225.0" />
+      <point x="505.20516106004595" y="2511.0" />
+      <point x="-120.79483893995405" y="-219.77523689636746" />
     </edge>
     <edge source="University" target="Government" relationship="TO_ONE">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
+      <point x="32.06856883046987" y="-121.60550215138664" />
+      <point x="578.0685688304699" y="3511.0" />
       <point x="2386.0" y="3511.0" />
       <point x="2386.0" y="3071.0" />
       <point x="2065.5" y="3071.0" />
       <point x="-100.5" y="-200.0" />
     </edge>
     <edge source="Student" target="School" relationship="TO_ONE">
-      <point x="98.25" y="-225.0" />
-      <point x="724.25" y="2471.0" />
+      <point x="150.79164820303436" y="-212.4788835104364" />
+      <point x="776.7916482030344" y="2471.0" />
       <point x="1346.0" y="2471.0" />
-      <point x="1346.0" y="3071.0" />
-      <point x="1426.0" y="3071.0" />
-      <point x="1426.0" y="3091.0" />
-      <point x="366.0" y="3091.0" />
-      <point x="0.0" y="-129.0" />
+      <point x="1346.0" y="3091.0" />
+      <point x="440.00944905839805" y="3091.0" />
+      <point x="74.00944905839805" y="-126.94996860951596" />
     </edge>
     <edge source="Government" target="GOVROLE" relationship="TO_ONE">
       <point x="-100.5" y="-200.0" />
@@ -270,20 +256,22 @@
       <point x="0.0" y="56.0" />
     </edge>
     <edge source="University" target="Teacher" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
+      <point x="139.13777617508003" y="-116.23515601743429" />
+      <point x="685.13777617508" y="3511.0" />
       <point x="1506.0" y="3511.0" />
       <point x="1506.0" y="1271.0" />
-      <point x="1226.0" y="1271.0" />
-      <point x="1226.0" y="1071.0" />
-      <point x="1266.0" y="1071.0" />
-      <point x="0.0" y="92.0" />
+      <point x="1446.7052581075848" y="1271.0" />
+      <point x="180.70525810758477" y="74.92318719411492" />
+    </edge>
+    <edge source="Researcher" target="ResearchProject" relationship="TO_MANY">
+      <point x="-84.11617484211615" y="-46.4938493351724" />
+      <point x="1721.8838251578838" y="2371.0" />
+      <point x="1626.0" y="2371.0" />
+      <point x="0.0" y="31.5" />
     </edge>
     <edge source="Student" target="Course" relationship="TO_MANY">
-      <point x="98.25" y="-225.0" />
-      <point x="724.25" y="2491.0" />
-      <point x="726.0" y="2491.0" />
-      <point x="726.0" y="2431.0" />
+      <point x="98.90646856974695" y="-197.8861767385747" />
+      <point x="724.906468569747" y="2431.0" />
       <point x="1066.0" y="2431.0" />
       <point x="1066.0" y="1891.0" />
       <point x="806.0" y="1891.0" />
@@ -292,16 +280,14 @@
     <edge source="ResearchProject" target="Researcher" relationship="TO_MANY">
       <point x="0.0" y="31.5" />
       <point x="1626.0" y="2651.0" />
-      <point x="1704.25" y="2651.0" />
-      <point x="-101.75" y="-44.0" />
+      <point x="1673.2414692516768" y="2651.0" />
+      <point x="-132.7585307483232" y="-35.95467222216075" />
     </edge>
-    <edge source="Researcher" target="ResearchProject" relationship="TO_MANY">
-      <point x="-101.75" y="-44.0" />
-      <point x="1704.25" y="2691.0" />
-      <point x="1706.0" y="2691.0" />
-      <point x="1706.0" y="2371.0" />
-      <point x="1626.0" y="2371.0" />
-      <point x="0.0" y="31.5" />
+    <edge source="Admin" target="User" relationship="GENERALIZATION">
+      <point x="0.0" y="-153.0" />
+      <point x="-34.0" y="391.0" />
+      <point x="186.0" y="391.0" />
+      <point x="0.0" y="-80.0" />
     </edge>
     <edge source="Student" target="User" relationship="GENERALIZATION">
       <point x="-98.25" y="-225.0" />
@@ -317,12 +303,6 @@
       <point x="186.0" y="391.0" />
       <point x="0.0" y="-80.0" />
     </edge>
-    <edge source="Admin" target="User" relationship="GENERALIZATION">
-      <point x="0.0" y="-153.0" />
-      <point x="-34.0" y="391.0" />
-      <point x="186.0" y="391.0" />
-      <point x="0.0" y="-80.0" />
-    </edge>
     <edge source="Course" target="Schedule" relationship="TO_ONE">
       <point x="0.0" y="-129.0" />
       <point x="806.0" y="1691.0" />
@@ -331,6 +311,22 @@
       <point x="526.0" y="1511.0" />
       <point x="0.0" y="-56.0" />
     </edge>
+    <edge source="School" target="Employee" relationship="TO_MANY">
+      <point x="-58.297759006484625" y="-125.39341322051723" />
+      <point x="307.7022409935154" y="3071.0" />
+      <point x="226.0" y="3071.0" />
+      <point x="226.0" y="1131.0" />
+      <point x="186.0" y="1131.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="School" target="University" relationship="TO_ONE">
+      <point x="-93.06082936078718" y="-121.76145064618686" />
+      <point x="272.9391706392128" y="3111.0" />
+      <point x="226.0" y="3111.0" />
+      <point x="226.0" y="3671.0" />
+      <point x="409.497759373241" y="3671.0" />
+      <point x="-136.50224062675898" y="-8.573408278362876" />
+    </edge>
     <edge source="Teacher" target="Employee" relationship="GENERALIZATION">
       <point x="0.0" y="-92.0" />
       <point x="1266.0" y="831.0" />
@@ -338,22 +334,6 @@
       <point x="1946.0" y="631.0" />
       <point x="186.0" y="631.0" />
       <point x="0.0" y="-44.0" />
-    </edge>
-    <edge source="School" target="University" relationship="TO_ONE">
-      <point x="0.0" y="-129.0" />
-      <point x="366.0" y="3111.0" />
-      <point x="226.0" y="3111.0" />
-      <point x="226.0" y="3671.0" />
-      <point x="546.0" y="3671.0" />
-      <point x="0.0" y="-128.0" />
-    </edge>
-    <edge source="School" target="Employee" relationship="TO_MANY">
-      <point x="0.0" y="-129.0" />
-      <point x="366.0" y="3071.0" />
-      <point x="226.0" y="3071.0" />
-      <point x="226.0" y="1131.0" />
-      <point x="186.0" y="1131.0" />
-      <point x="0.0" y="44.0" />
     </edge>
     <edge source="Researcher" target="Employee" relationship="GENERALIZATION">
       <point x="101.75" y="-44.0" />
@@ -364,15 +344,15 @@
       <point x="0.0" y="-44.0" />
     </edge>
     <edge source="University" target="School" relationship="TO_MANY">
-      <point x="0.0" y="-128.0" />
-      <point x="546.0" y="3511.0" />
+      <point x="-39.86609355976128" y="-112.34376754493769" />
+      <point x="506.1339064402387" y="3511.0" />
       <point x="506.0" y="3511.0" />
       <point x="506.0" y="3131.0" />
-      <point x="366.0" y="3131.0" />
-      <point x="0.0" y="-129.0" />
+      <point x="473.21596402370193" y="3131.0" />
+      <point x="107.21596402370193" y="-122.79915423885268" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Compact" zoom="0.3349573690621193" showDependencies="true" x="1471.9571636363635" y="1156.6000000000001" />
+  <settings layout="Hierarchic Compact" zoom="0.6315483579626555" showDependencies="true" x="245.6340251954009" y="-59.29958988505848" />
   <SelectedNodes />
   <Categories>
     <Category>Constructors</Category>

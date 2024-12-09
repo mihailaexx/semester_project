@@ -1,4 +1,5 @@
 import java.util.Date;
+import enums.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,11 +16,9 @@ public class Main {
         School SCE = new School("School of Chemical Engineering", KBTU);
         School SMGT = new School("School of Materials Science and Green Technologies", KBTU);
 
-        Government rector = new Government("710101450234", "Maratbek", "Gabdullin", SEX.male, new Date(1971, 1, 1), "+77771234567", "Kazakhstan", "12345678", 10000000, GOVROLE.RECTOR);
-        KBTU.addRector(rector);
         Teacher teacher1 = new Teacher("950303450234", "Azamat", "Imanbaev", SEX.male, new Date(1980, 3, 3), "+77771234567", "Kazakhstan", "12345678", 1111111, SITE, TEACHERDEGREE.ASSISTANT_PROFESSOR);
         SITE.addDean(teacher1);
-        Student student1 = new Student("050327550234", "Mikhail", "Bulushev", SEX.male, new Date(2005, 3, 27), "+77078547658", "Kazakhstan", "12345678", "23B031079", SITE, STUDENTDEGREE.BACHELOR, 2);
+        Student student1 = new Student("050327550234", "Mikhail", "Bulushev", SEX.male, new Date(2005, 3, 27), "+77078547658", "Kazakhstan", "12345678", "23B031079", SITE, STUDENTDEGREE.BACHELOR, 2, STUDENTTYPE.GRANT);
         Researcher researcher1 = new Researcher("930202450234", "Alexander", "Mezin", SEX.male, new Date(1993, 2, 2), "+77771234567", "Kazakhstan", "12345678", 1000000, RESEARCHERDEGREE.SENIOR);
 
         Discipline pp1 = new Discipline("CSCI1103", "Programming Principles 1", SITE, 6, 2, 0, 2, 2023, 1);
@@ -50,4 +49,4 @@ public class Main {
 // TODO: Оценки, расписание, курс
 // TODO: Админка, привелегии (несколько уровней), лог
 // TODO: Регистрация на курс студента - запрос для менержера
-// TODO: Перенести enum'ы в отдельные файлы
+// TODO: Оплата стипендий и зарплат финансовым менеджером

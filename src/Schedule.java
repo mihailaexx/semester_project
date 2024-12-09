@@ -1,3 +1,5 @@
+import enums.DISCIPLINETYPE;
+
 public class Schedule {
     protected final String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private final Pair<Discipline, DISCIPLINETYPE>[][] schedule = new Pair[14][7];

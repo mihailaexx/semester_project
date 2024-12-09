@@ -2,7 +2,6 @@ import java.util.Vector;
 
 public class University {
     private String name;
-    private Government rector;
     private Vector<Admin> admins;
     private Vector<Teacher> deans;
     private Vector<Employee> employees;
@@ -24,11 +23,6 @@ public class University {
         this.schools = new Vector<School>();
         this.allResearchPapers = new Vector<ResearchPaper>();
         this.log = new Vector<String>();
-    }
-
-    public void addRector(Government rector) {
-        this.rector = rector;
-        employees.add(rector);
     }
 
     public void addAdmin(Admin admin) {

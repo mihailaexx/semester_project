@@ -1,5 +1,6 @@
 import java.util.Date;
 import java.util.Objects;
+import enums.SEX;
 
 public abstract class Person implements Comparable<Person>, Cloneable {
     private String ID; // ИИН
@@ -9,6 +10,7 @@ public abstract class Person implements Comparable<Person>, Cloneable {
     private Date birthDate;
     private String phoneNumber;
     private String citizenship;
+    private double money;
     public abstract void sync(University university);
 
     public Person(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship) {
@@ -27,11 +29,12 @@ public abstract class Person implements Comparable<Person>, Cloneable {
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.citizenship = citizenship;
+        this.money = 0;
     }
 
-//    public String getID() {
-//        return ID;
-//    }
+    public String getID() {
+        return ID;
+    }
     public String getName() {
         return name;
     }
@@ -41,15 +44,18 @@ public abstract class Person implements Comparable<Person>, Cloneable {
     public SEX getSex() {
         return sex;
     }
-//    public Date getBirthDate() {
-//        return birthDate;
-//    }
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//    public String getCitizenship() {
-//        return citizenship;
-//    }
+    public Date getBirthDate() {
+        return birthDate;
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public String getCitizenship() {
+        return citizenship;
+    }
+    public double getMoney() {
+        return money;
+    }
 
 
     @Override
@@ -59,26 +65,26 @@ public abstract class Person implements Comparable<Person>, Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(ID, person.ID) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(sex, person.sex) && Objects.equals(birthDate, person.birthDate) && Objects.equals(phoneNumber, person.phoneNumber) && Objects.equals(citizenship, person.citizenship);
+        if (!(o instanceof Person person)) return false;
+        return Double.compare(getMoney(), person.getMoney()) == 0 && Objects.equals(getID(), person.getID()) && Objects.equals(getName(), person.getName()) && Objects.equals(getSurname(), person.getSurname()) && getSex() == person.getSex() && Objects.equals(getBirthDate(), person.getBirthDate()) && Objects.equals(getPhoneNumber(), person.getPhoneNumber()) && Objects.equals(getCitizenship(), person.getCitizenship());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, surname, sex, birthDate, phoneNumber, citizenship);
+        return Objects.hash(getID(), getName(), getSurname(), getSex(), getBirthDate(), getPhoneNumber(), getCitizenship(), getMoney());
     }
 
     @Override
     public String toString() {
         return "Person[" +
-                "ID=" + ID +
-                "name='" + name + '\'' +
+                "ID='" + ID + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", sex='" + sex + '\'' +
+                ", sex=" + sex +
                 ", birthDate=" + birthDate +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", citizenship='" + citizenship + '\'' +
+                ", money=" + money +
                 ']';
     }
 
@@ -91,9 +97,4 @@ public abstract class Person implements Comparable<Person>, Cloneable {
             throw new AssertionError();
         }
     }
-}
-
-enum SEX {
-    male,
-    female
 }

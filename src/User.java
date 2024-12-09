@@ -1,5 +1,7 @@
 import java.util.Date;
 import java.util.Objects;
+import enums.SEX;
+
 
 public abstract class User extends Person {
     String email; // email = login
@@ -10,7 +12,16 @@ public abstract class User extends Person {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword() {
+        return password;
+    }
 
+    public void login(String email, String password) {
+        // check if email and password are correct
+    }
 
     @Override
     public int compareTo(Person o) {
@@ -19,21 +30,20 @@ public abstract class User extends Person {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User user)) return false;
         if (!super.equals(o)) return false;
-        User user = (User) o;
-        return Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), email, password);
+        return Objects.hash(super.hashCode(), getEmail(), getPassword());
     }
 
     @Override
     public String toString() {
-        return "User[" + super.toString() +
-                "email='" + email + '\'' +
+        return "User[[" + super.toString() +
+                "], email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ']';
     }
