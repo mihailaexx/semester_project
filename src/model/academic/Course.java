@@ -1,10 +1,15 @@
+package model.academic;
+
+import model.people.Student;
+import model.people.Teacher;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Course {
     private int year;
     private int semester;
-    private LinkedHashMap < Discipline, Mark > disciplineMarkLinkedHashMap;
+    private LinkedHashMap <Discipline, Mark> disciplineMarkLinkedHashMap;
     private Schedule schedule;
     private List<Teacher> instructors;
     private List<Student> enrolledStudents;
@@ -28,7 +33,7 @@ public class Course {
             disciplineMarkLinkedHashMap.get(discipline).updateMark(mark, i);
         }
     }
-    public LinkedHashMap<Discipline,Mark> getDisciplineMarkLinkedHashMap() {
+    public LinkedHashMap<Discipline, Mark> getDisciplineMarkLinkedHashMap() {
         return disciplineMarkLinkedHashMap;
     }
     public Schedule getSchedule() {

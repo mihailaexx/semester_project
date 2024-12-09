@@ -1,7 +1,9 @@
+package model.academic;
+
 import java.io.Serial;
 
 /**
- * Pair class to store key-value pairs
+ * model.academic.Pair class to store key-value pairs
  * @param <K> - key
  * @param <V> - value
  */

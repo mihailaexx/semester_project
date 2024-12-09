@@ -1,4 +1,7 @@
-import java.util.Vector;
+package model.academic;
+
+import model.misc.School;
+import model.misc.University;
 
 public class Discipline {
     private String code;

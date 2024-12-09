@@ -1,3 +1,12 @@
+package model.misc;
+
+import model.academic.Discipline;
+import model.people.Admin;
+import model.people.Employee;
+import model.people.Student;
+import model.people.Teacher;
+import model.research.ResearchPaper;
+
 import java.util.Vector;
 
 public class University {

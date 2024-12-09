@@ -1,3 +1,7 @@
+package model.misc;
+
+import model.people.Student;
+
 import java.util.Vector;
 
 public class StudentOrganization {

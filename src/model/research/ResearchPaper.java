@@ -1,9 +1,9 @@
+package model.research;
+
 import java.util.Date;
 import java.util.Vector;
 
-public class ResearchProject {
-    private Vector<ResearchPaper> researchPapers;
-
+public class ResearchPaper {
     private String title;
     private String description;
     private Vector<Researcher> authors;
@@ -11,4 +11,5 @@ public class ResearchProject {
     private String location;
     private Vector<String> references;
     private Vector<String> keywords;
+    private int quotationCount;
 }
