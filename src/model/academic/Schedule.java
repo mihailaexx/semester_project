@@ -1,3 +1,5 @@
+package model.academic;
+
 import enums.DISCIPLINETYPE;
 
 public class Schedule {
@@ -7,7 +9,7 @@ public class Schedule {
     public Schedule() {
         for (int i = 0; i < 14; i++) {
             for (int j = 0; j < 7; j++) {
-                schedule[i][j] = new Pair<>(new Discipline(), DISCIPLINETYPE.LECTURE); // Discipline, DisciplineType
+                schedule[i][j] = new Pair<>(new Discipline(), DISCIPLINETYPE.LECTURE); // model.academic.Discipline, DisciplineType
             }
         }
     }

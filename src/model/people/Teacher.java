@@ -1,8 +1,13 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 import enums.SEX;
 import enums.TEACHERDEGREE;
+import model.academic.Discipline;
+import model.misc.School;
+import model.misc.University;
 
 public class Teacher extends Employee {
     private School school;
@@ -26,6 +31,10 @@ public class Teacher extends Employee {
         disciplines.add(discipline);
     }
 
+    public void sendComplaint(Dean dean, Vector<Student> students, String complaint, String urgencyLevel) {
+        // Implementation for sending complaints about students
+    }
+
     public void viewDisciplines() {
         for (Discipline discipline : disciplines) {
             System.out.println(discipline);
@@ -33,7 +42,8 @@ public class Teacher extends Employee {
     }
 
     public void updateDiscipline(Discipline discipline_to_edit, Discipline new_discipline) {
-        // O(n)
+        // Teacher can't update discipline by itself, instead should be sent message for manager to update
+        // the course accordingly
         for (Discipline d : disciplines) {
             if (d.equals(discipline_to_edit)) {
                 d = new_discipline;

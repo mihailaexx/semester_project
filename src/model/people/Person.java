@@ -1,6 +1,9 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import model.misc.University;
 
 public abstract class Person implements Comparable<Person>, Cloneable {
     private String ID; // ИИН

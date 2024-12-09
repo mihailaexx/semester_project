@@ -1,3 +1,5 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
@@ -19,7 +21,8 @@ public abstract class User extends Person {
         return password;
     }
 
-    public void login(String email, String password) {
+    public boolean authenticate(String password) {
+        return this.password.equals(password);
         // check if email and password are correct
     }
 

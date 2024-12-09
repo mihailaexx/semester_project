@@ -1,3 +1,4 @@
+import model.people.Student;
 import org.jetbrains.annotations.NotNull;
 
 public interface CompareStudents {
