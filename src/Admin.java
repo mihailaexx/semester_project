@@ -22,12 +22,12 @@ public class Admin extends Employee {
     public void addUser(User user) {}
     public void removeUser(User user) {}
     public void updateUser(User user) {}
-
-    public void addDiscipline(Discipline discipline) {}
-    public void removeDiscipline(Discipline discipline) {}
-    public void updateDiscipline(Discipline discipline) {}
-
     public void seeLogs() {}
+
+//    public void addDiscipline(Discipline discipline) {}
+//    public void removeDiscipline(Discipline discipline) {}
+//    public void updateDiscipline(Discipline discipline) {}
+// should be managed by orManagers
 
     @Override
     public boolean equals(Object o) {
