@@ -1,8 +1,13 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 import enums.SEX;
 import enums.TEACHERDEGREE;
+import model.academic.Discipline;
+import model.misc.School;
+import model.misc.University;
 
 public class Teacher extends Employee {
     private School school;

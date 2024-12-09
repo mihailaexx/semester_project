@@ -1,7 +1,15 @@
+package model.manager;
+
 import java.util.Date;
 import enums.SEX;
+import model.academic.Discipline;
+import model.misc.University;
+import model.people.Employee;
+import model.people.Student;
+import model.people.Teacher;
 
 public class OrManager extends Employee {
+    @Override
     public void sync(University university) {
         university.addEmployee(this);
     }

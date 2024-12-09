@@ -1,3 +1,5 @@
+package model.academic;
+
 public class Mark {
     private Double totalMark;
     private Double firstAttestation;

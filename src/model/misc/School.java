@@ -1,3 +1,10 @@
+package model.misc;
+
+import model.academic.Discipline;
+import model.people.Employee;
+import model.people.Student;
+import model.people.Teacher;
+
 import java.util.Vector;
 
 public class School {

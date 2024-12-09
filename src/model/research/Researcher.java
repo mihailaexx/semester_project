@@ -1,3 +1,9 @@
+package model.research;
+
+import model.misc.University;
+import model.people.Employee;
+import model.people.Student;
+import model.people.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;

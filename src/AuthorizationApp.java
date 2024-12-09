@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import enums.*;
 
 public class AuthorizationApp {
 
@@ -53,7 +54,7 @@ public class AuthorizationApp {
     }
 
     private static void adminMenu(Scanner scanner) {
-        System.out.println("\nAdmin Menu:");
+        System.out.println("\nmodel.people.Admin Menu:");
         System.out.println("1. List all users");
         System.out.println("2. Exit");
 
@@ -69,7 +70,7 @@ public class AuthorizationApp {
     }
 
     private static void userMenu(Scanner scanner) {
-        System.out.println("\nUser Menu:");
+        System.out.println("\nmodel.people.User Menu:");
         System.out.println("1. View Profile");
         System.out.println("2. Exit");
 

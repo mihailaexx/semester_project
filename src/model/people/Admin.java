@@ -1,14 +1,13 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import model.misc.University;
 
 
 public class Admin extends Employee {
     private int privilegeLevel;
-
-    public void sync(University university) {
-        university.addAdmin(this);
-    }
 
     public Admin(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, int PrivilegeLevel) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
@@ -24,10 +23,15 @@ public class Admin extends Employee {
     public void updateUser(User user) {}
     public void seeLogs() {}
 
-//    public void addDiscipline(Discipline discipline) {}
-//    public void removeDiscipline(Discipline discipline) {}
-//    public void updateDiscipline(Discipline discipline) {}
+//    public void addDiscipline(model.academic.Discipline discipline) {}
+//    public void removeDiscipline(model.academic.Discipline discipline) {}
+//    public void updateDiscipline(model.academic.Discipline discipline) {}
 // should be managed by orManagers
+
+    @Override
+    public void sync(University university) {
+        university.addAdmin(this);
+    }
 
     @Override
     public boolean equals(Object o) {

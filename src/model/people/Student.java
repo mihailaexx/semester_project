@@ -1,3 +1,5 @@
+package model.people;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -5,6 +7,9 @@ import java.util.Vector;
 import enums.SEX;
 import enums.STUDENTDEGREE;
 import enums.STUDENTTYPE;
+import model.academic.Course;
+import model.academic.Discipline;
+import model.misc.*;
 
 public class Student extends User {
     private School school;

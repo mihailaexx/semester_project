@@ -1,3 +1,5 @@
+package model.people;
+
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
