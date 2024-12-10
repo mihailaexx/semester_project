@@ -1,10 +1,16 @@
+package model.people;
+
+import enums.SEX;
+import enums.STUDENTDEGREE;
+import enums.STUDENTTYPE;
+import model.academic.Course;
+import model.academic.Discipline;
+import model.misc.*;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
-import enums.SEX;
-import enums.STUDENTDEGREE;
-import enums.STUDENTTYPE;
 import org.jetbrains.annotations.NotNull;
 
 public class Student extends User implements Comparable<Person> {

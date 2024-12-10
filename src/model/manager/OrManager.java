@@ -1,5 +1,11 @@
-import java.util.Date;
+package model.manager;
+
 import enums.SEX;
+import model.academic.Discipline;
+import model.misc.University;
+import model.people.*;
+
+import java.util.Date;
 import org.jetbrains.annotations.NotNull;
 
 public class OrManager extends Employee implements Comparable<Person> {

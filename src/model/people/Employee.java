@@ -1,8 +1,9 @@
 package model.people;
 
+import enums.SEX;
+
 import java.util.Date;
 import java.util.Objects;
-import enums.SEX;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Employee extends User implements Comparable<Person> {

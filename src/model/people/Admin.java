@@ -1,6 +1,10 @@
+package model.people;
+
+import enums.SEX;
+import model.misc.University;
+
 import java.util.Date;
 import java.util.Objects;
-import enums.SEX;
 import org.jetbrains.annotations.NotNull;
 
 public class Admin extends Employee implements Comparable<Person> {

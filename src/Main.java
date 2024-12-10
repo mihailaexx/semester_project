@@ -1,10 +1,11 @@
 import java.util.Date;
 import enums.*;
-import model.academic.*;
+import model.*;
 import model.people.*;
 import model.misc.*;
 import model.manager.*;
 import model.research.*;
+import model.academic.*;
 
 
 public class Main {
@@ -22,11 +23,11 @@ public class Main {
         School SCE = new School("School of Chemical Engineering", KBTU);
         School SMGT = new School("School of Materials Science and Green Technologies", KBTU);
 
-//        Teacher teacher1 = new Teacher("950303450234", "Azamat", "Imanbaev", SEX.male, new Date(1980, 3, 3), "+77771234567", "Kazakhstan", "12345678", 1111111, SITE, TEACHERDEGREE.ASSISTANT_PROFESSOR);
-//        SITE.addDean(teacher1);
+        Teacher teacher1 = new Teacher("950303450234", "Azamat", "Imanbaev", SEX.male, new Date(1980, 3, 3), "+77771234567", "Kazakhstan", "12345678", 1111111, SITE, TEACHERDEGREE.ASSISTANT_PROFESSOR);
+        SITE.addDean(teacher1);
         Student student1 = new Student("050327550234", "Mikhail", "Bulushev", SEX.male, new Date(2005, 3, 27), "+77078547658", "Kazakhstan", "12345678", "23B031079", SITE, STUDENTDEGREE.BACHELOR, 2, STUDENTTYPE.GRANT);
         Researcher researcher1 = new Researcher("930202450234", "Alexander", "Mezin", SEX.male, new Date(1993, 2, 2), "+77771234567", "Kazakhstan", "12345678", 1000000, RESEARCHERDEGREE.SENIOR);
-        FinanceManager financeManager1 = new FinanceManager();
+//        FinanceManager financeManager1 = new FinanceManager();
         Discipline pp1 = new Discipline("CSCI1103", "Programming Principles 1", SITE, 6, 2, 0, 2, 2023, 1);
         Discipline math1 = new Discipline("MATH1102", "Calculus 1", SITE, 5, 2, 0, 2, 2023, 1);
         Discipline discrete = new Discipline("CSCI1102", "Discrete Structures", SAM, 5, 2, 0, 1, 2023, 1);

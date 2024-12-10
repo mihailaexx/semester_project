@@ -1,9 +1,10 @@
 package model.research;
 
-import enums.CITATIONFORMAT;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
+
+import enums.CITATIONFORMAT;
 
 public class ResearchPaper {
     private String title;

@@ -1,5 +1,11 @@
-import java.util.Date;
+package model.manager;
+
 import enums.SEX;
+import model.misc.University;
+import model.people.Employee;
+import model.people.Person;
+
+import java.util.Date;
 import org.jetbrains.annotations.NotNull;
 
 public class FinanceManager extends Employee implements Comparable<Person> {

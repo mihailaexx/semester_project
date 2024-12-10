@@ -1,8 +1,14 @@
+package model.people;
+
+import enums.SEX;
+import enums.TEACHERDEGREE;
+import model.misc.School;
+import model.misc.University;
+import model.academic.Discipline;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
-import enums.SEX;
-import enums.TEACHERDEGREE;
 import org.jetbrains.annotations.NotNull;
 
 public class Teacher extends Employee implements Comparable<Person> {

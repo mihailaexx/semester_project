@@ -1,8 +1,12 @@
+package model.research;
+
+import enums.SEX;
+import enums.RESEARCHERDEGREE;
+import model.people.*;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
-import enums.SEX;
-import enums.RESEARCHERDEGREE;
 import org.jetbrains.annotations.NotNull;
 
 public class Researcher extends Employee implements Comparable<Person> {
@@ -11,10 +15,6 @@ public class Researcher extends Employee implements Comparable<Person> {
     private Vector<ResearchPaper> researches;
     private Vector<ResearchProject> projects;
     private int hIndex;
-
-    public void sync(University university) {
-        university.addEmployee(this);
-    }
 
     public Researcher(@NotNull Student student, double salary, RESEARCHERDEGREE type) {
         super(student.getID(), student.getName(), student.getSurname(), student.getSex(), student.getBirthDate(), student.getPhoneNumber(), student.getCitizenship(), student.getPassword(), salary);
