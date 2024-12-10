@@ -29,8 +29,14 @@ public class Course {
         this.schedule = schedule;
     }
     public void updateDisciplineMark(Discipline discipline, double mark, int i) {
-        if (disciplineMarkLinkedHashMap.get(discipline) != null) {
-            disciplineMarkLinkedHashMap.get(discipline).updateMark(mark, i);
+        Mark m = disciplineMarkLinkedHashMap.get(discipline);
+        if (m != null) {
+            m.updateMark(mark, i);
+        } else {
+            // Create mark if null
+            Mark newMark = new Mark(0,0,0);
+            newMark.updateMark(mark, i);
+            disciplineMarkLinkedHashMap.put(discipline, newMark);
         }
     }
     public LinkedHashMap<Discipline, Mark> getDisciplineMarkLinkedHashMap() {
