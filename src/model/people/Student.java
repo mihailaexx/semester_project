@@ -68,6 +68,8 @@ public class Student extends User {
     }
 
     public void viewMarks() {
+//        marks.forEach(System.out::println);
+
         // Implementation
     }
 

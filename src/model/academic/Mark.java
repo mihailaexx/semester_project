@@ -11,8 +11,7 @@ public class Mark {
         this.firstAttestation = first;
         this.secondAttestation  = second;
         this.finalExam  = finalExam;
-        this.totalMark = first + second + finalExam;
-        this.stringMark = markToString(this.totalMark);
+        recalculate();
     }
 
     public Mark() {
@@ -22,7 +21,6 @@ public class Mark {
         this.finalExam = null;
         this.stringMark = null;
     }
-
 
     public Mark(double mark, int i) {
         updateMark(mark, i);
@@ -50,9 +48,18 @@ public class Mark {
             case 3 -> this.finalExam = mark;
             default -> throw new IllegalArgumentException("Invalid attestation number");
         }
-        this.totalMark = (firstAttestation != null ? firstAttestation : 0) +
-                (secondAttestation != null ? secondAttestation : 0) +
-                (finalExam != null ? finalExam : 0);
-        this.stringMark = markToString(this.totalMark);
+        recalculate();
+    }
+    private void recalculate() {
+        double f = (firstAttestation == null)?0:firstAttestation;
+        double s = (secondAttestation == null)?0:secondAttestation;
+        double fe = (finalExam == null)?0:finalExam;
+        this.totalMark = f + s + fe;
+        this.stringMark = markToString(totalMark);
+    }
+
+    @Override
+    public String toString() {
+        return "Mark: " + totalMark + " (" + stringMark + ")";
     }
 }
