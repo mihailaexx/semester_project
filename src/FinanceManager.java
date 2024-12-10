@@ -1,7 +1,8 @@
 import java.util.Date;
 import enums.SEX;
+import org.jetbrains.annotations.NotNull;
 
-public class FinanceManager extends Employee {
+public class FinanceManager extends Employee implements Comparable<Person> {
     public void sync(University university) {
         university.addEmployee(this);
     }
@@ -16,6 +17,11 @@ public class FinanceManager extends Employee {
 
     public void paySalary() {
         //
+    }
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

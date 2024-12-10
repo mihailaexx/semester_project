@@ -1,12 +1,11 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 import enums.SEX;
 import enums.RESEARCHERDEGREE;
+import org.jetbrains.annotations.NotNull;
 
-public class Researcher extends Employee {
+public class Researcher extends Employee implements Comparable<Person> {
     private User user;
     private RESEARCHERDEGREE type;
     private Vector<ResearchPaper> researches;
@@ -36,6 +35,11 @@ public class Researcher extends Employee {
     public Researcher(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, RESEARCHERDEGREE type) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
         this.type = type;
+    }
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

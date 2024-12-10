@@ -1,9 +1,9 @@
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import org.jetbrains.annotations.NotNull;
 
-
-public class Admin extends Employee {
+public class Admin extends Employee implements Comparable<Person> {
     private int privilegeLevel;
 
     public void sync(University university) {
@@ -28,6 +28,11 @@ public class Admin extends Employee {
     public void updateDiscipline(Discipline discipline) {}
 
     public void seeLogs() {}
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
+    }
 
     @Override
     public boolean equals(Object o) {

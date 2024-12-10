@@ -1,9 +1,9 @@
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import org.jetbrains.annotations.NotNull;
 
-
-public abstract class User extends Person {
+public abstract class User extends Person implements Comparable<Person> {
     String email; // email = login
     private String password;
 
@@ -25,7 +25,7 @@ public abstract class User extends Person {
     }
 
     @Override
-    public int compareTo(Person o) {
+    public int compareTo(@NotNull Person o) {
         return super.compareTo(o);
     }
 

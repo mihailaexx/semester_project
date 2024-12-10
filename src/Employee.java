@@ -1,8 +1,9 @@
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class Employee extends User {
+public abstract class Employee extends User implements Comparable<Person> {
     private static int employeeID = 1;
     private double salary;
 
@@ -20,6 +21,11 @@ public abstract class Employee extends User {
     }
     public double getSalary() {
         return salary;
+    }
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.util.Objects;
 import enums.SEX;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Person implements Comparable<Person>, Cloneable {
     private String ID; // ИИН
@@ -59,7 +60,7 @@ public abstract class Person implements Comparable<Person>, Cloneable {
 
 
     @Override
-    public int compareTo(Person o) {
+    public int compareTo(@NotNull Person o) {
         return this.birthDate.compareTo(o.birthDate);
     }
 

@@ -5,8 +5,9 @@ import java.util.Vector;
 import enums.SEX;
 import enums.STUDENTDEGREE;
 import enums.STUDENTTYPE;
+import org.jetbrains.annotations.NotNull;
 
-public class Student extends User {
+public class Student extends User implements Comparable<Person> {
     private School school;
 
     private String studentID;
@@ -74,6 +75,10 @@ public class Student extends User {
         }
     }
 
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
+    }
 
     @Override
     public boolean equals(Object o) {

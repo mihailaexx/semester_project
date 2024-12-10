@@ -3,8 +3,9 @@ import java.util.Objects;
 import java.util.Vector;
 import enums.SEX;
 import enums.TEACHERDEGREE;
+import org.jetbrains.annotations.NotNull;
 
-public class Teacher extends Employee {
+public class Teacher extends Employee implements Comparable<Person> {
     private School school;
 
     private Vector<Discipline> disciplines;
@@ -43,6 +44,11 @@ public class Teacher extends Employee {
 
     public void updateMark(Student student, Discipline discipline, double mark, int i) {
         student.getCourses().lastElement().updateDisciplineMark(discipline, mark, i);
+    }
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override
