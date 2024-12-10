@@ -64,6 +64,8 @@ public class Student extends User implements Comparable<Person> {
     }
 
     public void viewMarks() {
+//        marks.forEach(System.out::println);
+
         // Implementation
     }
 

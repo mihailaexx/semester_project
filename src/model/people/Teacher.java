@@ -28,7 +28,7 @@ public class Teacher extends Employee implements Comparable<Person> {
     }
 
     public void sendComplaint(Dean dean, Vector<Student> students, String complaint, String urgencyLevel) {
-        // Implementation for sending complaints about students
+        dean.receiveComplaint(this, complaint, urgencyLevel);
     }
 
     public void viewDisciplines() {
