@@ -1,6 +1,6 @@
 package model.misc;
 
-import model.academic.Discipline;
+import model.academic.Course;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
@@ -14,14 +14,14 @@ public class School {
     private Teacher dean;
     private Vector<Employee> employees; // may have teachers and researchers
     private Vector<Student> students;
-    private Vector<Discipline> disciplines;
+    private Vector<Course> courses;
 
     public School(String name, University university) {
         this.name = name;
         this.university = university; university.addSchool(this);
         this.employees = new Vector<Employee>();
         this.students = new Vector<Student>();
-        this.disciplines = new Vector<Discipline>();
+        this.courses = new Vector<Course>();
     }
 
     public void addDean(Teacher dean) {
@@ -40,8 +40,8 @@ public class School {
         students.add(student);
     }
 
-    public void addDiscipline(Discipline discipline) {
-        disciplines.add(discipline);
+    public void addDiscipline(Course course) {
+        courses.add(course);
     }
 
     public String getName() {
@@ -51,4 +51,8 @@ public class School {
     public Teacher getDean() {
         return dean;
     }
+    public Vector<Employee> getEmployees() { return new Vector<>(employees); }
+    public Vector<Student> getStudents() { return new Vector<>(students); }
+    public Vector<Course> getCourses() { return new Vector<>(courses); }
+
 }

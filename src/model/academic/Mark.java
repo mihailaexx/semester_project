@@ -27,8 +27,7 @@ public class Mark {
     }
 
     public String markToString(double val) {
-        if (val < 0 || val > 100) throw new IllegalArgumentException("Invalid mark");
-        else if (val < 50) return "F";
+        if (val < 50) return "F";
         else if (val < 55) return "D-";
         else if (val < 60) return "D+";
         else if (val < 65) return "C-";
@@ -42,6 +41,9 @@ public class Mark {
     }
 
     public void updateMark(double mark, int i) {
+        if (mark < 0 || mark > 100) {
+            throw new IllegalArgumentException("Invalid mark");
+        }
         switch (i) {
             case 1 -> this.firstAttestation = mark;
             case 2 -> this.secondAttestation = mark;
@@ -57,6 +59,11 @@ public class Mark {
         this.totalMark = f + s + fe;
         this.stringMark = markToString(totalMark);
     }
+
+    public Double getAtt1() { return firstAttestation; }
+    public Double getAtt2() { return secondAttestation; }
+    public Double getFinalExam() { return finalExam; }
+    public String getStringMark() { return stringMark; }
 
     @Override
     public String toString() {

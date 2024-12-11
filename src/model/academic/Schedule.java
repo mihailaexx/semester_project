@@ -1,34 +1,59 @@
 package model.academic;
 
-import enums.DISCIPLINETYPE;
+import enums.LESSON_TYPE;
 
 public class Schedule {
+
     protected final String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    private final Pair<Discipline, DISCIPLINETYPE>[][] schedule = new Pair[14][7];
+    // 14 hour slot, each cell: Pair<Course, LESSON_TYPE>
+    private final Pair<Course, LESSON_TYPE>[][] schedule = new Pair[14][7];
 
     public Schedule() {
-        for (int i = 0; i < 14; i++) {
-            for (int j = 0; j < 7; j++) {
-                schedule[i][j] = new Pair<>(new Discipline(), DISCIPLINETYPE.LECTURE); // model.academic.Discipline, DisciplineType
+        for (int hour = 0; hour < 14; hour++) {
+            for (int day = 0; day < 7; day++) {
+                schedule[hour][day] = null;
             }
         }
     }
 
-    public void addDiscipline(Discipline discipline, DISCIPLINETYPE disciplineType, int day, int time) {
-        schedule[time-8][day] = new Pair<>(discipline, disciplineType);
-    }
+    /**
+     * Add a course session at a diven day and start hour.
+     * @param day: 0 = Mon, 1 = Tue, ..., 6 = Sun
+     * @param time: the hour in 24-hour format, must be between 8 and 21
+     */
+    public void addCourseSession(Course course, LESSON_TYPE lessonType, int day, int time) {
+        if (day < 0 || day > 6) {
+            throw new IllegalArgumentException("Invalid day index: " + day);
+        }
+        int hourIndex = time - 8; // 0 corresponds to 08:00
+        if (hourIndex < 0 || hourIndex >= 14) {
+            throw new IllegalArgumentException("Invalid time:  " + time + ". Must be between 8 and 21");
+        }
 
+        schedule[hourIndex][day] = new Pair<>(course, lessonType);
+    }
     public void display() {
-        System.out.println("========================");
-        for (int i = 0; i < 7; i++) {
-            System.out.println(days[i]);
-            System.out.println();
-            for (int j = 0; j < 14; j++) {
-                Discipline d = schedule[j][i].getKey();
-                System.out.println(String.format("%02d:00-%02d:00", 8+i, 8+i+1) + d.getCode() + " " + d.getName() + ", " + schedule[j][i].getValue());
+        System.out.println("======================== SCHEDULE ========================");
+        for (int day = 0; day < 7; day++) {
+            System.out.println(days[day] + ":");
+
+            for (int hour = 0; hour < 14; hour++) {
+                Pair<Course, LESSON_TYPE> slot = schedule[hour][day];
+                int startHour = 8 + hour;
+                int endHour = startHour + 1;
+
+                if (slot != null) {
+                    Course c =  slot.getKey();
+                    LESSON_TYPE lessonType = slot.getValue();
+                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " " +
+                            c.getCode() + " " + c.getName() + ", " + lessonType);
+                } else {
+                    // No course scheduled this hour
+                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " Free");
+                }
             }
             System.out.println();
-        System.out.println("========================");
         }
+        System.out.println("==========================================================");
     }
 }

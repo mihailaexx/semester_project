@@ -3,55 +3,62 @@ package model.academic;
 import model.people.Student;
 import model.people.Teacher;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class Course {
+    private String code;
+    private String name;
+    private int credits;
     private int year;
     private int semester;
-    private LinkedHashMap <Discipline, Mark> disciplineMarkLinkedHashMap;
+
     private Schedule schedule;
     private List<Teacher> instructors;
-    private List<Student> enrolledStudents;
+    private Map<Student, Mark> studentMarks;
 
-
-    public Course(int year, int semester) {
+    public Course(String code, String name, int credits, int year, int semester) {
+        this.code = code;
+        this.name = name;
+        this.credits = credits;
         this.year = year;
         this.semester = semester;
-        this.disciplineMarkLinkedHashMap = new LinkedHashMap<Discipline, Mark>();
         this.schedule = new Schedule();
+        this.instructors = new ArrayList<>();
+        this.studentMarks = new HashMap<>();
     }
-    public void addDiscipline(Discipline discipline) {
-        disciplineMarkLinkedHashMap.put(discipline, null);
-    }
+
     public void addInstructor(Teacher teacher) {instructors.add(teacher);}
     public void addSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
-    public void updateDisciplineMark(Discipline discipline, double mark, int i) {
-        Mark m = disciplineMarkLinkedHashMap.get(discipline);
-        if (m != null) {
-            m.updateMark(mark, i);
-        } else {
-            // Create mark if null
-            Mark newMark = new Mark(0,0,0);
-            newMark.updateMark(mark, i);
-            disciplineMarkLinkedHashMap.put(discipline, newMark);
+    public void updateStudentMark(Student student, double mark, int attestationIndex) {
+        Mark m = studentMarks.get(student);
+        if (m == null) {
+            m = new Mark(0, 0, 0);
         }
-    }
-    public LinkedHashMap<Discipline, Mark> getDisciplineMarkLinkedHashMap() {
-        return disciplineMarkLinkedHashMap;
+        m.updateMark(mark, attestationIndex);
+        studentMarks.put(student, m);
     }
     public Schedule getSchedule() {
         return schedule;
     }
+    public Mark getMarkForStudent(Student s) { return studentMarks.get(s);}
+    public String getCode() {return code;}
+    public String getName() {return name;}
+    public int getCredits() {return credits;}
+    public int getYear() {return year;}
+    public int getSemester() {return semester;}
+    public List<Teacher> getInstructors() {return instructors;}
 
     @Override
     public String toString() {
         return "Course[" +
-                "year=" + year +
+                "code=" + code +
+                ", name=" + name +
+                ", credits=" + credits +
+                ", year=" + year +
                 ", semester=" + semester +
-                ", marks=" + disciplineMarkLinkedHashMap +
+                ", instructors=" + instructors +
                 ", schedule=" + schedule +
                 ']';
     }

@@ -6,6 +6,8 @@ import model.people.Employee;
 import model.people.Person;
 
 import java.util.Date;
+
+import model.people.Student;
 import org.jetbrains.annotations.NotNull;
 
 public class FinanceManager extends Employee implements Comparable<Person> {
@@ -17,12 +19,21 @@ public class FinanceManager extends Employee implements Comparable<Person> {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
     }
 
-    public void payScholarship() {
-        // add check for student's grand and n of retakes
+    public void payScholarship(Student student, double amount) {
+        double gpa = student.getGpa();
+        int totalRetakes = student.getTotalRetakes();
+
+        if (gpa > 3.5 && totalRetakes < 2) {
+            // or any other check ( for now gpa > 3.5 && totalRetakes < 2)
+            System.out.println("Scholarship of " + amount + " paid to " + student.getName());
+        } else {
+            System.out.println("Student does not qualify for scholarship.");
+        }
     }
 
     public void paySalary(Employee employee, double amount) {
-        // Implementation
+        System.out.println("Paid " + amount + " salary to " + employee.getName() + " " + employee.getSurname());
+        // any other methods.?
     }
 
     @Override
