@@ -7,20 +7,12 @@ import java.util.Date;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
-public class Admin extends Employee implements Comparable<Person> {
+public class Admin extends Employee implements Comparable<Admin> {
     private int privilegeLevel;
-
-    public void sync(University university) {
-        university.addAdmin(this);
-    }
 
     public Admin(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, int PrivilegeLevel) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
         this.privilegeLevel = PrivilegeLevel;
-    }
-
-    public int getPrivilegeLevel() {
-        return privilegeLevel;
     }
 
     public void addUser(User user) {}
@@ -28,14 +20,13 @@ public class Admin extends Employee implements Comparable<Person> {
     public void updateUser(User user) {}
     public void seeLogs() {}
 
-//    public void addDiscipline(Discipline discipline) {}
-//    public void removeDiscipline(Discipline discipline) {}
-//    public void updateDiscipline(Discipline discipline) {}
-// should be managed by orManagers
+    public int getPrivilegeLevel() {
+        return privilegeLevel;
+    }
 
     @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
+    public int compareTo(@NotNull Admin o) {
+        return Integer.compare(this.privilegeLevel, o.privilegeLevel);
     }
 
     @Override

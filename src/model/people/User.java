@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class User extends Person implements Comparable<Person> {
+public abstract class User extends Person {
     String email; // email = login
     private String password;
 
@@ -25,11 +25,6 @@ public abstract class User extends Person implements Comparable<Person> {
     public static boolean login(String email, String password) {
         // check if email and password are correct
         return false;
-    }
-
-    @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
     }
 
     @Override

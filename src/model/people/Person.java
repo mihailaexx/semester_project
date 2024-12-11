@@ -4,9 +4,8 @@ import enums.SEX;
 
 import java.util.Date;
 import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
 
-public abstract class Person implements Comparable<Person>, Cloneable {
+public abstract class Person implements Cloneable {
     private String ID; // ИИН
     private String name;
     private String surname;
@@ -59,11 +58,8 @@ public abstract class Person implements Comparable<Person>, Cloneable {
     public double getMoney() {
         return money;
     }
-
-
-    @Override
-    public int compareTo(@NotNull Person o) {
-        return this.birthDate.compareTo(o.birthDate);
+    public void addMoney(double money) {
+        this.money += money;
     }
 
     @Override

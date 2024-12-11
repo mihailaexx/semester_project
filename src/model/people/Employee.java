@@ -5,12 +5,12 @@ import java.util.*;
 import model.misc.Message;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Employee extends User implements Comparable<Person> {
+public abstract class Employee extends User {
     private static int employeeID = 1;
     private double salary;
-
     // Inbox: A map of sender -> list of messages from that sender
-    private Map<Employee, List<Message>> inbox;
+    private Map<Employee, Message> inbox;
+
     public Employee(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password);
         this.salary = salary;
@@ -21,16 +21,7 @@ public abstract class Employee extends User implements Comparable<Person> {
 
     public void sendMessages(Employee recipient, String messageText) {
         Message message = new Message(this, messageText);
-        recipient.receiveMessage(this, message);
-        /**
-         * Map<Employee, List<Message>>
-         * employeeA.sendMessage(employeeB, "Hello")
-         * or maybe keep a global messaging system?
-         */
-    }
-
-    private void receiveMessage(Employee sender, Message message) {
-        inbox.computeIfAbsent(sender, k -> new ArrayList<>()).add(message);
+        recipient.inbox.putIfAbsent(this, message);
     }
 
     public void viewInbox() {
@@ -38,12 +29,9 @@ public abstract class Employee extends User implements Comparable<Person> {
             System.out.println("No messages.");
             return;
         }
-        for (Map.Entry<Employee, List<Message>> entry : inbox.entrySet()) {
+        for (Map.Entry<Employee, Message> entry : inbox.entrySet()) {
             Employee sender = entry.getKey();
-            System.out.println("Messages from " + sender.getName() + " " + sender.getSurname() + ":");
-            for (Message m : entry.getValue()) {
-                System.out.println(m);
-            }
+            System.out.println("Message from " + sender.getName() + " " + sender.getSurname() + ": " + entry.getValue().getText());
         }
     }
 
@@ -52,11 +40,6 @@ public abstract class Employee extends User implements Comparable<Person> {
     }
     public double getSalary() {
         return salary;
-    }
-
-    @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
     }
 
     @Override
