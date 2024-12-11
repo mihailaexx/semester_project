@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-public class Student extends User implements Comparable<Person> {
+public class Student extends User implements Comparable<Student> {
     private School school;
 
     private String studentID;
@@ -61,8 +61,11 @@ public class Student extends User implements Comparable<Person> {
     public Vector<Course> getCourses() {
         return courses;
     }
-    private int getTotalCurrentCredits() {
+    public int getTotalCurrentCredits() {
         return courses.stream().mapToInt(Course::getCredits).sum();
+    }
+    public STUDENTTYPE getType() {
+        return type;
     }
 
     /**
@@ -91,9 +94,6 @@ public class Student extends User implements Comparable<Person> {
         }
     }
 
-    /**
-     * Print marks for all enrolled courses
-     */
     public void viewMarks() {
         if (courses.isEmpty()) {
             System.out.println("No courses enrolled.");
@@ -202,9 +202,10 @@ public class Student extends User implements Comparable<Person> {
     public int getTotalRetakes() {
         return retakes.values().stream().mapToInt(i -> i).sum();
     }
+
     @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
+    public int compareTo(@NotNull Student o) {
+        return Double.compare(getGpa(), o.getGpa());
     }
 
     @Override

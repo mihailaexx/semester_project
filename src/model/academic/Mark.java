@@ -1,5 +1,7 @@
 package model.academic;
 
+import java.util.Objects;
+
 public class Mark {
     private Double totalMark;
     private Double firstAttestation;
@@ -7,19 +9,19 @@ public class Mark {
     private Double finalExam;
     private String stringMark;
 
-    public Mark(double first, double second, double finalExam) {
-        this.firstAttestation = first;
-        this.secondAttestation  = second;
-        this.finalExam  = finalExam;
-        recalculate();
-    }
-
     public Mark() {
         this.totalMark = null;
         this.firstAttestation = null;
         this.secondAttestation = null;
         this.finalExam = null;
         this.stringMark = null;
+    }
+
+    public Mark(double first, double second, double finalExam) {
+        this.firstAttestation = first;
+        this.secondAttestation  = second;
+        this.finalExam  = finalExam;
+        recalculate();
     }
 
     public Mark(double mark, int i) {
@@ -52,21 +54,47 @@ public class Mark {
         }
         recalculate();
     }
+
     private void recalculate() {
-        double f = (firstAttestation == null)?0:firstAttestation;
-        double s = (secondAttestation == null)?0:secondAttestation;
-        double fe = (finalExam == null)?0:finalExam;
+        double f = (firstAttestation == null) ? 0 : firstAttestation;
+        double s = (secondAttestation == null) ? 0 : secondAttestation;
+        double fe = (finalExam == null) ? 0 : finalExam;
         this.totalMark = f + s + fe;
         this.stringMark = markToString(totalMark);
     }
 
-    public Double getAtt1() { return firstAttestation; }
-    public Double getAtt2() { return secondAttestation; }
-    public Double getFinalExam() { return finalExam; }
-    public String getStringMark() { return stringMark; }
+    public Double getAtt1() {
+        return firstAttestation;
+    }
+    public Double getAtt2() {
+        return secondAttestation;
+    }
+    public Double getFinalExam() {
+        return finalExam;
+    }
+    public String getStringMark() {
+        return stringMark;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Mark mark)) return false;
+        return Objects.equals(totalMark, mark.totalMark) && Objects.equals(firstAttestation, mark.firstAttestation) && Objects.equals(secondAttestation, mark.secondAttestation) && Objects.equals(getFinalExam(), mark.getFinalExam()) && Objects.equals(getStringMark(), mark.getStringMark());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(totalMark, firstAttestation, secondAttestation, getFinalExam(), getStringMark());
+    }
 
     @Override
     public String toString() {
-        return "Mark: " + totalMark + " (" + stringMark + ")";
+        return "Mark[" +
+                "totalMark=" + totalMark +
+                ", firstAttestation=" + firstAttestation +
+                ", secondAttestation=" + secondAttestation +
+                ", finalExam=" + finalExam +
+                ", stringMark='" + stringMark + '\'' +
+                ']';
     }
 }

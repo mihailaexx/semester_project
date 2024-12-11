@@ -7,43 +7,57 @@ import model.people.Student;
 import model.people.Teacher;
 import model.research.ResearchPaper;
 
+import java.util.Objects;
 import java.util.Vector;
 
 public class University {
     private String name;
-    private Vector<Admin> admins;
-    private Vector<Teacher> deans;
-    private Vector<Employee> employees;
-    private Vector<Student> students;
-    private Vector<Course> courses;
 
-    private Vector<School> schools;
-
-    private Vector<ResearchPaper> allResearchPapers;
+    private static Vector<School> schools;
+    private static Vector<Admin> admins;
+    private static Vector<Teacher> deans;
+    private static Vector<Employee> employees;
+    private static Vector<Student> students;
+    private static Vector<Course> courses;
+    private static Vector<ResearchPaper> allResearchPapers;
     private Vector<String> log; // or txt file
 
     public University(String name) {
         this.name = name;
-        this.admins = new Vector<Admin>();
-        this.deans = new Vector<Teacher>();
-        this.employees = new Vector<Employee>();
-        this.students = new Vector<Student>();
-        this.courses = new Vector<Course>();
-        this.schools = new Vector<School>();
-        this.allResearchPapers = new Vector<ResearchPaper>();
+        schools = new Vector<School>();
+        admins = new Vector<Admin>();
+        deans = new Vector<Teacher>();
+        employees = new Vector<Employee>();
+        students = new Vector<Student>();
+        courses = new Vector<Course>();
+        allResearchPapers = new Vector<ResearchPaper>();
         this.log = new Vector<String>();
     }
-    public Vector<School> getSchools() { return new Vector<>(schools); }
-    public Vector<Student> getStudents() { return new Vector<>(students); }
-    public Vector<Employee> getEmployees() { return new Vector<>(employees); }
-    public Vector<Course> getAllCourses() { return new Vector<>(courses); }
-    public Vector<Teacher> getTeachers() {
-        Vector<Teacher> result = new Vector<>();
-        for (Employee e : employees) {
-            if (e instanceof Teacher t) result.add(t);
-        }
-        return result;
+
+    // Add methods for searching/filtering, e.g., find a Student by ID, find a Course by code, etc.
+    public void addAdmin(Admin admin) {
+        admins.add(admin);
     }
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+    public void addCourse(Course course) {
+        courses.add(course);
+    }
+    public void addSchool(School school) {
+        schools.add(school);
+        deans.add(school.getDean());
+    }
+    public void addResearchPaper(ResearchPaper researchPaper) {
+        allResearchPapers.add(researchPaper);
+    }
+    public void addLog(String log) {
+        this.log.add(log);
+    }
+
 
     public Student findStudentById(String ID) {
         for (Student s : students) {
@@ -62,30 +76,46 @@ public class University {
     public String getName() {
         return name;
     }
-    // Add methods for searching/filtering, e.g., find a Student by ID, find a Course by code, etc.?
-    public void addAdmin(Admin admin) {
-        admins.add(admin);
+    public Vector<School> getSchools() {
+        return schools;
     }
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
+    public static Vector<Admin> getAdmins() {
+        return admins;
     }
-    public void addStudent(Student student) {
-        students.add(student);
+    public static Vector<Teacher> getDeans() {
+        return deans;
     }
-    public void addCourse(Course course) {
-        courses.add(course);
+    public static Vector<Employee> getEmployees() {
+        return employees;
+    }
+    public static Vector<Student> getStudents() {
+        return students;
+    }
+    public static Vector<Course> getCourses() {
+        return courses;
+    }
+    public Vector<Teacher> getTeachers() {
+        Vector<Teacher> result = new Vector<>();
+        for (Employee e : employees) {
+            if (e instanceof Teacher t) result.add(t);
+        }
+        return result;
     }
 
-    public void addSchool(School school) {
-        schools.add(school);
-        deans.add(school.getDean());
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof University that)) return false;
+        return Objects.equals(getName(), that.getName());
     }
 
-    public void addResearchPaper(ResearchPaper researchPaper) {
-        allResearchPapers.add(researchPaper);
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), log);
     }
 
-    public void addLog(String log) {
-        this.log.add(log);
+    @Override
+    public String toString() {
+        return "University[" +
+                "name='" + name + "']";
     }
 }

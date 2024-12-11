@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-public class Researcher extends Employee implements Comparable<Person> {
+public class Researcher extends Employee implements Comparable<Researcher> {
     private User user;
     private RESEARCHERDEGREE type;
     private Vector<ResearchPaper> researches;
@@ -38,8 +38,8 @@ public class Researcher extends Employee implements Comparable<Person> {
     }
 
     @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
+    public int compareTo(@NotNull Researcher o) {
+        return Integer.compare(this.hIndex, o.hIndex);
     }
 
     @Override

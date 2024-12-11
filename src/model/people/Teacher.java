@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-public class Teacher extends Employee implements Comparable<Person> {
+public class Teacher extends Employee implements Comparable<Employee> {
     private School school;
 
     private Vector<Course> courses;
@@ -37,8 +37,12 @@ public class Teacher extends Employee implements Comparable<Person> {
         course.addInstructor(this);
     }
 
-    public void sendComplaint(Dean dean, Vector<Student> students, String complaint, String urgencyLevel) {
+    public void sendComplaint(Teacher dean, Vector<Student> students, String complaint, String urgencyLevel) {
         dean.receiveComplaint(this, complaint, urgencyLevel);
+    }
+
+    public void receiveComplaint(Teacher teacher, String complaint, String urgencyLevel) {
+        System.out.println("Dean received complaint: " + complaint + " with urgency " + urgencyLevel);
     }
 
     public void viewCourses() {
@@ -74,9 +78,10 @@ public class Teacher extends Employee implements Comparable<Person> {
         if (ratings.isEmpty()) return 0;
         return ratings.stream().mapToInt(r->r).average().orElse(0);
     }
+
     @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
+    public int compareTo(@NotNull Employee o) {
+        return Double.compare(this.getSalary(), o.getSalary());
     }
 
     @Override
