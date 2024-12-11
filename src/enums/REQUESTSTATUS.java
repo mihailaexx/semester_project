@@ -1,5 +1,8 @@
 package enums;
 
 public enum REQUESTSTATUS {
-    NEW, VIEWED, ACCEPTED, REJECTED;
+    NEW,
+    VIEWED,
+    ACCEPTED,
+    REJECTED
 }

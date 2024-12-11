@@ -1,9 +1,10 @@
 package model.people;
 
+import enums.SEX;
+
 import java.util.Date;
 import java.util.Objects;
-import enums.SEX;
-import model.misc.University;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Person implements Comparable<Person>, Cloneable {
     private String ID; // ИИН
@@ -14,7 +15,6 @@ public abstract class Person implements Comparable<Person>, Cloneable {
     private String phoneNumber;
     private String citizenship;
     private double money;
-    public abstract void sync(University university);
 
     public Person(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship) {
         if (ID.substring(0, 6).equals(String.valueOf(birthDate.getYear()).substring(2,4)+String.format("%02d", birthDate.getMonth())+String.format("%02d", birthDate.getDate()))
@@ -62,7 +62,7 @@ public abstract class Person implements Comparable<Person>, Cloneable {
 
 
     @Override
-    public int compareTo(Person o) {
+    public int compareTo(@NotNull Person o) {
         return this.birthDate.compareTo(o.birthDate);
     }
 

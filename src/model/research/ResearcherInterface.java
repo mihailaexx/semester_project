@@ -1,8 +1,6 @@
 package model.research;
 
 import enums.CITATIONFORMAT;
-import model.research.ResearchPaper;
-import model.research.ResearchProject;
 
 import java.util.Comparator;
 import java.util.List;

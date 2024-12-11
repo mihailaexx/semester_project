@@ -1,9 +1,5 @@
 package model.people;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Vector;
 import enums.SEX;
 import enums.STUDENTDEGREE;
 import enums.STUDENTTYPE;
@@ -11,7 +7,13 @@ import model.academic.Course;
 import model.academic.Discipline;
 import model.misc.*;
 
-public class Student extends User {
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+public class Student extends User implements Comparable<Person> {
     private School school;
 
     private String studentID;
@@ -96,6 +98,10 @@ public class Student extends User {
         }
     }
 
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
+    }
 
     @Override
     public boolean equals(Object o) {

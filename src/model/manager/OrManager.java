@@ -1,15 +1,14 @@
 package model.manager;
 
-import java.util.Date;
 import enums.SEX;
 import model.academic.Discipline;
 import model.misc.University;
-import model.people.Employee;
-import model.people.Student;
-import model.people.Teacher;
+import model.people.*;
 
-public class OrManager extends Employee {
-    @Override
+import java.util.Date;
+import org.jetbrains.annotations.NotNull;
+
+public class OrManager extends Employee implements Comparable<Person> {
     public void sync(University university) {
         university.addEmployee(this);
     }
@@ -48,6 +47,11 @@ public class OrManager extends Employee {
 
     public void manageNews(String news) {
         // Implementation
+    }
+
+    @Override
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

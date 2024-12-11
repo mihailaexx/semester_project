@@ -1,13 +1,18 @@
 package model.people;
 
-import java.util.Date;
-import java.util.Objects;
 import enums.SEX;
 import model.misc.University;
 
+import java.util.Date;
+import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
-public class Admin extends Employee {
+public class Admin extends Employee implements Comparable<Person> {
     private int privilegeLevel;
+
+    public void sync(University university) {
+        university.addAdmin(this);
+    }
 
     public Admin(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, int PrivilegeLevel) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
@@ -23,14 +28,14 @@ public class Admin extends Employee {
     public void updateUser(User user) {}
     public void seeLogs() {}
 
-//    public void addDiscipline(model.academic.Discipline discipline) {}
-//    public void removeDiscipline(model.academic.Discipline discipline) {}
-//    public void updateDiscipline(model.academic.Discipline discipline) {}
+//    public void addDiscipline(Discipline discipline) {}
+//    public void removeDiscipline(Discipline discipline) {}
+//    public void updateDiscipline(Discipline discipline) {}
 // should be managed by orManagers
 
     @Override
-    public void sync(University university) {
-        university.addAdmin(this);
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

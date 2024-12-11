@@ -1,12 +1,17 @@
 package model.manager;
 
-import java.util.Date;
 import enums.SEX;
 import model.misc.University;
 import model.people.Employee;
+import model.people.Person;
 
+import java.util.Date;
+import org.jetbrains.annotations.NotNull;
 
-public class FinanceManager extends Employee {
+public class FinanceManager extends Employee implements Comparable<Person> {
+    public void sync(University university) {
+        university.addEmployee(this);
+    }
 
     public FinanceManager(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary) {
         super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
@@ -21,8 +26,8 @@ public class FinanceManager extends Employee {
     }
 
     @Override
-    public void sync(University university) {
-        university.addEmployee(this);
+    public int compareTo(@NotNull Person o) {
+        return super.compareTo(o);
     }
 
     @Override

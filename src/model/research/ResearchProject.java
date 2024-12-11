@@ -1,7 +1,6 @@
 package model.research;
 
 import exceptions.NonResearcherJoinProjectException;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
