@@ -1,6 +1,6 @@
 package enums;
 
-public enum DISCIPLINETYPE {
+public enum LESSON_TYPE {
     LECTURE,
     PRACTICE,
     LAB
