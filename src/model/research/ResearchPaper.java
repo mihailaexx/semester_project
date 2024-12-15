@@ -76,11 +76,11 @@ public class ResearchPaper implements Serializable {
 
     @Override
     public String toString() {
-        return "ResearchPaper{" +
+        return "ResearchPaper[" +
                 "title='" + title + '\'' +
                 ", journal='" + journal + '\'' +
                 ", publicationDate=" + publicationDate +
                 ", citations=" + citations +
-                '}';
+                ']';
     }
 }

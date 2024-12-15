@@ -30,4 +30,9 @@ public class Pair<K, V> implements java.io.Serializable {
     public V getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return '(' + key.toString() + ", " + value.toString() + ')';
+    }
 }

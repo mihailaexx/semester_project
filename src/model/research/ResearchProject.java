@@ -52,10 +52,10 @@ public class ResearchProject implements Serializable {
 
     @Override
     public String toString() {
-        return "ResearchProject{" +
+        return "ResearchProject[" +
                 "topic='" + topic + '\'' +
                 ", publishedPapers=" + publishedPapers +
                 ", participants=" + participants +
-                '}';
+                ']';
     }
 }

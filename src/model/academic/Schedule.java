@@ -2,10 +2,12 @@ package model.academic;
 
 import enums.LESSON_TYPE;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Schedule {
 
     protected final String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    // 14 hour slot, each cell: Pair<Course, LESSON_TYPE>
     private final Pair<Course, LESSON_TYPE>[][] schedule = new Pair[14][7];
 
     public Schedule() {
@@ -32,6 +34,7 @@ public class Schedule {
 
         schedule[hourIndex][day] = new Pair<>(course, lessonType);
     }
+
     public void display() {
         System.out.println("======================== SCHEDULE ========================");
         for (int day = 0; day < 7; day++) {
@@ -48,12 +51,28 @@ public class Schedule {
                     System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " " +
                             c.getCode() + " " + c.getName() + ", " + lessonType);
                 } else {
-                    // No course scheduled this hour
-                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " Free");
+                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " ");
                 }
             }
             System.out.println();
         }
         System.out.println("==========================================================");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Schedule schedule1)) return false;
+        return Objects.deepEquals(days, schedule1.days) && Objects.deepEquals(schedule, schedule1.schedule);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(days), Arrays.deepHashCode(schedule));
+    }
+
+    @Override
+    public String toString() {
+        display();
+        return "";
     }
 }
