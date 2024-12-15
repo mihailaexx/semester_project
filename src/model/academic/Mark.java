@@ -1,6 +1,11 @@
 package model.academic;
 
-public class Mark {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Mark implements Serializable {
+    private static final long serialVersionUID = 13L;
+
     private Double totalMark;
     private Double firstAttestation;
     private Double secondAttestation;

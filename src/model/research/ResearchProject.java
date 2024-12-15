@@ -1,10 +1,14 @@
 package model.research;
 
 import exceptions.NonResearcherJoinProjectException;
+
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Vector;
 
-public class ResearchProject {
+public class ResearchProject implements Serializable {
+    private static final long serialVersionUID = 11L;
+
     private String topic;
     private Vector<ResearchPaper> publishedPapers;
     private Vector<ResearcherInterface> participants;

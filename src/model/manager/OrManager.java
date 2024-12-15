@@ -3,107 +3,130 @@ package model.manager;
 import enums.SEX;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
-import model.misc.University;
 import model.people.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import org.jetbrains.annotations.NotNull;
+public class OrManager extends Employee implements Serializable {
+    private static final long serialVersionUID = 8L;
 
-public class OrManager extends Employee implements Comparable<Person> {
-    public void sync(University university) {
-        university.addEmployee(this);
+
+    public OrManager(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary) {
+        super(name, surname, sex, birthDate, email, password, phoneNumber, citizenship, salary);
     }
 
-    public OrManager(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary) {
-        super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
-    }
-
-    public void seeRequests() {
-        //
-    }
-
-    public void approveRequest(Student student, Course course) {
+    public void approveRegistrationRequest(Student student, Course course) {
         try {
             student.registerForCourse(course);
-            System.out.println("Request approved for student " + student.getName());
-        } catch (Exception e) {
-            // For future: add new exceptions why ORmanager can't approve request for course registration
-            System.out.println("Could not approve request: " + e.getMessage());
+            System.out.println("Registration request approved for student " + student.getName() + " " + student.getSurname() + " for course " + course.getName());
+        } catch (CourseRegistrationException e) {
+            System.out.println("Could not approve registration request: " + e.getMessage());
         }
     }
 
-    public void addCourseForRegistration(Course course, String major, int year, University university) {
-        // university.addCourseForMajorYear(major, year, course);
-        // should be implemented in future
-        //
+    public void addCourse(Course course) {
+        // Add course to the in-memory data store or a CourseService
+        System.out.println("Course added: " + course.getName());
     }
 
     public void assignCourseToTeacher(Course course, Teacher teacher) {
-        teacher.addCourse(course);
-        course.addInstructor(teacher);
-
-        System.out.println("Assigned course " + course.getName() + " to teacher " + teacher.getSurname());
+        if (teacher.getCourses().contains(course)) {
+            System.out.println("Teacher " + teacher.getName() + " " + teacher.getSurname() + " is already assigned to course " + course.getName());
+        } else {
+            teacher.addCourse(course);
+            course.addInstructor(teacher);
+            System.out.println("Assigned course " + course.getName() + " to teacher " + teacher.getName() + " " + teacher.getSurname());
+        }
     }
 
     public void removeCourse(Course course) {
-        //
+        // Remove course from the in-memory data store or a CourseService
+        System.out.println("Course removed: " + course.getName());
     }
 
-    public void updateCourse(Course course_to_edit, Course new_course) {
-        //
+    public void updateCourse(Course oldCourse, Course newCourse) {
+        // Update course in the in-memory data store or a CourseService
+        System.out.println("Course updated: " + oldCourse.getName() + " to " + newCourse.getName());
     }
 
-    public void createStatisticalReport(University university) {
-        // Gather data from university:
-        // example: university.getStudents(), calculate average GPA, course pass rates, etc.
-        // Print or store the generated report
-        System.out.println("Statistical Report:");
-        System.out.println("Total Students: " + university.getStudents().size());
-        System.out.println("Total Employees: " + university.getEmployees().size());
-        // More complex stats for future
-
-    }
-
-    public void manageNews(University university, String news) {
-        university.addLog("NEWS: " + news);
-        System.out.println("News added: " + news);
-        // implement logs (future)
-    }
-
-    public void viewStudentsByGPA(University university) {
-        List<Student> students = new ArrayList<>(university.getStudents());
-        students.sort((s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));
-        System.out.println("Students sorted by GPA:");
-        for (Student s : students) System.out.println(s.getName() + " " + s.getSurname() + ": " + s.getGpa());
-    }
-
-    public void viewTeachersAlphabetically(University university) {
-        List<Teacher> teachers = new ArrayList<>(university.getTeachers());
-        teachers.sort(Comparator.comparing(Teacher::getSurname));
-        System.out.println("Teachers sorted alphabetically by surname:");
-        for (Teacher t : teachers) System.out.println(t.getSurname() + ", " + t.getName());
-    }
-    @Override
-    public int compareTo(@NotNull Person o) {
-        return super.compareTo(o);
-    }
+//    public void createStatisticalReport() {
+//        // This method now assumes the data is managed by DataStore
+//        System.out.println("Statistical Report:");
+//
+//        // Get the data from DataStore
+//        List<Student> students = dataStore.getAllStudents();
+//        List<Teacher> teachers = dataStore.getAllTeachers();
+//        List<Employee> employees = dataStore.getAllEmployees();
+//
+//        // Student statistics
+//        System.out.println("\nStudent Statistics:");
+//        System.out.println("Total Students: " + students.size());
+//        if (!students.isEmpty()) {
+//            double averageGpa = students.stream()
+//                    .mapToDouble(Student::getGpa)
+//                    .average()
+//                    .orElse(0.0);
+//            System.out.printf("Average GPA: %.2f\n", averageGpa);
+//        }
+//
+//        // Teacher statistics
+//        System.out.println("\nTeacher Statistics:");
+//        System.out.println("Total Teachers: " + teachers.size());
+//        if (!teachers.isEmpty()) {
+//            double averageRating = teachers.stream()
+//                    .mapToDouble(Teacher::getAverageRating)
+//                    .average()
+//                    .orElse(0.0);
+//            System.out.printf("Average Rating: %.2f\n", averageRating);
+//        }
+//
+//        // Employee statistics
+//        System.out.println("\nEmployee Statistics:");
+//        System.out.println("Total Employees: " + employees.size());
+//
+//        // Additional statistics can be added here
+//    }
+//
+//    public void viewStudentsByGPA() {
+//        List<Student> students = dataStore.getAllStudents();
+//        students.sort(Comparator.comparing(Student::getGpa).reversed());
+//
+//        System.out.println("Students sorted by GPA (highest to lowest):");
+//        for (Student student : students) {
+//            System.out.println(student.getName() + " " + student.getSurname() + " - GPA: " + student.getGpa());
+//        }
+//    }
+//
+//    public void viewTeachersAlphabetically() {
+//        List<Teacher> teachers = dataStore.getAllTeachers();
+//        teachers.sort(Comparator.comparing(Teacher::getSurname).thenComparing(Teacher::getName));
+//
+//        System.out.println("Teachers sorted alphabetically (by surname, then name):");
+//        for (Teacher teacher : teachers) {
+//            System.out.println(teacher.getSurname() + ", " + teacher.getName());
+//        }
+//    }
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrManager)) return false;
         return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(super.hashCode());
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return "OrManager{" +
+                "employeeId=" + getEmployeeId() +
+                ", salary=" + getSalary() +
+                ", hireDate=" + getHireDate() +
+                "} " + super.toString();
     }
 }

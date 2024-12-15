@@ -45,12 +45,12 @@ public class University {
         return result;
     }
 
-    public Student findStudentById(String ID) {
-        for (Student s : students) {
-            if (s.getID().equals(ID)) return s;
-        }
-        return null;
-    }
+//    public Student findStudentById(String ID) {
+//        for (Student s : students) {
+//            if (s.getID().equals(ID)) return s;
+//        }
+//        return null;
+//    }
 
     public Course findCourseByCode(String code) {
         for (Course c : courses) {

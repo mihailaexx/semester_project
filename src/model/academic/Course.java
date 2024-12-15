@@ -3,9 +3,12 @@ package model.academic;
 import model.people.Student;
 import model.people.Teacher;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Course {
+public class Course implements Serializable {
+    private static final long serialVersionUID = 12L;
+
     private String code;
     private String name;
     private int credits;
