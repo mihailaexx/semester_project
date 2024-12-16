@@ -3,57 +3,68 @@ package model.academic;
 import enums.LESSON_TYPE;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Schedule implements Serializable {
     private static final long serialVersionUID = 18L;
 
-    protected final String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-    private final Pair<Course, LESSON_TYPE>[][] schedule = new Pair[14][7];
+    public static final int START_HOUR = 8;
+    public static final int END_HOUR = 21;
+    public static final int NUMBER_OF_WORKING_DAYS = 6;
+
+    private Map<DayOfWeek, Map<LocalTime, ScheduledClass>> schedule;
 
     public Schedule() {
-        for (int hour = 0; hour < 14; hour++) {
-            for (int day = 0; day < 7; day++) {
-                schedule[hour][day] = null;
+        schedule = new HashMap<>();
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.getValue() > NUMBER_OF_WORKING_DAYS) break;
+            Map<LocalTime, ScheduledClass> daySchedule = new HashMap<>();
+            for (int hour = START_HOUR; hour < END_HOUR; hour++) {
+                daySchedule.put(LocalTime.of(hour, 0), null);
             }
+            schedule.put(day, daySchedule);
         }
     }
 
     /**
-     * Add a course session at a diven day and start hour.
-     * @param day: 0 = Mon, 1 = Tue, ..., 6 = Sun
-     * @param time: the hour in 24-hour format, must be between 8 and 21
+     * Add a course session at a given day and start time.
+     *
+     * @param course     The course to be scheduled.
+     * @param lessonType The type of lesson.
+     * @param day        The day of the week.
+     * @param time       The start time of the lesson.
      */
-    public void addCourseSession(Course course, LESSON_TYPE lessonType, int day, int time) {
-        if (day < 0 || day > 6) {
-            throw new IllegalArgumentException("Invalid day index: " + day);
+    public void addCourseSession(Course course, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
+        if (day.getValue() > NUMBER_OF_WORKING_DAYS) {
+            throw new IllegalArgumentException("Invalid day: " + day);
         }
-        int hourIndex = time - 8; // 0 corresponds to 08:00
-        if (hourIndex < 0 || hourIndex >= 14) {
-            throw new IllegalArgumentException("Invalid time:  " + time + ". Must be between 8 and 21");
+        if (time.getHour() < START_HOUR || time.getHour() >= END_HOUR) {
+            throw new IllegalArgumentException("Invalid time: " + time + ". Must be between " + START_HOUR + ":00 and " + END_HOUR + ":00");
         }
 
-        schedule[hourIndex][day] = new Pair<>(course, lessonType);
+        schedule.get(day).put(time, new ScheduledClass(course, lessonType));
     }
 
     public void display() {
         System.out.println("======================== SCHEDULE ========================");
-        for (int day = 0; day < 7; day++) {
-            System.out.println(days[day] + ":");
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.getValue() > NUMBER_OF_WORKING_DAYS) break;
+            System.out.println(day + ":");
 
-            for (int hour = 0; hour < 14; hour++) {
-                Pair<Course, LESSON_TYPE> slot = schedule[hour][day];
-                int startHour = 8 + hour;
-                int endHour = startHour + 1;
+            Map<LocalTime, ScheduledClass> daySchedule = schedule.get(day);
+            for (int hour = START_HOUR; hour < END_HOUR; hour++) {
+                LocalTime time = LocalTime.of(hour, 0);
+                ScheduledClass session = daySchedule.get(time);
 
-                if (slot != null) {
-                    Course c =  slot.getKey();
-                    LESSON_TYPE lessonType = slot.getValue();
-                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " " +
-                            c.getCode() + " " + c.getName() + ", " + lessonType);
+                System.out.print(time + "-" + time.plusHours(1) + " ");
+                if (session != null) {
+                    System.out.println(session.getCourse().getCode() + " " + session.getCourse().getName() + ", " + session.getLessonType());
                 } else {
-                    System.out.println(String.format("%02d:00-%02d:00", startHour, endHour) + " ");
+                    System.out.println(" - ");
                 }
             }
             System.out.println();
@@ -61,20 +72,46 @@ public class Schedule implements Serializable {
         System.out.println("==========================================================");
     }
 
+    public Map<LocalTime, ScheduledClass> getScheduleForDay(DayOfWeek day) {
+        return schedule.getOrDefault(day, new HashMap<>());
+    }
+
+    // Inner class to represent a scheduled class with course and lesson type
+    public static class ScheduledClass implements Serializable {
+        private final Course course;
+        private final LESSON_TYPE lessonType;
+
+        public ScheduledClass(Course course, LESSON_TYPE lessonType) {
+            this.course = course;
+            this.lessonType = lessonType;
+        }
+
+        public Course getCourse() {
+            return course;
+        }
+
+        public LESSON_TYPE getLessonType() {
+            return lessonType;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Schedule schedule1)) return false;
-        return Objects.deepEquals(days, schedule1.days) && Objects.deepEquals(schedule, schedule1.schedule);
+        if (this == o) return true;
+        if (!(o instanceof Schedule)) return false;
+        Schedule schedule1 = (Schedule) o;
+        return Objects.equals(schedule, schedule1.schedule);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Arrays.hashCode(days), Arrays.deepHashCode(schedule));
+        return Objects.hash(schedule);
     }
 
     @Override
     public String toString() {
-        display();
-        return "";
+        return "Schedule{" +
+                "schedule=" + schedule +
+                '}';
     }
 }

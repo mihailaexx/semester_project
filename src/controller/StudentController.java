@@ -1,5 +1,6 @@
 package controller;
 
+import model.academic.Schedule;
 import model.people.Student;
 import service.CourseService;
 import service.StudentService;
@@ -34,5 +35,14 @@ public class StudentController {
     }
     public void viewMarks(Student student) {
         studentView.displayMarks(student);
+    }
+
+    public void viewStudentSchedule(Student student) {
+        Schedule schedule = studentService.getStudentSchedule(student.getStudentID());
+        if (schedule != null) {
+            studentView.displaySchedule(schedule);
+        } else {
+            studentView.displayErrorMessage("Could not retrieve schedule for student " + student.getStudentID());
+        }
     }
 }

@@ -1,11 +1,16 @@
 package service;
 
 import data.DataStore;
+import enums.LESSON_TYPE;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
+import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 public class CourseService {
     private final DataStore dataStore;
@@ -57,5 +62,11 @@ public class CourseService {
         }
     }
 
+    public void addCourseSession(String courseCode, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
+        dataStore.addCourseSession(courseCode, lessonType, day, time);
+    }
+    public Schedule getCourseSchedule(String courseCode) {
+        return dataStore.getCourseSchedule(courseCode);
+    }
     // Add other methods as needed
 }

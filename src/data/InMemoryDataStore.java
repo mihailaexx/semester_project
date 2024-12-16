@@ -1,13 +1,12 @@
 package data;
 
 // ... other imports ...
-import enums.SEX;
-import enums.STUDENTDEGREE;
-import enums.STUDENTTYPE;
-import enums.TEACHERDEGREE;
+import enums.*;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
+import model.academic.Schedule;
+import model.misc.Message;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
@@ -18,6 +17,8 @@ import model.research.Researcher;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ public class InMemoryDataStore implements DataStore {
     private Map<String, Course> courses;
     private Map<Integer, Researcher> researchers;
     private Map<Integer, ResearchPaper> researchPapers;
+    private Map<String, List<Message>> userMessages;
 
     public InMemoryDataStore() {
         users = new HashMap<>();
@@ -44,6 +46,10 @@ public class InMemoryDataStore implements DataStore {
         courses = new HashMap<>();
         researchers = new HashMap<>();
         researchPapers = new HashMap<>();
+        userMessages = new HashMap<>();
+
+//        System.out.println("Data file path: " + new File(DATA_FILE_PATH).getAbsolutePath());
+
         // Load initial data from files (if available) or hardcode some initial data
         loadData();
     }
@@ -51,7 +57,6 @@ public class InMemoryDataStore implements DataStore {
     private void initializeTestData() {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 
             // Create sample courses
             Course course1 = new Course("CSCI1103", "Programming Principles 1",6, "SITE");
@@ -78,8 +83,13 @@ public class InMemoryDataStore implements DataStore {
             Teacher teacher2 = new Teacher("Pakizar", "Shamoi", SEX.FEMALE, dateFormat.parse("1990-01-01"), "p_shamoi@kbtu.kz", "password123", "87771112233", "Kazakhstan", 8000.0, "SITE", TEACHERDEGREE.PROFESSOR);
             Teacher teacher3 = new Teacher("Tamiris", "Abdildaeva", SEX.FEMALE, dateFormat.parse("2000-01-01"), "t_abdildaeva@kbtu.kz", "password456", "87772223344", "Kazakhstan", 4500.0, "SITE", TEACHERDEGREE.TUTOR);
             teachers.put(teacher1.getEmployeeId(), teacher1);
+            employees.put(teacher1.getEmployeeId(), teacher1);
             teachers.put(teacher2.getEmployeeId(), teacher2);
+            employees.put(teacher2.getEmployeeId(), teacher2);
             teachers.put(teacher3.getEmployeeId(), teacher3);
+            employees.put(teacher3.getEmployeeId(), teacher3);
+
+
 
             // Assign courses to teachers
             teacher1.addCourse(course4);
@@ -118,7 +128,6 @@ public class InMemoryDataStore implements DataStore {
     public void saveStudent(Student student) {
         students.put(student.getStudentID(), student);
     }
-
     @Override
     public Student getStudentById(String studentId) {
         return students.get(studentId);
@@ -128,6 +137,7 @@ public class InMemoryDataStore implements DataStore {
     public List<Student> getAllStudents() {
         return new ArrayList<>(students.values());
     }
+
 
     // Teacher-related methods
     @Override
@@ -149,7 +159,6 @@ public class InMemoryDataStore implements DataStore {
     @Override
     public void saveEmployee(Employee employee) {
         employees.put(employee.getEmployeeId(), employee);
-        users.put(employee.getUsername(), employee);
     }
 
     @Override
@@ -177,6 +186,7 @@ public class InMemoryDataStore implements DataStore {
     public List<Course> getAllCourses() {
         return new ArrayList<>(courses.values());
     }
+
     @Override
     public void addStudentToCourse(String studentId, String courseCode) {
         Student student = students.get(studentId);
@@ -235,6 +245,85 @@ public class InMemoryDataStore implements DataStore {
             allPapers.addAll(researcher.getResearchPapers());
         }
         return allPapers;
+    }
+
+    @Override
+    public void addCourseSession(String courseCode, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
+        Course course = getCourseByCode(courseCode);
+        if (course != null) {
+            if (course.getSchedule() == null) {
+                course.setSchedule(new Schedule());
+            }
+            course.getSchedule().addCourseSession(course, lessonType, day, time);
+            saveCourse(course);
+        } else {
+            System.err.println("Course not found: " + courseCode);
+        }
+    }
+
+    @Override
+    public Schedule getCourseSchedule(String courseCode) {
+        Course course = getCourseByCode(courseCode);
+        return (course != null) ? course.getSchedule() : null;
+    }
+
+    @Override
+    public Schedule getStudentSchedule(String studentId) {
+        Student student = getStudentById(studentId);
+        if (student != null) {
+            Schedule schedule = new Schedule();
+            for (Course course : student.getEnrolledCourses()) {
+                Schedule courseSchedule = course.getSchedule();
+                if (courseSchedule != null) {
+                    mergeSchedules(schedule, courseSchedule);
+                }
+            }
+            return schedule;
+        }
+        return null;
+    }
+
+    @Override
+    public Schedule getTeacherSchedule(int teacherId) {
+        Teacher teacher = getTeacherById(teacherId);
+        if (teacher != null) {
+            Schedule schedule = new Schedule();
+            for (Course course : teacher.getCourses()) {
+                Schedule courseSchedule = course.getSchedule();
+                if (courseSchedule != null) {
+                    mergeSchedules(schedule, courseSchedule);
+                }
+            }
+            return schedule;
+        }
+        return null;
+    }
+
+    private void mergeSchedules(Schedule targetSchedule, Schedule sourceSchedule) {
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.getValue() > Schedule.NUMBER_OF_WORKING_DAYS) break;
+            Map<LocalTime, Schedule.ScheduledClass> targetDaySchedule = targetSchedule.getScheduleForDay(day);
+            Map<LocalTime, Schedule.ScheduledClass> sourceDaySchedule = sourceSchedule.getScheduleForDay(day);
+
+            for (int hour = Schedule.START_HOUR; hour < Schedule.END_HOUR; hour++) {
+                LocalTime time = LocalTime.of(hour, 0);
+                Schedule.ScheduledClass sourceSession = sourceDaySchedule.get(time);
+                if (sourceSession != null) {
+                    targetDaySchedule.put(time, sourceSession);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void saveMessage(Message message) {
+        String recipientUsername = message.getRecipient().getUsername();
+        userMessages.computeIfAbsent(recipientUsername, k -> new ArrayList<>()).add(message);
+    }
+
+    @Override
+    public List<Message> getMessagesForUser(User user) {
+        return userMessages.getOrDefault(user.getUsername(), new ArrayList<>());
     }
     @Override
     public User getUserByUsername(String username) {

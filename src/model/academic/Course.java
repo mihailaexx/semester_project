@@ -3,6 +3,7 @@ package model.academic;
 import model.people.Student;
 import model.people.Teacher;
 
+import javax.swing.plaf.synth.SynthCheckBoxMenuItemUI;
 import java.io.Serializable;
 import java.util.*;
 
@@ -13,6 +14,7 @@ public class Course implements Serializable {
     private String name;
     private int credits;
     private String major;
+    private Schedule schedule;
 
     private List<Teacher> instructors;
     private Map<Student, Mark> studentMarks;
@@ -24,6 +26,7 @@ public class Course implements Serializable {
         this.major = major;
         this.instructors = new ArrayList<>();
         this.studentMarks = new HashMap<>();
+        this.schedule = new Schedule();
     }
 
     public void addInstructor(Teacher teacher) {instructors.add(teacher);}
@@ -46,10 +49,9 @@ public class Course implements Serializable {
     public void setMajor(String major) { this.major = major; }
     public void setInstructors(List<Teacher> instructors) {this.instructors = instructors;}
     public void setName(String name) { this.name = name; }
-
-    public void addStudentMark(Student student, Mark mark) {
-        studentMarks.put(student, mark);
-    }
+    public Schedule getSchedule() { return schedule; }
+    public void setSchedule(Schedule schedule) { this.schedule = schedule;}
+    public void addStudentMark(Student student, Mark mark) { studentMarks.put(student, mark); }
     @Override
     public String toString() {
         return "Course[" +
@@ -59,10 +61,4 @@ public class Course implements Serializable {
                 ", instructors=" + instructors +
                 ']';
     }
-
-
-
-//
-//    public void displayCourses(List<Course> courses) {
-//    }
 }

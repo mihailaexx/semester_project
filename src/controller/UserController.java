@@ -43,6 +43,8 @@ public class UserController {
                     break;
                 case "EMPLOYEE":
                     // Handle employee creation similarly
+                    userService.createEmployee(details);
+                    authView.displaySignupSuccess();
                     break;
                 default:
                     authView.displayErrorMessage("Invalid user type for signup.");

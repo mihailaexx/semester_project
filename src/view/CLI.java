@@ -1,22 +1,15 @@
 package view;
 
-import controller.CourseController;
-import controller.StudentController;
-import controller.TeacherController;
-import controller.UserController;
+import controller.*;
 import data.DataStore;
 import data.InMemoryDataStore;
 import exceptions.AuthenticationException;
-import exceptions.InvalidInputException;
+import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
-import service.CourseService;
-import service.StudentService;
-import service.TeacherService;
-import service.UserService;
+import service.*;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class CLI {
@@ -24,13 +17,16 @@ public class CLI {
     private final UserController userController;
     private final StudentController studentController;
     private final TeacherController teacherController;
+    private final EmployeeController employeeController;
     private final AuthView authView;
     private final StudentView studentView;
     private final TeacherView teacherView;
+    private final EmployeeView employeeView;
     private DataStore dataStore;
     private UserService userService;
     private StudentService studentService;
     private TeacherService teacherService;
+    private final MessageService messageService;
     private final CourseService courseService;
     private final CourseController courseController;
     private final CourseView courseView;
@@ -50,6 +46,9 @@ public class CLI {
         this.teacherService = new TeacherService(dataStore);
         this.studentController = new StudentController(studentService, courseService, studentView);
         this.teacherController = new TeacherController(teacherService, courseService, teacherView, dataStore);
+        this.employeeView = new EmployeeView(scanner);
+        this.messageService = new MessageService(dataStore);
+        this.employeeController = new EmployeeController(messageService, employeeView);
     }
 
     public void run() {
@@ -113,6 +112,8 @@ public class CLI {
             showStudentMenu((Student) user);
         } else if (user instanceof Teacher) {
             showTeacherMenu((Teacher) user);
+        } else if (user instanceof Employee) {
+            showEmployeeMenu((Employee) user);
         }
     }
 
@@ -135,6 +136,9 @@ public class CLI {
                     break;
                 case 5:
                     studentView.displayRateTeacherForm(student);
+                    break;
+                case 6:
+                    studentController.viewStudentSchedule(student);
                     break;
                 case 0:
                     return; // Return to the main menu
@@ -162,6 +166,16 @@ public class CLI {
                     String[] complaintDetails = teacherView.promptForComplaint();
                     teacherController.sendComplaint(teacher, complaintDetails[0], complaintDetails[1], complaintDetails[2]);
                     break;
+                case 5:
+                    teacherController.viewTeacherSchedule(teacher);
+                    break;
+                case 6:
+                    String recipientUsername = employeeView.promptForRecipientUsername();
+                    String messageText = employeeView.promptForMessageText();
+                    employeeController.handleSendMessage(teacher, recipientUsername, messageText);
+                case 7:
+                    employeeView.displayMessages(teacher);
+                    break;
                 case 0:
                     return; // Return to the main menu
                 default:
@@ -170,6 +184,27 @@ public class CLI {
         }
     }
 
+    private void showEmployeeMenu(Employee employee) {
+        while (true) {
+            int choice = employeeView.displayEmployeeMenu(); // Assuming you have an EmployeeView instance
+            switch (choice) {
+                case 1:
+                    // Send a message
+                    String recipientUsername = employeeView.promptForRecipientUsername();
+                    String messageText = employeeView.promptForMessageText();
+                    employeeController.handleSendMessage(employee, recipientUsername, messageText);
+                    break;
+                case 2:
+                    // View messages (replace with actual implementation)
+                    employeeView.displayMessages(employee);
+                    break;
+                case 0:
+                    return; // Return to the main menu
+                default:
+                    displayInvalidChoice();
+            }
+        }
+    }
     private void displayInvalidChoice() {
         System.out.println("Invalid choice. Please try again.");
     }

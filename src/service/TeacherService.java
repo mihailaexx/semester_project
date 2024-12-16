@@ -3,6 +3,7 @@ package service;
 import data.DataStore;
 import model.academic.Course;
 import model.academic.Mark;
+import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
 
@@ -63,5 +64,8 @@ public class TeacherService {
         System.out.println("Message: " + message);
         System.out.println("Urgency: " + urgency);
         // Here you would typically store the complaint in your data store or send it to another system
+    }
+    public Schedule getTeacherSchedule(int teacherId) {
+        return dataStore.getTeacherSchedule(teacherId);
     }
 }

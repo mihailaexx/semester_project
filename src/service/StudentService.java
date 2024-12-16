@@ -3,6 +3,7 @@ package service;
 import data.DataStore;
 import model.academic.Course;
 import model.academic.Mark;
+import model.academic.Schedule;
 import model.people.Student;
 
 import java.util.List;
@@ -48,7 +49,9 @@ public class StudentService {
     public void registerStudentForCourse(String studentId, String courseCode) {
         dataStore.addStudentToCourse(studentId, courseCode);
     }
-
+    public Schedule getStudentSchedule(String studentId) {
+        return dataStore.getStudentSchedule(studentId);
+    }
 //    public List<Mark> getStudentMarks(String studentId) {
 //        Student student = dataStore.getStudentById(studentId);
 //        // Assuming the Student class has a method to retrieve marks

@@ -3,10 +3,15 @@ package view;
 import controller.TeacherController;
 import data.DataStore;
 import model.academic.Course;
+import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TeacherView {
@@ -22,8 +27,11 @@ public class TeacherView {
         System.out.println("\nTeacher Menu:");
         System.out.println("1. View Courses");
         System.out.println("2. View Students in Course");
-        System.out.println("3. Put Mark for Student");
-        System.out.println("4. Send Complaint");
+        System.out.println("3. Put Mark for Student"); // revisit it
+        System.out.println("4. Send Complaint"); // implement it
+        System.out.println("5. View Schedule");
+        System.out.println("6. Send Message");
+        System.out.println("7. View Messages");
         System.out.println("0. Back to Main Menu");
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -166,5 +174,38 @@ public class TeacherView {
         } catch (Exception e) {
             displayComplaintFailure(e.getMessage());
         }
+    }
+
+    public void displaySchedule(Schedule schedule) {
+        System.out.println("\nTeacher Schedule:");
+        if (schedule == null) {
+            System.out.println("No schedule to display.");
+            return;
+        }
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (DayOfWeek day : DayOfWeek.values()) {
+            System.out.println(day + ":");
+            Map<LocalTime, Schedule.ScheduledClass> daySchedule = schedule.getScheduleForDay(day);
+
+            for (int hour = Schedule.START_HOUR; hour < Schedule.END_HOUR; hour++) {
+                LocalTime time = LocalTime.of(hour, 0);
+                Schedule.ScheduledClass session = daySchedule.get(time);
+                String formattedTime = time.format(timeFormatter) + " - " + time.plusHours(1).format(timeFormatter);
+
+                if (session != null) {
+                    Course course = session.getCourse();
+                    System.out.println(formattedTime + ": " + course.getCode() + " - " + course.getName() + " (" + session.getLessonType() + ")");
+                } else {
+                    System.out.println(formattedTime + ": Free");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void displayErrorMessage(String s) {
+        System.out.println("Error: " + s);
     }
 }

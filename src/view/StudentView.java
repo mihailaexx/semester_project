@@ -1,11 +1,17 @@
 package view;
 
+import enums.LESSON_TYPE;
 import model.academic.Course;
 import model.academic.Mark;
+import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class StudentView {
@@ -18,11 +24,12 @@ public class StudentView {
 
     public int displayStudentMenu() {
         System.out.println("\nStudent Menu:");
-        System.out.println("1. View Transcript");
-        System.out.println("2. View Courses");
-        System.out.println("3. Register for Course");
+        System.out.println("1. View Transcript"); // finish
+        System.out.println("2. View Courses"); // all courses
+        System.out.println("3. Register for Course"); // send request to or manager
         System.out.println("4. View Marks");
-        System.out.println("5. Rate Teacher");
+        System.out.println("5. Rate Teacher"); // implement it
+        System.out.println("6. View Schedule");
         System.out.println("0. Back to Main Menu");
         System.out.print("Enter your choice: ");
         return scanner.nextInt();
@@ -76,6 +83,36 @@ public class StudentView {
         }
     }
 
+    public void displaySchedule(Schedule schedule) {
+        System.out.println("\nStudent Schedule:");
+        if (schedule == null) {
+            System.out.println("No schedule to display.");
+            return;
+        }
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.getValue() > Schedule.NUMBER_OF_WORKING_DAYS) continue;
+            System.out.println(day + ":");
+            Map<LocalTime, Schedule.ScheduledClass> daySchedule = schedule.getScheduleForDay(day);
+
+            for (int hour = Schedule.START_HOUR; hour < Schedule.END_HOUR; hour++) {
+                LocalTime time = LocalTime.of(hour, 0);
+                Schedule.ScheduledClass session = daySchedule.get(time);
+                String formattedTime = time.format(timeFormatter) + " - " + time.plusHours(1).format(timeFormatter);
+
+                if (session != null) {
+                    Course course = session.getCourse();
+                    LESSON_TYPE lessonType = session.getLessonType();
+                    System.out.println(formattedTime + ": " + course.getCode() + " - " + course.getName() + " (" + lessonType + ")");
+                } else {
+                    System.out.println(formattedTime + ": Free");
+                }
+            }
+            System.out.println();
+        }
+    }
     public void displayRateTeacherForm(Student student) {
         scanner.nextLine();
         System.out.print("\nEnter the ID of the teacher to rate: ");
@@ -100,5 +137,7 @@ public class StudentView {
         //     System.out.println("Teacher not found.");
         // }
     }
-
+    public void displayErrorMessage(String s) {
+        System.err.println("Error: " + s);
+    }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import data.DataStore;
 import exceptions.InvalidMarkException;
+import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
 import service.CourseService;
@@ -50,7 +51,14 @@ public class TeacherController {
             teacherView.displayComplaintFailure(e.getMessage());
         }
     }
-
+    public void viewTeacherSchedule(Teacher teacher) {
+        Schedule schedule = teacherService.getTeacherSchedule(teacher.getEmployeeId());
+        if (schedule != null) {
+            teacherView.displaySchedule(schedule);
+        } else {
+            teacherView.displayErrorMessage("Could not retrieve schedule for teacher " + teacher.getEmployeeId());
+        }
+    }
     // Placeholder method for getting the current teacher
     private Teacher getCurrentTeacher() {
         return dataStore.getAllTeachers().stream().findFirst().orElse(null);
