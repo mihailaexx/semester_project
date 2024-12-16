@@ -3,7 +3,6 @@ package controller;
 import exceptions.AuthenticationException;
 import exceptions.InvalidInputException;
 import model.people.Student;
-import model.people.Teacher;
 import model.people.User;
 import service.UserService;
 import view.AuthView;
@@ -31,19 +30,31 @@ public class UserController {
         }
     }
 
-    public void handleSignup(AuthView authView, String[] details) throws InvalidInputException {
-        userService.createStudent(details);
-        authView.displaySignupSuccess();
+    public void handleSignup(AuthView authView, String[] details) {
+        try {
+            switch (details[0]) {
+                case "STUDENT":
+                    userService.createStudent(details);
+                    authView.displaySignupSuccess();
+                    break;
+                case "TEACHER":
+                    userService.createTeacher(details);
+                    authView.displaySignupSuccess();
+                    break;
+                case "EMPLOYEE":
+                    // Handle employee creation similarly
+                    break;
+                default:
+                    authView.displayErrorMessage("Invalid user type for signup.");
+            }
+        } catch (InvalidInputException e) {
+            authView.displayErrorMessage(e.getMessage());
+        } catch (Exception e) {
+            authView.displayErrorMessage("An error occurred during signup.");
+        }
     }
 
     public void registerStudentForCourse(Student student, String courseCode) {
         userService.registerStudentForCourse(student, courseCode);
     }
-
-    public void createStudent(String[] details) {
-
-    }
-
-    // Other general user-related methods can be added here
-    // Removed authenticateUser and createStudent because they are now duplicates of handleLogin and handleSignup
 }

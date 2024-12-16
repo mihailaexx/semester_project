@@ -2,10 +2,12 @@ package model.academic;
 
 import enums.LESSON_TYPE;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Schedule {
+public class Schedule implements Serializable {
+    private static final long serialVersionUID = 18L;
 
     protected final String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
     private final Pair<Course, LESSON_TYPE>[][] schedule = new Pair[14][7];

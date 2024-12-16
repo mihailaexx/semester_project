@@ -6,6 +6,7 @@ import model.academic.Mark;
 import model.people.Student;
 import model.people.Teacher;
 
+import exceptions.InvalidMarkException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class TeacherService {
         }
 
         return dataStore.getAllStudents().stream()
-                .filter(student -> student.getCourses().contains(course))
+                .filter(student -> student.getEnrolledCourses().contains(course))
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +45,7 @@ public class TeacherService {
         }
 
         Mark mark = new Mark(att1, att2, finalExam);
-        dataStore.addMarkToStudent(studentId, courseCode, mark);
+        student.addMark(course, mark);
     }
 
     public void sendComplaint(int teacherId, String studentId, String message, String urgency) {
@@ -55,5 +56,12 @@ public class TeacherService {
             System.err.println("Invalid teacher or student ID.");
             return;
         }
+
+        // In a real application, you would likely have a Complaint object or a more sophisticated
+        // mechanism for handling complaints. This is a placeholder.
+        System.out.println("Sending complaint from teacher (ID: " + teacherId + ") about student (ID: " + studentId + "):");
+        System.out.println("Message: " + message);
+        System.out.println("Urgency: " + urgency);
+        // Here you would typically store the complaint in your data store or send it to another system
     }
 }

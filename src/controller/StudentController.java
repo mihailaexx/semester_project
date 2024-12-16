@@ -21,7 +21,7 @@ public class StudentController {
     }
 
     public void viewStudentCourses(Student student) {
-        studentView.displayCourses(student.getCourses());
+        studentView.displayCourses(student.getEnrolledCourses());
     }
 
     public void registerStudentForCourse(Student student, String courseCode) {

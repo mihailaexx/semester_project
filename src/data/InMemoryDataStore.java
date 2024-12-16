@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class InMemoryDataStore implements DataStore {
 
-    private static final String DATA_FILE_PATH = "university_data.dat"; // Or separate files for each type
+    private static final String DATA_FILE_PATH = "university2_data.dat";
 
     private Map<String, User> users;
     private Map<String, Student> students;
@@ -54,47 +54,60 @@ public class InMemoryDataStore implements DataStore {
 
 
             // Create sample courses
-            Course course1 = new Course("CS101", "Introduction to Programming", 3,  1, 1);
-            Course course2 = new Course("MA202", "Linear Algebra", 4, 2, 1);
+            Course course1 = new Course("CSCI1103", "Programming Principles 1",6, "SITE");
+            Course course2 = new Course("MATH1102", "Calculus 1", 5, "SHPM");
+            Course course3 = new Course("CSCI1102", "Discrete Structures", 5, "SITE");
+            Course course4 = new Course("CSCI2106", "OOP", 5,  "SITE");
             courses.put(course1.getCode(), course1);
             courses.put(course2.getCode(), course2);
+            courses.put(course3.getCode(), course3);
+            courses.put(course4.getCode(), course4);
 
             // Create sample students
             Student student1 = new Student("Aibek", "Kaibulla", SEX.MALE, dateFormat.parse("2006-03-10"), "87081234567", "KAZAKHSTAN", "aibekpassword123", "a_kaibulla@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
-            Student student2 = new Student("Aliya", "Suleimen", SEX.FEMALE, dateFormat.parse("2005-07-18"), "87071234567", "KAZAKHSTAN", "password123", "a_suleimen@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
+            Student student2 = new Student("Mikhail", "Nepomnu", SEX.MALE, dateFormat.parse("2005-07-18"), "87071234567", "KAZAKHSTAN", "password123", "m_nepomnu@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
+            Student student3 = new Student("Djaklin", "Nepomnu1", SEX.FEMALE, dateFormat.parse("2005-08-18"), "87071234568", "KAZAKHSTAN", "password123", "d_nepomnu@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
+            Student student4 = new Student("Aliya", "Suleimen", SEX.FEMALE, dateFormat.parse("2005-07-18"), "87071234567", "KAZAKHSTAN", "password123", "a_suleimen@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
             students.put(student1.getStudentID(), student1);
             students.put(student2.getStudentID(), student2);
+            students.put(student3.getStudentID(), student3);
+            students.put(student4.getStudentID(), student4);
 
             // Create sample teachers
-            Teacher teacher1 = new Teacher("Almas", "Atymtayev", SEX.MALE, dateFormat.parse("1985-09-25"), "a.atymtayev@kbtu.kz", "password123", "87771112233", "Kazakhstan", 5000.0, "Computer Science", TEACHERDEGREE.PROFESSOR);
-            Teacher teacher2 = new Teacher("Dana", "Akhmetova", SEX.FEMALE, dateFormat.parse("1990-03-12"), "d.akhmetova@kbtu.kz", "password456", "87772223344", "Kazakhstan", 4500.0, "Computer Science", TEACHERDEGREE.ASSOCIATE_PROFESSOR);
+            Teacher teacher1 = new Teacher("Assylzhan", "Izbassar", SEX.MALE, dateFormat.parse("2000-01-01"), "a_izbassar@kbtu.kz", "password123", "87771112233", "Kazakhstan", 5000.0, "SITE", TEACHERDEGREE.LECTURER);
+            Teacher teacher2 = new Teacher("Pakizar", "Shamoi", SEX.FEMALE, dateFormat.parse("1990-01-01"), "p_shamoi@kbtu.kz", "password123", "87771112233", "Kazakhstan", 8000.0, "SITE", TEACHERDEGREE.PROFESSOR);
+            Teacher teacher3 = new Teacher("Tamiris", "Abdildaeva", SEX.FEMALE, dateFormat.parse("2000-01-01"), "t_abdildaeva@kbtu.kz", "password456", "87772223344", "Kazakhstan", 4500.0, "SITE", TEACHERDEGREE.TUTOR);
             teachers.put(teacher1.getEmployeeId(), teacher1);
             teachers.put(teacher2.getEmployeeId(), teacher2);
+            teachers.put(teacher3.getEmployeeId(), teacher3);
 
             // Assign courses to teachers
-            teacher1.addCourse(course1);
-            teacher2.addCourse(course2);
+            teacher1.addCourse(course4);
+            teacher2.addCourse(course4);
+            teacher3.addCourse(course4);
+            teacher3.addCourse(course2);
 
             // Enroll students in courses
-            student1.registerForCourse(course1);
-            student2.registerForCourse(course2);
+            student1.registerForCourse(course4);
+            student2.registerForCourse(course4);
+            student3.registerForCourse(course4);
 
             // Add users to the users map
             users.put(student1.getUsername(), student1);
             users.put(student2.getUsername(), student2);
+            users.put(student3.getUsername(), student3);
+            users.put(student4.getUsername(), student4);
+
             users.put(teacher1.getUsername(), teacher1);
             users.put(teacher2.getUsername(), teacher2);
+            users.put(teacher3.getUsername(), teacher3);
+
 
         } catch (ParseException | CourseRegistrationException e) {
             System.err.println("Error initializing test data: " + e.getMessage());
         }
     }
     // User-related methods
-    @Override
-    public User getUserByUsername(String username) {
-        return users.get(username);
-    }
-
     @Override
     public void saveUser(User user) {
         users.put(user.getUsername(), user);
@@ -104,7 +117,6 @@ public class InMemoryDataStore implements DataStore {
     @Override
     public void saveStudent(Student student) {
         students.put(student.getStudentID(), student);
-        users.put(student.getUsername(), student);
     }
 
     @Override
@@ -121,7 +133,6 @@ public class InMemoryDataStore implements DataStore {
     @Override
     public void saveTeacher(Teacher teacher) {
         teachers.put(teacher.getEmployeeId(), teacher);
-        users.put(teacher.getUsername(), teacher);
     }
 
     @Override
@@ -172,7 +183,7 @@ public class InMemoryDataStore implements DataStore {
         Course course = courses.get(courseCode);
 
         if (student != null && course != null) {
-            student.getCourses().add(course);
+            student.getEnrolledCourses().add(course);
         }
     }
 
@@ -225,7 +236,27 @@ public class InMemoryDataStore implements DataStore {
         }
         return allPapers;
     }
-
+    @Override
+    public User getUserByUsername(String username) {
+        User user = users.get(username);
+        return user;
+//        if (user != null) {
+//            // Create a new instance of User or its subclass with necessary details
+//            if (user instanceof Student) {
+//                Student student = (Student) user;
+//                return new Student(student.getName(), student.getSurname(), student.getSex(), student.getBirthDate(),
+//                        student.getPhoneNumber(), student.getCitizenship(), null, student.getEmail(),
+//                        student.getMajor(), student.getYearOfStudy(), student.getDegree(), student.getType());
+//            } else if (user instanceof Teacher) {
+//                Teacher teacher = (Teacher) user;
+//                return new Teacher(teacher.getName(), teacher.getSurname(), teacher.getSex(), teacher.getBirthDate(),
+//                        teacher.getEmail(), null, teacher.getPhoneNumber(), teacher.getCitizenship(), teacher.getSalary(),
+//                        teacher.getDepartment(), teacher.getTeacherDegree());
+//            }
+//            // ... handle other user types ...
+//        }
+//        return null;
+    }
     // Data loading and saving
     @Override
     public void loadData() {

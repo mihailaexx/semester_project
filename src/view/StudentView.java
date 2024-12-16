@@ -10,9 +10,10 @@ import java.util.Scanner;
 
 public class StudentView {
     private final Scanner scanner;
-
-    public StudentView(Scanner scanner) {
+    private final CourseView courseView;
+    public StudentView(Scanner scanner, CourseView courseView) {
         this.scanner = scanner;
+        this.courseView = courseView;
     }
 
     public int displayStudentMenu() {
@@ -28,18 +29,26 @@ public class StudentView {
     }
 
     public void displayTranscript(Student student) {
-        student.viewTranscript();
+        System.out.println("Transcript for: " + student.getName() + " " + student.getSurname() + " (ID: " + student.getStudentID() + ")");
+        for (Course course : student.getEnrolledCourses()) {
+            Mark mark = student.getMarks().get(course);
+            if (mark != null) {
+                double finalGrade = student.calculateFinalGrade(mark);
+                double gradePoint = student.gradeToGpa(finalGrade);
+
+                System.out.printf("Course: %s (Credits: %d) Final Grade: %.2f (GPA: %.2f)%n",
+                        course.getName(), course.getCredits(), finalGrade, gradePoint);
+            } else {
+                System.out.println("Course: " + course.getName() + " (No marks yet)");
+            }
+        }
+        student.calculateGpa();
+        System.out.printf("Overall GPA: %.2f%n", student.getGpa());
     }
 
     public void displayCourses(List<Course> courses) {
         System.out.println("\nCourses:");
-        if (courses.isEmpty()) {
-            System.out.println("No courses to display.");
-        } else {
-            for (Course course : courses) {
-                System.out.println(course); // Assuming Course.toString() provides a good representation
-            }
-        }
+        courseView.displayCourses(courses);
     }
 
     public String promptForCourseRegistration() {
@@ -57,7 +66,14 @@ public class StudentView {
     }
 
     public void displayMarks(Student student) {
-        student.viewMarks();
+        for (Course course : student.getEnrolledCourses()) {
+            Mark mark = student.getMarks().get(course);
+            if (mark != null) {
+                System.out.println(course.getName() + ": " + mark);
+            } else {
+                System.out.println(course.getName() + ": No marks yet.");
+            }
+        }
     }
 
     public void displayRateTeacherForm(Student student) {

@@ -24,7 +24,7 @@ public class StudentService {
         transcript.append("Transcript for: ").append(student.getName()).append(" ").append(student.getSurname())
                 .append(" (ID: ").append(student.getStudentID()).append(")\n");
 
-        for (Course course : student.getCourses()) {
+        for (Course course : student.getEnrolledCourses()) {
             Mark mark = course.getMarkForStudent(student);
             if (mark != null) {
                 transcript.append("Course: ").append(course.getName())
@@ -42,7 +42,7 @@ public class StudentService {
 
     public List<Course> getStudentCourses(String studentId) {
         Student student = dataStore.getStudentById(studentId);
-        return (student != null) ? student.getCourses() : List.of();
+        return (student != null) ? student.getEnrolledCourses() : List.of();
     }
 
     public void registerStudentForCourse(String studentId, String courseCode) {

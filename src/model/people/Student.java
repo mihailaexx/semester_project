@@ -46,7 +46,7 @@ public class Student extends User implements Serializable {
     public double getGpa() { return gpa; }
     public STUDENTDEGREE getDegree() { return degree; }
     public STUDENTTYPE getType() { return type; }
-
+    public Map<Course, Mark> getMarks() { return marks; }
     // Setters
     public void setMajor(String major) { this.major = major; }
     public void setYearOfStudy(int yearOfStudy) { this.yearOfStudy = yearOfStudy;}
@@ -69,41 +69,12 @@ public class Student extends User implements Serializable {
         enrolledCourses.add(course);
     }
 
-    public void viewTranscript() {
-        System.out.println("Transcript for: " + getName() + " " + getSurname() + " (ID: " + studentId + ")");
-        for (Course course : enrolledCourses) {
-            Mark mark = marks.get(course);
-            if (mark != null) {
-                double finalGrade = calculateFinalGrade(mark);
-                double gradePoint = gradeToGpa(finalGrade);
-
-                System.out.printf("Course: %s (Credits: %d) Final Grade: %.2f (GPA: %.2f)%n",
-                        course.getName(), course.getCredits(), finalGrade, gradePoint);
-            } else {
-                System.out.println("Course: " + course.getName() + " (No marks yet)");
-            }
-        }
-        calculateGpa();
-        System.out.printf("Overall GPA: %.2f%n", gpa);
-    }
-
-    public void viewMarks() {
-        for (Course course : enrolledCourses) {
-            Mark mark = marks.get(course);
-            if (mark != null) {
-                System.out.println(course.getName() + ": " + mark);
-            } else {
-                System.out.println(course.getName() + ": No marks yet.");
-            }
-        }
-    }
-
     public void addMark(Course course, Mark mark) {
         marks.put(course, mark);
         calculateGpa();
     }
 
-    private double calculateFinalGrade(Mark m) {
+    public double calculateFinalGrade(Mark m) {
         double att1 = (m.getAtt1() != null) ? m.getAtt1() : 0;
         double att2 = (m.getAtt2() != null) ? m.getAtt2() : 0;
         double finalExam = (m.getFinalExam() != null) ? m.getFinalExam() : 0;
@@ -111,7 +82,7 @@ public class Student extends User implements Serializable {
         return att1 * 0.3 + att2 * 0.3 + finalExam * 0.4;
     }
 
-    private double gradeToGpa(double finalGrade) {
+    public double gradeToGpa(double finalGrade) {
         if (finalGrade >= 95) return 4.0;
         else if (finalGrade >= 90) return 3.67;
         else if (finalGrade >= 85) return 3.33;
@@ -125,7 +96,7 @@ public class Student extends User implements Serializable {
         else return 0.0;
     }
 
-    private void calculateGpa() {
+    public void calculateGpa() {
         double totalWeightedGrade = 0;
         int totalCredits = 0;
 
@@ -162,6 +133,8 @@ public class Student extends User implements Serializable {
     @Override
     public String toString() {
         return "Student{" +
+                "name='" + getName() + '\'' +
+                "surname='" + getSurname() + '\'' +
                 "studentId='" + studentId + '\'' +
                 ", major='" + major + '\'' +
                 ", yearOfStudy=" + yearOfStudy +
@@ -172,8 +145,4 @@ public class Student extends User implements Serializable {
                 '}';
     }
 
-
-    public List<Course> getCourses() {
-        return enrolledCourses;
-    }
 }

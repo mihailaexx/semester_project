@@ -38,3 +38,7 @@ to a Teacher who is a Researcher (PROFESSOR - researcher, 4th year have advisor,
 FOR NOW:
 Finalize all classes (e.g., ensure Teacher, OrManager, FinanceManager, Student, Admin have complete, working logic).
 Add search, filter, sort methods in University and managers.
+
+
+Debug Mark
+Finish rate teacher, Course registration, Schedule, ID Generation, 

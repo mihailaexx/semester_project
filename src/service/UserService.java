@@ -1,10 +1,12 @@
 package service;
 
 import data.DataStore;
+import enums.TEACHERDEGREE;
 import exceptions.AuthenticationException;
 import exceptions.CourseRegistrationException;
 import exceptions.InvalidInputException;
 import model.people.Student;
+import model.people.Teacher;
 import model.people.User;
 import model.academic.Course;
 import enums.SEX;
@@ -37,7 +39,6 @@ public class UserService {
 
             int yearOfStudy = Integer.parseInt(details[9]);
             STUDENTTYPE studentType = STUDENTTYPE.valueOf(details[8].toUpperCase());
-
             String email = details[0].toLowerCase().charAt(0) + "_" + details[1].toLowerCase() + "@kbtu.kz";
 
             Student student = new Student(
@@ -54,7 +55,7 @@ public class UserService {
                     STUDENTDEGREE.BACHELOR, // student degree
                     studentType // student type
             );
-
+            dataStore.saveUser(student);
             dataStore.saveStudent(student);
         } catch (ParseException e) {
             throw new InvalidInputException("Invalid date format for birth date. Use yyyy-MM-dd.", e);
@@ -65,6 +66,34 @@ public class UserService {
         }
     }
 
+    public void createTeacher(String[] details) throws InvalidInputException {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDate = dateFormat.parse(details[11]);
+
+            Teacher teacher = new Teacher(
+                    details[1],  // first name
+                    details[2],  // last name
+                    SEX.valueOf(details[3].toUpperCase()),
+                    birthDate,
+                    details[6],  // email
+                    details[7],  // password
+                    details[4],  // phone number
+                    details[5],  // citizenship
+                    Double.parseDouble(details[10]), // salary
+                    details[8],  // department
+                    TEACHERDEGREE.valueOf(details[9].toUpperCase()) // teacher degree
+            );
+            dataStore.saveUser(teacher);
+            dataStore.saveTeacher(teacher);
+        } catch (ParseException e) {
+            throw new InvalidInputException("Invalid date format for birth date. Use yyyy-MM-dd.", e);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid number format for salary.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Invalid input: " + e.getMessage(), e);
+        }
+    }
     public void registerStudentForCourse(Student student, String courseCode) {
         Course course = dataStore.getCourseByCode(courseCode);
         if (course != null) {

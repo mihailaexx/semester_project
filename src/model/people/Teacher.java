@@ -55,11 +55,6 @@ public class Teacher extends Employee implements Serializable {
         return ratings.stream().mapToInt(Integer::intValue).average().orElse(0);
     }
 
-    public void viewCourses() {
-        for (Course course : courses) {
-            System.out.println(course);
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -79,6 +74,8 @@ public class Teacher extends Employee implements Serializable {
     @Override
     public String toString() {
         return "Teacher{" +
+                "name='" + getName() + '\'' +
+                "surname='" + getSurname() + '\'' +
                 "department='" + department + '\'' +
                 ", teacherDegree=" + teacherDegree +
                 ", courses=" + courses +

@@ -1,5 +1,6 @@
 package view;
 
+import controller.CourseController;
 import controller.StudentController;
 import controller.TeacherController;
 import controller.UserController;
@@ -10,6 +11,7 @@ import exceptions.InvalidInputException;
 import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
+import service.CourseService;
 import service.StudentService;
 import service.TeacherService;
 import service.UserService;
@@ -29,6 +31,9 @@ public class CLI {
     private UserService userService;
     private StudentService studentService;
     private TeacherService teacherService;
+    private final CourseService courseService;
+    private final CourseController courseController;
+    private final CourseView courseView;
 
     public CLI() {
         this.scanner = new Scanner(System.in);
@@ -36,12 +41,15 @@ public class CLI {
         this.userService = new UserService(dataStore);
         this.userController = new UserController(userService);
         this.authView = new AuthView(scanner);
-        this.studentView = new StudentView(scanner);
-        this.teacherView = new TeacherView(scanner);
+        this.courseService = new CourseService(dataStore);
+        this.courseView = new CourseView(scanner);
+        this.courseController = new CourseController(courseService, courseView);
+        this.studentView = new StudentView(scanner, courseView);
+        this.teacherView = new TeacherView(scanner, courseView);
         this.studentService = new StudentService(dataStore);
         this.teacherService = new TeacherService(dataStore);
-        this.studentController = new StudentController(studentService, null, studentView);
-        this.teacherController = new TeacherController(teacherService, null, teacherView);
+        this.studentController = new StudentController(studentService, courseService, studentView);
+        this.teacherController = new TeacherController(teacherService, courseService, teacherView, dataStore);
     }
 
     public void run() {
@@ -95,15 +103,9 @@ public class CLI {
         }
     }
 
-    private void handleSignup() {
-        String[] details = authView.promptForStudentDetails();
-        try {
-            userController.handleSignup(authView, details);
-        } catch (InvalidInputException e) {
-            displayErrorMessage(e.getMessage());
-        } catch (Exception e) {
-            displayErrorMessage("An error occurred during signup.");
-        }
+    private void handleSignup()  {
+        String[] details = authView.promptForUserDetails();
+        userController.handleSignup(authView, details);
     }
 
     public void showUserMenu(User user) {
@@ -154,10 +156,11 @@ public class CLI {
                     teacherController.viewStudentsInCourse(teacher, courseCode, dataStore);
                     break;
                 case 3:
-                    teacherView.displayMarkInputForm(teacher, dataStore);
+                    teacherView.displayMarkInputForm(teacher, dataStore, teacherController);
                     break;
                 case 4:
-                    teacherView.displayComplaintForm();
+                    String[] complaintDetails = teacherView.promptForComplaint();
+                    teacherController.sendComplaint(teacher, complaintDetails[0], complaintDetails[1], complaintDetails[2]);
                     break;
                 case 0:
                     return; // Return to the main menu

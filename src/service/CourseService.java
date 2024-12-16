@@ -3,9 +3,9 @@ package service;
 import data.DataStore;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
+import model.academic.Mark;
 import model.people.Student;
 import model.people.Teacher;
-import model.academic.Mark;
 
 public class CourseService {
     private final DataStore dataStore;
@@ -31,6 +31,7 @@ public class CourseService {
             throw new CourseRegistrationException("Course not found: " + courseCode);
         }
     }
+
     public void addMark(Teacher teacher, String courseCode, String studentId, double att1, double att2, double finalExam) {
         Course course = dataStore.getCourseByCode(courseCode);
         Student student = dataStore.getStudentById(studentId);
@@ -42,4 +43,19 @@ public class CourseService {
             System.err.println("Failed to add mark: invalid course, student, or teacher not assigned to course.");
         }
     }
+
+    public void updateCourse(Course updatedCourse) {
+        dataStore.saveCourse(updatedCourse);
+    }
+
+    public void removeCourse(String courseCode) {
+        Course courseToRemove = dataStore.getCourseByCode(courseCode);
+        if (courseToRemove != null) {
+            dataStore.getAllCourses().remove(courseToRemove);
+        } else {
+            System.err.println("Failed to remove course: course not found.");
+        }
+    }
+
+    // Add other methods as needed
 }

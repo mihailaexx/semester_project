@@ -12,28 +12,21 @@ public class Course implements Serializable {
     private String code;
     private String name;
     private int credits;
-    private int year;
-    private int semester;
+    private String major;
 
-    private Schedule schedule;
     private List<Teacher> instructors;
     private Map<Student, Mark> studentMarks;
 
-    public Course(String code, String name, int credits, int year, int semester) {
+    public Course(String code, String name, int credits, String major) {
         this.code = code;
         this.name = name;
         this.credits = credits;
-        this.year = year;
-        this.semester = semester;
-        this.schedule = new Schedule();
+        this.major = major;
         this.instructors = new ArrayList<>();
         this.studentMarks = new HashMap<>();
     }
 
     public void addInstructor(Teacher teacher) {instructors.add(teacher);}
-    public void addSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
     public void updateStudentMark(Student student, double mark, int attestationIndex) {
         Mark m = studentMarks.get(student);
         if (m == null) {
@@ -42,27 +35,34 @@ public class Course implements Serializable {
         m.updateMark(mark, attestationIndex);
         studentMarks.put(student, m);
     }
-    public Schedule getSchedule() {
-        return schedule;
-    }
     public Mark getMarkForStudent(Student s) { return studentMarks.get(s);}
     public String getCode() {return code;}
     public String getName() {return name;}
     public int getCredits() {return credits;}
-    public int getYear() {return year;}
-    public int getSemester() {return semester;}
     public List<Teacher> getInstructors() {return instructors;}
+    public String getMajor() { return major; }
+    public void setCode(String code) { this.code = code; }
+    public void setCredits(int credits) { this.credits = credits; }
+    public void setMajor(String major) { this.major = major; }
+    public void setInstructors(List<Teacher> instructors) {this.instructors = instructors;}
+    public void setName(String name) { this.name = name; }
 
+    public void addStudentMark(Student student, Mark mark) {
+        studentMarks.put(student, mark);
+    }
     @Override
     public String toString() {
         return "Course[" +
                 "code=" + code +
                 ", name=" + name +
                 ", credits=" + credits +
-                ", year=" + year +
-                ", semester=" + semester +
                 ", instructors=" + instructors +
-                ", schedule=" + schedule +
                 ']';
     }
+
+
+
+//
+//    public void displayCourses(List<Course> courses) {
+//    }
 }
