@@ -136,4 +136,8 @@ public class UserService {
             throw new InvalidInputException("Invalid input: " + e.getMessage(), e);
         }
     }
+
+    //    public void createOrManager(String[] details) throws InvalidInputException
+    //    public void createFinanceManager(String[] details) throws InvalidInputException
+
 }

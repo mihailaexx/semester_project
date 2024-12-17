@@ -6,6 +6,7 @@ import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
 import model.academic.Schedule;
+import model.manager.OrManager;
 import model.misc.Message;
 import model.people.Employee;
 import model.people.Student;
@@ -33,6 +34,7 @@ public class InMemoryDataStore implements DataStore {
     private Map<String, Student> students;
     private Map<Integer, Teacher> teachers;
     private Map<Integer, Employee> employees;
+    private Map<Integer, OrManager> orManagers;
     private Map<String, Course> courses;
     private Map<Integer, Researcher> researchers;
     private Map<Integer, ResearchPaper> researchPapers;
@@ -47,7 +49,7 @@ public class InMemoryDataStore implements DataStore {
         researchers = new HashMap<>();
         researchPapers = new HashMap<>();
         userMessages = new HashMap<>();
-
+        orManagers = new HashMap<>();
 //        System.out.println("Data file path: " + new File(DATA_FILE_PATH).getAbsolutePath());
 
         // Load initial data from files (if available) or hardcode some initial data
@@ -90,6 +92,10 @@ public class InMemoryDataStore implements DataStore {
             employees.put(teacher3.getEmployeeId(), teacher3);
 
 
+            OrManager orManager = new OrManager("OR", "Manager", SEX.FEMALE, dateFormat.parse("1980-05-20"), "a_madina@kbtu.kz", "password123", "87771234567", "KAZAKHSTAN", 5000.0);
+            employees.put(orManager.getEmployeeId(), orManager);
+            users.put(orManager.getUsername(), orManager);
+            orManagers.put(orManager.getEmployeeId(), orManager);
 
             // Assign courses to teachers
             teacher1.addCourse(course4);

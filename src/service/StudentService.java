@@ -59,7 +59,6 @@ public class StudentService {
 //    }
 
     public void rateTeacher(String studentId, String teacherId, int rating) {
-        // Assuming a method in DataStore to find and rate a teacher
 //        dataStore.rateTeacher(studentId, teacherId, rating);
     }
 }

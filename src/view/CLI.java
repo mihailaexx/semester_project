@@ -4,6 +4,9 @@ import controller.*;
 import data.DataStore;
 import data.InMemoryDataStore;
 import exceptions.AuthenticationException;
+import model.academic.Course;
+import model.manager.FinanceManager;
+import model.manager.OrManager;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
@@ -18,14 +21,17 @@ public class CLI {
     private final StudentController studentController;
     private final TeacherController teacherController;
     private final EmployeeController employeeController;
+    private final OrManagerController orManagerController;
     private final AuthView authView;
     private final StudentView studentView;
     private final TeacherView teacherView;
     private final EmployeeView employeeView;
+    private final OrManagerView orManagerView;
     private DataStore dataStore;
     private UserService userService;
     private StudentService studentService;
     private TeacherService teacherService;
+    private OrManagerService orManagerService;
     private final MessageService messageService;
     private final CourseService courseService;
     private final CourseController courseController;
@@ -47,8 +53,11 @@ public class CLI {
         this.studentController = new StudentController(studentService, courseService, studentView);
         this.teacherController = new TeacherController(teacherService, courseService, teacherView, dataStore);
         this.employeeView = new EmployeeView(scanner);
+        this.orManagerView = new OrManagerView(scanner);
+        this.orManagerService = new OrManagerService(dataStore);
         this.messageService = new MessageService(dataStore);
         this.employeeController = new EmployeeController(messageService, employeeView);
+        this.orManagerController = new OrManagerController(orManagerService, orManagerView);
     }
 
     public void run() {
@@ -112,10 +121,15 @@ public class CLI {
             showStudentMenu((Student) user);
         } else if (user instanceof Teacher) {
             showTeacherMenu((Teacher) user);
-        } else if (user instanceof Employee) {
+        } else if (user instanceof Employee && !(user instanceof OrManager) && !(user instanceof FinanceManager)) {
             showEmployeeMenu((Employee) user);
+        } else if (user instanceof OrManager) {
+            showOrManagerMenu((OrManager) user);
+        } else if (user instanceof FinanceManager) {
+            showFinanceManagerMenu((FinanceManager) user);
         }
     }
+
 
     private void showStudentMenu(Student student) {
         while (true) {
@@ -195,15 +209,21 @@ public class CLI {
                     employeeController.handleSendMessage(employee, recipientUsername, messageText);
                     break;
                 case 2:
-                    // View messages (replace with actual implementation)
                     employeeView.displayMessages(employee);
                     break;
                 case 0:
-                    return; // Return to the main menu
+                    return;
                 default:
                     displayInvalidChoice();
             }
         }
+    }
+
+    private void showOrManagerMenu(OrManager orManager) {
+        orManagerController.handleOrManagerMenu(orManager);
+    }
+
+    private void showFinanceManagerMenu(FinanceManager user) {
     }
     private void displayInvalidChoice() {
         System.out.println("Invalid choice. Please try again.");
