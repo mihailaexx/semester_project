@@ -4,38 +4,47 @@ import model.people.Employee;
 import java.util.Date;
 import java.util.Objects;
 
-public class Message {
-    private Employee sender;
-    private String text;
-    private Date timestamp;
+import model.people.User;
 
-    public Message(Employee sender, String text) {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Message implements Serializable {
+    private static final long serialVersionUID = 19L;
+
+    private User sender;
+    private User recipient;
+    private String messageText;
+    private Date sentAt;
+
+    public Message(User sender, User recipient, String messageText) {
         this.sender = sender;
-        this.text = text;
-        this.timestamp = new Date();
+        this.recipient = recipient;
+        this.messageText = messageText;
+        this.sentAt = new Date();
     }
 
-    public Employee getSender() { return sender; }
-    public String getText() { return text; }
-    public Date getTimestamp() { return timestamp; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Message message)) return false;
-        return Objects.equals(getSender(), message.getSender()) && Objects.equals(getText(), message.getText()) && Objects.equals(getTimestamp(), message.getTimestamp());
+    public User getSender() {
+        return sender;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSender(), getText(), getTimestamp());
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public Date getSentAt() {
+        return sentAt;
     }
 
     @Override
     public String toString() {
-        return "Message[" +
-                "sender=" + sender +
-                ", text='" + text + '\'' +
-                ", timestamp=" + timestamp +
-                ']';
+        return "From: " + sender.getUsername() + "\n" +
+                "To: " + recipient.getUsername() + "\n" +
+                "Sent at: " + sentAt + "\n" +
+                "Message: " + messageText;
     }
 }

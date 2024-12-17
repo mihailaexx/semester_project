@@ -2,106 +2,84 @@ package model.people;
 
 import enums.SEX;
 import enums.TEACHERDEGREE;
-import model.misc.School;
-import model.misc.University;
 import model.academic.Course;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
-public class Teacher extends Employee implements Comparable<Employee> {
-    private School school;
+public class Teacher extends Employee implements Serializable {
+    private static final long serialVersionUID = 4L;
 
-    private Vector<Course> courses;
-    private TEACHERDEGREE degree;
-    private Vector<Integer> ratings;
+    private String department; // Replaces School, as a Teacher belongs to a department
+    private TEACHERDEGREE teacherDegree; // e.g., Professor, Assistant Professor, etc.
+    private List<Course> courses;
+    private List<Integer> ratings;
 
-    public void sync(University university) {
-        university.addEmployee(this);
+    public Teacher(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary, String department, TEACHERDEGREE teacherDegree) {
+        super(name, surname, sex, birthDate, email, password, phoneNumber, citizenship, salary);
+        this.department = department;
+        this.teacherDegree = teacherDegree;
+        this.courses = new ArrayList<>();
+        this.ratings = new ArrayList<>();
     }
 
-    public Teacher(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship, String password, double salary, School school, TEACHERDEGREE degree) {
-        super(ID, name, surname, sex, birthDate, phoneNumber, citizenship, password, salary);
-        this.school = school; school.addEmployee(this); // school.getUniversity().addEmployee(this);
-        this.courses = new Vector<Course>();
-        this.degree = degree;
-        this.ratings = new Vector<>();
+    // Getters
+    public String getDepartment() { return department; }
+    public TEACHERDEGREE getTeacherDegree() { return teacherDegree; }
+    public List<Course> getCourses() { return courses; }
 
+    // Setters
+    public void setDepartment(String department) { this.department = department; }
+    public void setTeacherDegree(TEACHERDEGREE title) {
+        this.teacherDegree = teacherDegree;
     }
 
+    // Other methods
 
     public void addCourse(Course course) {
         courses.add(course);
-        course.addInstructor(this);
+    }
+    public void removeCourse(Course course) {
+        courses.remove(course);
     }
 
-    public void sendComplaint(Teacher dean, Vector<Student> students, String complaint, String urgencyLevel) {
-        dean.receiveComplaint(this, complaint, urgencyLevel);
-    }
-
-    public void receiveComplaint(Teacher teacher, String complaint, String urgencyLevel) {
-        System.out.println("Dean received complaint: " + complaint + " with urgency " + urgencyLevel);
-    }
-
-    public void viewCourses() {
-        for (Course course : courses) {
-            System.out.println(course);
-        }
-    }
-
-//    public void updateDiscipline(Discipline discipline_to_edit, Discipline new_discipline) {
-//        // Teacher can't update discipline by itself, instead should be sent message for manager to update
-//        // the course accordingly
-//        for (Discipline d : disciplines) {
-//            if (d.equals(discipline_to_edit)) {
-//                d = new_discipline;
-//            }
-//        }
-//    }
-
-    public void updateMark(Student student, Course course, double mark, int i) {
-        if (!courses.contains(course)) {
-            System.out.println("Teacher is not assigned to this course.");
-            return;
-        }
-
-        course.updateStudentMark(student, mark, i);
-        System.out.println("Mark updated for " + student.getName() + " " + student.getSurname() + " in course " + course.getName());
-    }
     public void addRating(int rating) {
         ratings.add(rating);
     }
 
     public double getAverageRating() {
         if (ratings.isEmpty()) return 0;
-        return ratings.stream().mapToInt(r->r).average().orElse(0);
+        return ratings.stream().mapToInt(Integer::intValue).average().orElse(0);
     }
 
-    @Override
-    public int compareTo(@NotNull Employee o) {
-        return Double.compare(this.getSalary(), o.getSalary());
-    }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Teacher teacher)) return false;
+        if (this == o) return true;
+        if (!(o instanceof Teacher)) return false;
         if (!super.equals(o)) return false;
-        return Objects.equals(school, teacher.school) && Objects.equals(courses, teacher.courses) && degree == teacher.degree;
+        Teacher teacher = (Teacher) o;
+        return Objects.equals(department, teacher.department) &&
+                teacherDegree == teacher.teacherDegree;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), school, courses, degree);
+        return Objects.hash(super.hashCode(), department, teacherDegree);
     }
 
     @Override
     public String toString() {
-        return "Teacher[[" + super.toString() +
-                "], school=" + school +
-                ", disciplines=" + courses +
-                ", degree=" + degree +
-                ']';
+        return "Teacher{" +
+                "name='" + getName() + '\'' +
+                "surname='" + getSurname() + '\'' +
+                "department='" + department + '\'' +
+                ", teacherDegree=" + teacherDegree +
+                ", courses=" + courses +
+                ", ratings=" + ratings +
+                "} " + super.toString();
     }
 }

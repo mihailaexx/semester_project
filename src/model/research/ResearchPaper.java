@@ -1,12 +1,15 @@
 package model.research;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Vector;
 
 import enums.CITATIONFORMAT;
 
-public class ResearchPaper {
+public class ResearchPaper implements Serializable {
+    private static final long serialVersionUID = 10L;
+
     private String title;
     private Vector<String> authors;
     private Date publicationDate;

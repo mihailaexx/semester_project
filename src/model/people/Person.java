@@ -2,41 +2,25 @@ package model.people;
 
 import enums.SEX;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class Person implements Cloneable {
-    private String ID; // ИИН
+public abstract class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private String surname;
     private SEX sex;
     private Date birthDate;
-    private String phoneNumber;
-    private String citizenship;
-    private double money;
 
-    public Person(String ID, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship) {
-        if (ID.substring(0, 6).equals(String.valueOf(birthDate.getYear()).substring(2,4)+String.format("%02d", birthDate.getMonth())+String.format("%02d", birthDate.getDate()))
-                && ID.length() == 12
-                && ID.matches("[0-9]+")
-//                && ( (ID.substring(7,7).equals("0") && citizenship.equals("Kazakhstan")) || (ID.substring(7,7).equals("6") && sex.equals("female") && birthDate.getYear()>=2000) || (ID.substring(7,7).equals("5") && sex.equals("male") && birthDate.getYear()>=2000) || (ID.substring(7,7).equals("4") && sex.equals("female") && birthDate.getYear()>=1900) || (ID.substring(7,7).equals("3") && sex.equals("female") && birthDate.getYear()>=1900))
-        ) {
-            this.ID = ID;
-        } else {
-            throw new IllegalArgumentException("invalid ID");
-        }
+    public Person(String name, String surname, SEX sex, Date birthDate) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
         this.birthDate = birthDate;
-        this.phoneNumber = phoneNumber;
-        this.citizenship = citizenship;
-        this.money = 0;
     }
 
-    public String getID() {
-        return ID;
-    }
     public String getName() {
         return name;
     }
@@ -49,51 +33,35 @@ public abstract class Person implements Cloneable {
     public Date getBirthDate() {
         return birthDate;
     }
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public String getCitizenship() {
-        return citizenship;
-    }
-    public double getMoney() {
-        return money;
-    }
-    public void addMoney(double money) {
-        this.money += money;
-    }
+    public void setName(String name) {this.name = name;}
+    public void setSurname(String surname) {this.surname = surname;}
+    public void setSex(SEX sex) { this.sex = sex; }
+    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
+
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Person person)) return false;
-        return Double.compare(getMoney(), person.getMoney()) == 0 && Objects.equals(getID(), person.getID()) && Objects.equals(getName(), person.getName()) && Objects.equals(getSurname(), person.getSurname()) && getSex() == person.getSex() && Objects.equals(getBirthDate(), person.getBirthDate()) && Objects.equals(getPhoneNumber(), person.getPhoneNumber()) && Objects.equals(getCitizenship(), person.getCitizenship());
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name) &&
+                Objects.equals(surname, person.surname) &&
+                sex == person.sex &&
+                Objects.equals(birthDate, person.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getID(), getName(), getSurname(), getSex(), getBirthDate(), getPhoneNumber(), getCitizenship(), getMoney());
+        return Objects.hash(name, surname, sex, birthDate);
     }
 
     @Override
     public String toString() {
-        return "Person[" +
-                "ID='" + ID + '\'' +
-                ", name='" + name + '\'' +
+        return "Person{" +
+                "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", sex=" + sex +
                 ", birthDate=" + birthDate +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", citizenship='" + citizenship + '\'' +
-                ", money=" + money +
-                ']';
-    }
-
-    @Override
-    public Person clone() {
-        try {
-            Person clone = (Person) super.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+                '}';
     }
 }
