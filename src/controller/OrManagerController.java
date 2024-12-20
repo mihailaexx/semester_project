@@ -1,8 +1,12 @@
 package controller;
 
+import exceptions.CourseRegistrationException;
 import model.manager.OrManager;
+import model.manager.Request;
 import service.OrManagerService;
 import view.OrManagerView;
+
+import java.util.List;
 
 public class OrManagerController {
     private final OrManagerService orManagerService;
@@ -13,7 +17,7 @@ public class OrManagerController {
         this.orManagerView = orManagerView;
     }
 
-    public void handleOrManagerMenu(OrManager orManager) {
+    public void handleOrManagerMenu()  {
         while (true) {
             int choice = orManagerView.displayOrManagerMenu();
             switch (choice) {
@@ -34,7 +38,7 @@ public class OrManagerController {
                     orManagerView.displayMessage("Statistical report created.");
                     break;
                 case 0:
-                    return;
+                    return; // Back to Main Menu
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }
@@ -52,7 +56,7 @@ public class OrManagerController {
                     orManagerService.updateUser();
                     break;
                 case 0:
-                    return;
+                    return; // Back to OrManager Menu
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }
@@ -64,23 +68,25 @@ public class OrManagerController {
             int choice = orManagerView.displayCourseManagementMenu();
             switch (choice) {
                 case 1:
-                    orManagerService.addNewCourse();
+//                    orManagerService.addCourse();
                     break;
                 case 2:
-                    orManagerService.updateCourse();
+//                    orManagerService.updateCourse();
                     break;
                 case 3:
-                    orManagerService.removeCourse();
+//                    orManagerService.removeCourse();
                     break;
                 case 4:
-                    orManagerService.viewCourse();
+//                    orManagerService.viewCourse();
                     break;
                 case 5:
-                    orManagerService.addCourseSession();
+//                    orManagerService.addCourseSession();
+                    break;
                 case 6:
-                    orManagerService.assignCourseToTeacher();
+//                    orManagerService.assignCourseToTeacher();
+                    break;
                 case 0:
-                    return;
+                    return; // Back to OrManager Menu
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }
@@ -92,17 +98,36 @@ public class OrManagerController {
             int choice = orManagerView.displayRegistrationManagementMenu();
             switch (choice) {
                 case 1:
-                    orManagerService.approveRegistrationRequest();
+                    viewPendingRequests();
                     break;
                 case 2:
-                    orManagerService.rejectRegistrationRequest();
+                    approveRegistrationRequest();
+                    break;
+                case 3:
+                    rejectRegistrationRequest();
                     break;
                 case 0:
-                    return;
+                    return; // Back to OrManager Menu
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }
         }
+    }
+    private void viewPendingRequests() {
+        List<Request> pendingRequests = orManagerService.getPendingRequests();
+        orManagerView.displayPendingRequests(pendingRequests);
+    }
+
+    private void approveRegistrationRequest() {
+        int requestId = orManagerView.promptForRequestId();
+        orManagerService.approveRegistrationRequest(requestId);
+        orManagerView.displayMessage("Request approved.");
+    }
+
+    private void rejectRegistrationRequest() {
+        int requestId = orManagerView.promptForRequestId();
+        orManagerService.rejectRegistrationRequest(requestId);
+        orManagerView.displayMessage("Request rejected.");
     }
 
     private void handleScheduleManagement() {
@@ -110,16 +135,16 @@ public class OrManagerController {
             int choice = orManagerView.displayScheduleManagementMenu();
             switch (choice) {
                 case 1:
-                    orManagerService.viewCourseSchedule();
+//                    orManagerService.viewCourseSchedule();
                     break;
                 case 2:
-                    orManagerService.viewStudentSchedule();
+//                    orManagerService.viewStudentSchedule();
                     break;
                 case 3:
-                    orManagerService.viewTeacherSchedule();
+//                    orManagerService.viewTeacherSchedule();
                     break;
                 case 0:
-                    return;
+                    return; // Back to OrManager Menu
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }

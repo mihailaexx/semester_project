@@ -26,6 +26,8 @@ public class AuthView {
         System.out.println("1. Student");
         System.out.println("2. Teacher");
         System.out.println("3. Employee");
+        System.out.println("4. OrManager"); //Add OrManager,FinanceManager
+        //Add OrManager,FinanceManager
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -37,6 +39,8 @@ public class AuthView {
                 return promptForTeacherDetails();
             case 3:
                 return promptForEmployeeDetails();
+            case 4:
+                return promptForOrManagerDetails();
             default:
                 System.out.println("Invalid choice. Please try again.");
                 return promptForUserDetails();
@@ -44,7 +48,7 @@ public class AuthView {
     }
     public String[] promptForStudentDetails() {
         System.out.println("Please enter your details for signing up as a student.");
-        scanner.nextLine(); // Consume any leftover newline
+        scanner.nextLine();
         System.out.print("First Name: ");
         String firstName = scanner.nextLine();
 
@@ -113,7 +117,7 @@ public class AuthView {
 
         System.out.print("Salary: ");
         double salary = scanner.nextDouble();
-        scanner.nextLine(); // Consume leftover newline
+        scanner.nextLine();
 
         System.out.print("Date of Birth (yyyy-MM-dd): ");
         String dateOfBirth = scanner.nextLine();
@@ -153,6 +157,39 @@ public class AuthView {
         return new String[]{"EMPLOYEE", firstName, lastName, sex, email, password, phoneNumber, citizenship, String.valueOf(salary), dateOfBirth};
     }
 
+    public String[] promptForOrManagerDetails() {
+        System.out.println("Please enter your details for signing up as an OR Manager.");
+        scanner.nextLine();
+        System.out.print("First Name: ");
+        String firstName = scanner.nextLine();
+
+        System.out.print("Last Name: ");
+        String lastName = scanner.nextLine();
+
+        System.out.print("Sex (MALE/FEMALE): ");
+        String sex = scanner.nextLine().toUpperCase();
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.print("Citizenship: ");
+        String citizenship = scanner.nextLine();
+
+        System.out.print("Salary: ");
+        double salary = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.print("Date of Birth (yyyy-MM-dd): ");
+        String dateOfBirth = scanner.nextLine();
+
+        return new String[]{"ORMANAGER", firstName, lastName, sex, email, password, phoneNumber, citizenship, String.valueOf(salary), dateOfBirth};
+    }
     public void displayLoginSuccess(String username) {
         System.out.println("Login successful! Welcome, " + username + "!");
     }

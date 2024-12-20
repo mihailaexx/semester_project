@@ -12,45 +12,55 @@ import java.util.stream.Collectors;
 public class OrManager extends Employee implements Serializable {
     private static final long serialVersionUID = 8L;
 
+    private List<Request> requests;
+
 
     public OrManager(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary) {
         super(name, surname, sex, birthDate, email, password, phoneNumber, citizenship, salary);
     }
 
-    public void approveRegistrationRequest(Student student, Course course) {
-        try {
-            student.registerForCourse(course);
-            System.out.println("Registration request approved for student " + student.getName() + " " + student.getSurname() + " for course " + course.getName());
-        } catch (CourseRegistrationException e) {
-            System.out.println("Could not approve registration request: " + e.getMessage());
-        }
+    public void addRequest(Request request) throws CourseRegistrationException {
+        this.requests.add(request);
     }
 
-    public void addCourse(Course course) {
-        // Add course to the in-memory data store or a CourseService
-        System.out.println("Course added: " + course.getName());
+    public List<Request> getRequests() {
+        return requests;
     }
 
-    public void assignCourseToTeacher(Course course, Teacher teacher) {
-        if (teacher.getCourses().contains(course)) {
-            System.out.println("Teacher " + teacher.getName() + " " + teacher.getSurname() + " is already assigned to course " + course.getName());
-        } else {
-            teacher.addCourse(course);
-            course.addInstructor(teacher);
-            System.out.println("Assigned course " + course.getName() + " to teacher " + teacher.getName() + " " + teacher.getSurname());
-        }
-    }
-
-    public void removeCourse(Course course) {
-        // Remove course from the in-memory data store or a CourseService
-        System.out.println("Course removed: " + course.getName());
-    }
-
-    public void updateCourse(Course oldCourse, Course newCourse) {
-        // Update course in the in-memory data store or a CourseService
-        System.out.println("Course updated: " + oldCourse.getName() + " to " + newCourse.getName());
-    }
-
+//    public void approveRegistrationRequest(Student student, Course course) {
+//        try {
+//            student.registerForCourse(course);
+//            System.out.println("Registration request approved for student " + student.getName() + " " + student.getSurname() + " for course " + course.getName());
+//        } catch (CourseRegistrationException e) {
+//            System.out.println("Could not approve registration request: " + e.getMessage());
+//        }
+//    }
+//
+//    public void addCourse(Course course) {
+//        // Add course to the in-memory data store or a CourseService
+//        System.out.println("Course added: " + course.getName());
+//    }
+//
+//    public void assignCourseToTeacher(Course course, Teacher teacher) {
+//        if (teacher.getCourses().contains(course)) {
+//            System.out.println("Teacher " + teacher.getName() + " " + teacher.getSurname() + " is already assigned to course " + course.getName());
+//        } else {
+//            teacher.addCourse(course);
+//            course.addInstructor(teacher);
+//            System.out.println("Assigned course " + course.getName() + " to teacher " + teacher.getName() + " " + teacher.getSurname());
+//        }
+//    }
+//
+//    public void removeCourse(Course course) {
+//        // Remove course from the in-memory data store or a CourseService
+//        System.out.println("Course removed: " + course.getName());
+//    }
+//
+//    public void updateCourse(Course oldCourse, Course newCourse) {
+//        // Update course in the in-memory data store or a CourseService
+//        System.out.println("Course updated: " + oldCourse.getName() + " to " + newCourse.getName());
+//    }
+//
 //    public void createStatisticalReport() {
 //        // This method now assumes the data is managed by DataStore
 //        System.out.println("Statistical Report:");

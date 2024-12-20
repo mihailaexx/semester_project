@@ -18,12 +18,12 @@ public class TeacherService {
         this.dataStore = dataStore;
     }
 
-    public List<Course> getTeacherCourses(int teacherId) {
+    public List<Course> getTeacherCourses(String teacherId) {
         Teacher teacher = dataStore.getTeacherById(teacherId);
         return (teacher != null) ? teacher.getCourses() : List.of();
     }
 
-    public List<Student> getStudentsInCourse(int teacherId, String courseCode) {
+    public List<Student> getStudentsInCourse(String teacherId, String courseCode) {
         Teacher teacher = dataStore.getTeacherById(teacherId);
         Course course = dataStore.getCourseByCode(courseCode);
         if (teacher == null || course == null || !teacher.getCourses().contains(course)) {
@@ -35,7 +35,7 @@ public class TeacherService {
                 .collect(Collectors.toList());
     }
 
-    public void addMark(int teacherId, String courseCode, String studentId, double att1, double att2, double finalExam) {
+    public void addMark(String teacherId, String courseCode, String studentId, double att1, double att2, double finalExam) {
         Teacher teacher = dataStore.getTeacherById(teacherId);
         Course course = dataStore.getCourseByCode(courseCode);
         Student student = dataStore.getStudentById(studentId);
@@ -49,7 +49,18 @@ public class TeacherService {
         student.addMark(course, mark);
     }
 
-    public void sendComplaint(int teacherId, String studentId, String message, String urgency) {
+    public void addRating(String teacherId, String studentId, int rating) {
+        Teacher teacher = dataStore.getTeacherById(teacherId);
+        Student student = dataStore.getStudentById(studentId);
+
+        if (teacher != null && student != null) {
+            teacher.addRating(student, rating);
+            dataStore.saveTeacher(teacher);
+        } else {
+            System.err.println("Invalid teacher or student ID.");
+        }
+    }
+    public void sendComplaint(String teacherId, String studentId, String message, String urgency) {
         Teacher teacher = dataStore.getTeacherById(teacherId);
         Student student = dataStore.getStudentById(studentId);
 
@@ -65,7 +76,7 @@ public class TeacherService {
         System.out.println("Urgency: " + urgency);
         // Here you would typically store the complaint in your data store or send it to another system
     }
-    public Schedule getTeacherSchedule(int teacherId) {
+    public Schedule getTeacherSchedule(String teacherId) {
         return dataStore.getTeacherSchedule(teacherId);
     }
 }

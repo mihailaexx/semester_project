@@ -15,21 +15,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    public void handleLogin(AuthView authView, CLI cli) {
-        String[] credentials = authView.promptForCredentials();
-        try {
-            User user = userService.authenticateUser(credentials[0], credentials[1]);
-            if (user != null) {
-                authView.displayLoginSuccess(user.getUsername());
-                cli.showUserMenu(user);
-            } else {
-                authView.displayLoginFailure();
-            }
-        } catch (AuthenticationException e) {
-            cli.displayErrorMessage(e.getMessage());
-        }
-    }
-
     public void handleSignup(AuthView authView, String[] details) {
         try {
             switch (details[0]) {
@@ -42,8 +27,11 @@ public class UserController {
                     authView.displaySignupSuccess();
                     break;
                 case "EMPLOYEE":
-                    // Handle employee creation similarly
                     userService.createEmployee(details);
+                    authView.displaySignupSuccess();
+                    break;
+                case "ORMANAGER":
+                    userService.createOrManager(details);
                     authView.displaySignupSuccess();
                     break;
                 default:
@@ -54,9 +42,5 @@ public class UserController {
         } catch (Exception e) {
             authView.displayErrorMessage("An error occurred during signup.");
         }
-    }
-
-    public void registerStudentForCourse(Student student, String courseCode) {
-        userService.registerStudentForCourse(student, courseCode);
     }
 }

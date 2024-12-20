@@ -41,7 +41,7 @@ public class TeacherView {
 
     public void displayCourses(List<Course> courses) {
         System.out.println("\nCourses:");
-        courseView.displayCourses(courses);//        System.out.println("\nCourses:");
+        courseView.displayCourses(courses);
     }
 
     public String promptForCourseSelection() {

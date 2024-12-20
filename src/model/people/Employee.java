@@ -3,15 +3,12 @@ package model.people;
 import enums.SEX;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Employee extends User implements Serializable {
     private static final long serialVersionUID = 3L;
 
-    private int employeeId;
+    private String employeeId;
     private double salary;
     private Date hireDate;
 //    private Map<User, String> messages; // Key: sender, Value: message content
@@ -25,16 +22,17 @@ public abstract class Employee extends User implements Serializable {
     }
 
     // Getters and setters
-    public int getEmployeeId() { return employeeId;}
+    public String getEmployeeId() { return employeeId;}
     public double getSalary() { return salary; }
     public void setSalary(double salary) { this.salary = salary; }
     public Date getHireDate() {return hireDate; }
 
     // Other methods
 
-    private int generateEmployeeId() {
-        // Implement a more robust employee ID generation strategy here
-        return (int) (System.currentTimeMillis() % 100000); // Simple example for now
+    private String generateEmployeeId() {
+        String prefix = (this instanceof Teacher) ? "T" : "E"; // Differentiate between Teacher and other Employee types
+        String uniqueDigits = String.format("%05d", new Random().nextInt(100000));
+        return prefix + uniqueDigits;
     }
 
 //    public void sendMessage(User recipient, String message) { messages.put(recipient, message); }

@@ -5,6 +5,7 @@ import enums.TEACHERDEGREE;
 import exceptions.AuthenticationException;
 import exceptions.CourseRegistrationException;
 import exceptions.InvalidInputException;
+import model.manager.OrManager;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
@@ -137,6 +138,34 @@ public class UserService {
         }
     }
 
+    public void createOrManager(String[] details) throws InvalidInputException {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDate = dateFormat.parse(details[9]);
+
+            OrManager orManager = new OrManager(
+                    details[1], // first name
+                    details[2], // last name
+                    SEX.valueOf(details[3].toUpperCase()),
+                    birthDate,
+                    details[4], // email
+                    details[5], // password
+                    details[6], // phone number
+                    details[7], // citizenship
+                    Double.parseDouble(details[8]) // salary
+            );
+
+            dataStore.saveEmployee(orManager);// Assuming OrManager is a type of Employee
+            dataStore.saveUser(orManager);
+            dataStore.saveOrManager(orManager);
+        } catch (ParseException e) {
+            throw new InvalidInputException("Invalid date format for birth date. Use yyyy-MM-dd.", e);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid number format. Check salary.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Invalid input: " + e.getMessage(), e);
+        }
+    }
     //    public void createOrManager(String[] details) throws InvalidInputException
     //    public void createFinanceManager(String[] details) throws InvalidInputException
 
