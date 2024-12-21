@@ -48,7 +48,6 @@ public class AuthView {
     }
     public String[] promptForStudentDetails() {
         System.out.println("Please enter your details for signing up as a student.");
-        scanner.nextLine();
         System.out.print("First Name: ");
         String firstName = scanner.nextLine();
 

@@ -103,14 +103,15 @@ public class InMemoryDataStore implements DataStore {
             users.put(orManager.getUsername(), orManager);
             orManagers.put(orManager.getEmployeeId(), orManager);
 
-            teacher1.addCourse(course4);
-            teacher2.addCourse(course4);
-            teacher3.addCourse(course4);
-            teacher3.addCourse(course2);
+            teacher1.addCourse(course1);
+            teacher1.addCourse(course2);
+            teacher1.addCourse(course3);
+            teacher1.addCourse(course2);
 
-            student1.registerForCourse(course4);
+            student2.registerForCourse(course1);
+            student2.registerForCourse(course2);
+            student2.registerForCourse(course3);
             student2.registerForCourse(course4);
-            student3.registerForCourse(course4);
 
             users.put(student1.getUsername(), student1);
             users.put(student2.getUsername(), student2);
