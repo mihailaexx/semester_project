@@ -60,6 +60,20 @@ public class TeacherService {
             System.err.println("Invalid teacher or student ID.");
         }
     }
+    public Schedule getTeacherSchedule(String teacherId) {
+        Teacher teacher = dataStore.getTeacherById(teacherId);
+        if (teacher != null) {
+            Schedule schedule = new Schedule();
+            for (Course course : teacher.getCourses()) {
+                Schedule courseSchedule = course.getSchedule();
+                if (courseSchedule != null) {
+                    schedule.merge(courseSchedule); // Assuming you have a merge method in Schedule
+                }
+            }
+            return schedule;
+        }
+        return null;
+    }
     public void sendComplaint(String teacherId, String studentId, String message, String urgency) {
         Teacher teacher = dataStore.getTeacherById(teacherId);
         Student student = dataStore.getStudentById(studentId);
@@ -75,8 +89,5 @@ public class TeacherService {
         System.out.println("Message: " + message);
         System.out.println("Urgency: " + urgency);
         // Here you would typically store the complaint in your data store or send it to another system
-    }
-    public Schedule getTeacherSchedule(String teacherId) {
-        return dataStore.getTeacherSchedule(teacherId);
     }
 }

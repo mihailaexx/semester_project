@@ -99,5 +99,4 @@ public class CourseController {
             courseView.displayErrorMessage("Failed to add course session: " + e.getMessage());
         }
     }
-    // Add other methods for handling course-related actions
 }

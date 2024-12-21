@@ -82,7 +82,18 @@ public class StudentService {
     }
 
     public Schedule getStudentSchedule(String studentId) {
-        return dataStore.getStudentSchedule(studentId);
+        Student student = dataStore.getStudentById(studentId);
+        if (student != null) {
+            Schedule schedule = new Schedule();
+            for (Course course : student.getEnrolledCourses()) {
+                Schedule courseSchedule = course.getSchedule();
+                if (courseSchedule != null) {
+                    schedule.merge(courseSchedule); // add merge method
+                }
+            }
+            return schedule;
+        }
+        return null;
     }
 //    public List<Mark> getStudentMarks(String studentId) {
 //        Student student = dataStore.getStudentById(studentId);

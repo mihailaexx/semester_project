@@ -63,10 +63,21 @@ public class CourseService {
     }
 
     public void addCourseSession(String courseCode, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
-        dataStore.addCourseSession(courseCode, lessonType, day, time);
+        Course course = dataStore.getCourseByCode(courseCode);
+        if (course != null) {
+            if (course.getSchedule() == null) {
+                course.setSchedule(new Schedule());
+            }
+            course.getSchedule().addCourseSession(course, lessonType, day, time);
+            dataStore.saveCourse(course);
+        } else {
+            System.err.println("Course not found: " + courseCode);
+        }
     }
+
     public Schedule getCourseSchedule(String courseCode) {
-        return dataStore.getCourseSchedule(courseCode);
+        Course course = dataStore.getCourseByCode(courseCode);
+        return (course != null) ? course.getSchedule() : null;
     }
 
     public void assignCourseToTeacher(String courseCode, String teacherId) {

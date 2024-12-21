@@ -32,7 +32,6 @@ public class OrManagerView {
                     ", Name: " + student.getName() +
                     ", Surname: " + student.getSurname() +
                     ", GPA: " + student.getGpa());
-            // Add other relevant fields as needed
         }
     }
 
@@ -61,7 +60,6 @@ public class OrManagerView {
                     ", Name: " + employee.getName() +
                     ", Surname: " + employee.getSurname() +
                     ", Salary: " + employee.getSalary());
-            // Add other relevant fields as needed
         }
     }
     public int displayOrManagerMenu() {

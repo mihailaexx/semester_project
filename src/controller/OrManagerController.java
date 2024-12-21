@@ -259,13 +259,13 @@ public class OrManagerController {
             int choice = orManagerView.displayScheduleManagementMenu();
             switch (choice) {
                 case 1:
-//                    orManagerService.viewCourseSchedule();
+                    viewCourseSchedule();
                     break;
                 case 2:
-//                    orManagerService.viewStudentSchedule();
+                    viewStudentSchedule();
                     break;
                 case 3:
-//                    orManagerService.viewTeacherSchedule();
+                    viewTeacherSchedule();
                     break;
                 case 0:
                     return; // Back to OrManager Menu
