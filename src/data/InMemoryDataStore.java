@@ -212,6 +212,11 @@ public class InMemoryDataStore implements DataStore {
     }
 
     @Override
+    public void removeCourse(Course course) {
+        courses.remove(course.getCode());
+    }
+
+    @Override
     public void addStudentToCourse(String studentId, String courseCode) {
         Student student = students.get(studentId);
         Course course = courses.get(courseCode);

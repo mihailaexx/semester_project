@@ -2,6 +2,7 @@ package view;
 
 import enums.LESSON_TYPE;
 import model.academic.Course;
+import model.academic.Schedule;
 import model.people.Teacher;
 
 import java.time.DayOfWeek;
@@ -125,5 +126,12 @@ public class CourseView {
     public void displayMessage(String message) {
         System.out.println(message);
     }
-    // Add other methods as needed for displaying course-related information
+    public void displaySchedule(Schedule schedule) {
+        System.out.println("Course Schedule:");
+        if (schedule == null) {
+            System.out.println("No schedule to display.");
+            return;
+        }
+        schedule.display();
+    }
 }

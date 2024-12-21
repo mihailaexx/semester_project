@@ -1,20 +1,28 @@
 package controller;
 
+import enums.LESSON_TYPE;
 import exceptions.CourseRegistrationException;
+import model.academic.Course;
 import model.manager.OrManager;
 import model.manager.Request;
+import service.CourseService;
 import service.OrManagerService;
+import service.TeacherService;
 import view.OrManagerView;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 public class OrManagerController {
     private final OrManagerService orManagerService;
     private final OrManagerView orManagerView;
+    private final CourseService courseService;
 
-    public OrManagerController(OrManagerService orManagerService, OrManagerView orManagerView) {
+    public OrManagerController(OrManagerService orManagerService, OrManagerView orManagerView, CourseService courseService) {
         this.orManagerService = orManagerService;
         this.orManagerView = orManagerView;
+        this.courseService = courseService;
     }
 
     public void handleOrManagerMenu()  {
@@ -37,6 +45,17 @@ public class OrManagerController {
                     orManagerService.createStatisticalReport();
                     orManagerView.displayMessage("Statistical report created.");
                     break;
+                case 6:
+                    orManagerService.viewStudentsByGPA();
+                    break;
+                case 7:
+                    orManagerService.viewTeachersAlphabetically();
+                    break;
+                case 8:
+                    orManagerService.viewEmployees();
+                    break;
+                case 9:
+                    orManagerService.viewCourses();
                 case 0:
                     return; // Back to Main Menu
                 default:
@@ -68,22 +87,22 @@ public class OrManagerController {
             int choice = orManagerView.displayCourseManagementMenu();
             switch (choice) {
                 case 1:
-//                    orManagerService.addCourse();
+                    addNewCourse();
                     break;
                 case 2:
-//                    orManagerService.updateCourse();
+                    updateCourse();
                     break;
                 case 3:
-//                    orManagerService.removeCourse();
+                    removeCourse();
                     break;
                 case 4:
-//                    orManagerService.viewCourse();
+                    viewCourse();
                     break;
                 case 5:
-//                    orManagerService.addCourseSession();
+                    addCourseSession();
                     break;
                 case 6:
-//                    orManagerService.assignCourseToTeacher();
+                    assignCourseToTeacher();
                     break;
                 case 0:
                     return; // Back to OrManager Menu
@@ -92,7 +111,6 @@ public class OrManagerController {
             }
         }
     }
-
     private void handleRegistrationManagement() {
         while (true) {
             int choice = orManagerView.displayRegistrationManagementMenu();
@@ -111,6 +129,112 @@ public class OrManagerController {
                 default:
                     orManagerView.displayErrorMessage("Invalid choice. Please try again.");
             }
+        }
+    }
+
+    public void addNewCourse() {
+        String code = orManagerView.promptForCourseCode();
+        String name = orManagerView.promptForCourseName();
+        int credits = orManagerView.promptForCredits();
+        String major = orManagerView.promptForMajor();
+
+        try {
+            Course course = new Course(code, name, credits, major);
+            orManagerService.addCourse(course);
+            orManagerView.displayMessage("Course added successfully.");
+        } catch (Exception e) {
+            orManagerView.displayErrorMessage("Failed to add course: " + e.getMessage());
+        }
+    }
+
+    public void updateCourse() {
+        String courseCode = orManagerView.promptForCourseCode();
+        Course course = courseService.getCourseByCode(courseCode);
+
+        if (course == null) {
+            orManagerView.displayErrorMessage("Course not found.");
+            return;
+        }
+
+        String name = orManagerView.promptForCourseName();
+        int credits = orManagerView.promptForCredits();
+        String major = orManagerView.promptForMajor();
+
+        course.setName(name);
+        course.setCredits(credits);
+        course.setMajor(major);
+
+        try {
+            orManagerService.updateCourse(courseCode);
+            orManagerView.displayMessage("Course updated successfully.");
+        } catch (Exception e) {
+            orManagerView.displayErrorMessage("Failed to update course: " + e.getMessage());
+        }
+    }
+
+    public void removeCourse() {
+        String courseCode = orManagerView.promptForCourseCode();
+        try {
+            orManagerService.removeCourse(courseCode);
+            orManagerView.displayMessage("Course removed successfully.");
+        } catch (Exception e) {
+            orManagerView.displayErrorMessage("Failed to remove course: " + e.getMessage());
+        }
+    }
+
+    public void viewCourse() {
+        String courseCode = orManagerView.promptForCourseCode();
+        orManagerService.viewCourse(courseCode);
+    }
+
+    public void addCourseSession() {
+        String courseCode = orManagerView.promptForCourseCode();
+        Course course = orManagerService.getCourseByCode(courseCode);
+        if (course == null) {
+            orManagerView.displayErrorMessage("Course not found: " + courseCode);
+            return;
+        }
+
+        try {
+            LESSON_TYPE lessonType = orManagerView.promptForLessonType();
+            DayOfWeek dayOfWeek = orManagerView.promptForDayOfWeek();
+            LocalTime startTime = orManagerView.promptForTime();
+
+            orManagerService.addCourseSession(course, lessonType, dayOfWeek, startTime);
+            orManagerView.displayMessage("Course session added successfully.");
+        } catch (IllegalArgumentException e) {
+            orManagerView.displayErrorMessage("Invalid input: " + e.getMessage());
+        }
+    }
+
+    public void assignCourseToTeacher() {
+        String courseCode = orManagerView.promptForCourseCode();
+        String teacherId = orManagerView.promptForTeacherId();
+
+        try {
+            orManagerService.assignCourseToTeacher(courseCode, teacherId);
+            orManagerView.displayMessage("Course assigned to teacher successfully.");
+        } catch (NumberFormatException e) {
+            orManagerView.displayErrorMessage("Invalid teacher ID format.");
+        } catch (Exception e) {
+            orManagerView.displayErrorMessage("Failed to assign course to teacher: " + e.getMessage());
+        }
+    }
+
+    public void viewCourseSchedule() {
+        String courseCode = orManagerView.promptForCourseCode();
+        orManagerService.viewCourseSchedule(courseCode);
+    }
+    public void viewStudentSchedule() {
+        String studentId = orManagerView.promptForStudentId();
+        orManagerService.viewStudentSchedule(studentId);
+    }
+    public void viewTeacherSchedule() {
+        String teacherId = orManagerView.promptForTeacherId();
+        try {
+            orManagerService.viewTeacherSchedule(teacherId);
+        } catch (NumberFormatException e) {
+            orManagerView.displayErrorMessage("Invalid teacher ID format.");
         }
     }
     private void viewPendingRequests() {

@@ -157,6 +157,7 @@ public interface DataStore {
      * @return The Schedule object for the course, or null if the course is not found or has no schedule.
      */
     Schedule getCourseSchedule(String courseCode);
+    public void removeCourse(Course course);
 
     /**
      * Adds a student to a course.

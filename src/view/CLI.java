@@ -52,7 +52,6 @@ public class CLI {
         this.studentView = new StudentView(scanner, courseView, teacherService);
         this.teacherView = new TeacherView(scanner, courseView);
         this.userView = new UserView(scanner);
-        this.orManagerService = new OrManagerService(dataStore, userView);
         this.studentService = new StudentService(dataStore, orManagerService);
         this.studentController = new StudentController(studentService, courseService, studentView);
         this.teacherController = new TeacherController(teacherService, courseService, teacherView, dataStore);
@@ -60,7 +59,8 @@ public class CLI {
         this.orManagerView = new OrManagerView(scanner);
         this.messageService = new MessageService(dataStore);
         this.employeeController = new EmployeeController(messageService, employeeView);
-        this.orManagerController = new OrManagerController(orManagerService, orManagerView);
+        this.orManagerService = new OrManagerService(dataStore, userView, courseView, studentView, teacherView, orManagerView);
+        this.orManagerController = new OrManagerController(orManagerService, orManagerView, courseService);
     }
 
     public void run() {

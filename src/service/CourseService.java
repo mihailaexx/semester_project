@@ -68,5 +68,19 @@ public class CourseService {
     public Schedule getCourseSchedule(String courseCode) {
         return dataStore.getCourseSchedule(courseCode);
     }
+
+    public void assignCourseToTeacher(String courseCode, String teacherId) {
+        Course course = getCourseByCode(courseCode);
+        Teacher teacher = dataStore.getTeacherById(teacherId);
+
+        if (course != null && teacher != null) {
+            teacher.addCourse(course);
+            course.addInstructor(teacher);
+            dataStore.saveCourse(course);
+            dataStore.saveTeacher(teacher);
+        } else {
+            System.err.println("Course or teacher not found.");
+        }
+    }
     // Add other methods as needed
 }

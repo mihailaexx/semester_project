@@ -1,18 +1,22 @@
 package service;
 
 import data.DataStore;
+import enums.LESSON_TYPE;
 import enums.SEX;
 import enums.STUDENTTYPE;
 import enums.TEACHERDEGREE;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
+import model.academic.Schedule;
 import model.manager.Request;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
-import view.UserView;
+import view.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,15 +25,19 @@ import java.util.stream.Collectors;
 public class OrManagerService {
     private final DataStore dataStore;
     private final UserView userView;
+    private final CourseView courseView;
+    private final StudentView studentView;
+    private final TeacherView teacherView;
+    private final OrManagerView orManagerView;
 
 
-    public OrManagerService(DataStore dataStore, UserView userView) {
+    public OrManagerService(DataStore dataStore, UserView userView, CourseView courseView, StudentView studentView, TeacherView teacherView, OrManagerView orManagerView) {
         this.dataStore = dataStore;
         this.userView = userView;
-    }
-
-    public void addRegistrationRequest(Request request) {
-        dataStore.addRegistrationRequest(request);
+        this.courseView = courseView;
+        this.studentView = studentView;
+        this.teacherView = teacherView;
+        this.orManagerView = orManagerView;
     }
 
     public void approveRegistrationRequest(int requestId) {
@@ -50,7 +58,6 @@ public class OrManagerService {
                     System.out.println("Registration request " + requestId + " approved.");
                 } catch (CourseRegistrationException e) {
                     System.err.println("Error approving registration request: " + e.getMessage());
-                    // Consider updating the request status to indicate failure
                     request.setStatus("FAILED");
                 } finally {
                     dataStore.saveRequest(request);
@@ -109,31 +116,23 @@ public class OrManagerService {
         System.out.println("\nEmployee Statistics:");
         System.out.println("Total Employees: " + employees.size());
 
-        // Additional statistics can be added here
     }
 
     public void viewStudentsByGPA() {
         List<Student> students = dataStore.getAllStudents();
         students.sort(Comparator.comparing(Student::getGpa).reversed());
-
-        System.out.println("Students sorted by GPA (highest to lowest):");
-        for (Student student : students) {
-            System.out.println(student.getName() + " " + student.getSurname() + " - GPA: " + student.getGpa());
-        }
+        orManagerView.displayStudents(students);
     }
 
     public void viewTeachersAlphabetically() {
         List<Teacher> teachers = dataStore.getAllTeachers();
         teachers.sort(Comparator.comparing(Teacher::getSurname).thenComparing(Teacher::getName));
-
-        System.out.println("Teachers sorted alphabetically (by surname, then name):");
-        for (Teacher teacher : teachers) {
-            System.out.println(teacher.getSurname() + ", " + teacher.getName());
-        }
+        orManagerView.displayTeachers(teachers);
     }
 
     public void viewCourses() {
-        dataStore.getAllCourses();
+        List<Course> courses = dataStore.getAllCourses();
+        courseView.displayCourses(courses);
     }
 
     public void viewTeachers() {
@@ -145,7 +144,8 @@ public class OrManagerService {
     }
 
     public void viewEmployees() {
-        dataStore.getAllEmployees();
+        List<Employee> employees = dataStore.getAllEmployees();
+        orManagerView.displayEmployees(employees);
     }
 
     public void viewUsers() {
@@ -215,29 +215,86 @@ public class OrManagerService {
         }
     }
     public void addCourse(Course course) {
+        dataStore.saveCourse(course);
     }
 
     public void updateCourse(String courseCode) {
+        Course course = getCourseByCode(courseCode);
+        dataStore.updateCourse(course);
     }
 
     public void removeCourse(String courseCode) {
+        Course courseToRemove = dataStore.getCourseByCode(courseCode);
+        if (courseToRemove != null) {
+            dataStore.removeCourse(courseToRemove);
+        } else {
+            System.err.println("Failed to remove course: course not found.");
+        }
+    }
+
+    public Course getCourseByCode(String courseCode) {
+        return dataStore.getCourseByCode(courseCode);
     }
 
     public void viewCourse(String courseCode) {
+        Course course = dataStore.getCourseByCode(courseCode);
+        if (course != null) {
+            orManagerView.displayCourse(course);
+        } else {
+            orManagerView.displayErrorMessage("Course not found for code: " + courseCode);
+        }
     }
 
-    public void addCourseSession(String courseCode) {
+    public void addCourseSession(Course course, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
+        if (course != null) {
+            if (course.getSchedule() == null) {
+                course.setSchedule(new Schedule());
+            }
+            course.getSchedule().addCourseSession(course, lessonType, day, time);
+            dataStore.saveCourse(course);
+        } else {
+            System.err.println("Course not found.");
+        }
     }
 
-    public void assignCourseToTeacher(String courseCode, int teacherId) {
+    public void assignCourseToTeacher(String courseCode, String teacherId) {
+        Course course = dataStore.getCourseByCode(courseCode);
+        Teacher teacher = dataStore.getTeacherById(teacherId);
+
+        if (course != null && teacher != null) {
+            teacher.addCourse(course);
+            course.addInstructor(teacher);
+            dataStore.saveCourse(course);
+            dataStore.saveTeacher(teacher);
+        } else {
+            System.err.println("Course or teacher not found.");
+        }
     }
 
     public void viewCourseSchedule(String courseCode) {
+        Schedule schedule = dataStore.getCourseSchedule(courseCode);
+        if (schedule != null) {
+            courseView.displaySchedule(schedule);
+        } else {
+            courseView.displayErrorMessage("Schedule not found for course: " + courseCode);
+        }
     }
 
     public void viewStudentSchedule(String studentId) {
+        Schedule schedule = dataStore.getStudentSchedule(studentId);
+        if (schedule != null) {
+            studentView.displaySchedule(schedule);
+        } else {
+            studentView.displayErrorMessage("Schedule not found for student ID: " + studentId);
+        }
     }
 
-    public void viewTeacherSchedule(int teacherId) {
+    public void viewTeacherSchedule(String teacherId) {
+        Schedule schedule = dataStore.getTeacherSchedule(teacherId);
+        if (schedule != null) {
+            teacherView.displaySchedule(schedule);
+        } else {
+            teacherView.displayErrorMessage("Schedule not found for teacher ID: " + teacherId);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class Student extends User implements Serializable {
     private String major;
     private int yearOfStudy;
     private List<Course> enrolledCourses;
-    private Map<Course, Mark> marks; // Keep track of marks separately
+    private Map<Course, Mark> marks;
     private double gpa;
     private STUDENTDEGREE degree;
     private STUDENTTYPE type;
@@ -60,7 +60,6 @@ public class Student extends User implements Serializable {
     public void setMajor(String major) { this.major = major; }
     public void setYearOfStudy(int yearOfStudy) { this.yearOfStudy = yearOfStudy;}
     public void setType(STUDENTTYPE studenttype) {this.type = studenttype;}
-    // Other methods
 
     private String generateStudentID() {
         String enrollmentYear = String.valueOf(2024 - yearOfStudy).substring(2);
@@ -74,14 +73,6 @@ public class Student extends User implements Serializable {
     public int getTotalCurrentCredits() {
         return enrolledCourses.stream().mapToInt(Course::getCredits).sum();
     }
-
-//    public void requestRegistration(Course course) {
-//        // Assuming a method to get the next unique request ID
-//        Request request = new Request(this, course);
-//        // Send this request to the OrManagerService
-//        // orManagerService.submitRegistrationRequest(request);
-//    }
-
 
     public void registerForCourse(Course course) throws CourseRegistrationException {
         if (getTotalCurrentCredits() + course.getCredits() > MAX_CREDITS) {

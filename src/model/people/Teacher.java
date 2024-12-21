@@ -34,8 +34,6 @@ public class Teacher extends Employee implements Serializable {
         this.teacherDegree = teacherDegree;
     }
 
-    // Other methods
-
     public void addCourse(Course course) {
         courses.add(course);
     }
