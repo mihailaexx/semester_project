@@ -13,7 +13,7 @@ public class Request implements Serializable {
     private int requestId;
     private Student student;
     private Course course;
-    private String status; // e.g., "PENDING", "APPROVED", "REJECTED"
+    private String status;
 
     public Request(Student student, Course course) {
         this.requestId = generateRequestId();

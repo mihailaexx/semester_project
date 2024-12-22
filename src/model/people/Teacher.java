@@ -12,7 +12,7 @@ public class Teacher extends Employee implements Serializable {
     private static final long serialVersionUID = 4L;
 
     private String department;
-    private TEACHERDEGREE teacherDegree; //  Professor, Assistant Professor, etc.
+    private TEACHERDEGREE teacherDegree;
     private List<Course> courses;
     private Map<Student, Integer> ratings;
 

@@ -2,7 +2,6 @@ package controller;
 
 import enums.LESSON_TYPE;
 import model.academic.Course;
-import model.people.Teacher;
 import service.CourseService;
 import view.CourseView;
 

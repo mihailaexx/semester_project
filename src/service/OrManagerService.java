@@ -42,18 +42,14 @@ public class OrManagerService {
     public void approveRegistrationRequest(int requestId) {
         Request request = dataStore.getRequestById(requestId);
         if (request != null) {
-            // Check if the request is still pending
             if (request.getStatus().equals("PENDING")) {
                 try {
-                    // Enroll the student in the course
                     request.getStudent().registerForCourse(request.getCourse());
                     request.setStatus("APPROVED");
 
-                    // Update student and course in the data store
                     dataStore.updateStudent(request.getStudent());
                     dataStore.updateCourse(request.getCourse());
 
-                    // Optionally, notify the student about the approval
                     System.out.println("Registration request " + requestId + " approved.");
                 } catch (CourseRegistrationException e) {
                     System.err.println("Error approving registration request: " + e.getMessage());

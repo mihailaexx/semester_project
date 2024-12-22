@@ -1,13 +1,10 @@
 package controller;
 
 import enums.LESSON_TYPE;
-import exceptions.CourseRegistrationException;
 import model.academic.Course;
-import model.manager.OrManager;
 import model.manager.Request;
 import service.CourseService;
 import service.OrManagerService;
-import service.TeacherService;
 import view.OrManagerView;
 
 import java.time.DayOfWeek;

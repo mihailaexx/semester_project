@@ -87,18 +87,13 @@ public class StudentService {
             for (Course course : student.getEnrolledCourses()) {
                 Schedule courseSchedule = course.getSchedule();
                 if (courseSchedule != null) {
-                    schedule.merge(courseSchedule); // add merge method
+                    schedule.merge(courseSchedule);
                 }
             }
             return schedule;
         }
         return null;
     }
-//    public List<Mark> getStudentMarks(String studentId) {
-//        Student student = dataStore.getStudentById(studentId);
-//        // Assuming the Student class has a method to retrieve marks
-////        return (student != null) ? student.getMarks() : List.of();
-//    }
 
     public void addRating(Student student, String teacherId, int rating, TeacherService teacherService) {
         teacherService.addRating(teacherId, student.getStudentID(), rating);

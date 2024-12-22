@@ -1,12 +1,8 @@
 package controller;
 
-import exceptions.AuthenticationException;
 import exceptions.InvalidInputException;
-import model.people.Student;
-import model.people.User;
 import service.UserService;
 import view.AuthView;
-import view.CLI;
 
 public class UserController {
     private final UserService userService;

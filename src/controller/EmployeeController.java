@@ -1,6 +1,5 @@
 package controller;
 
-
 import service.MessageService;
 import view.EmployeeView;
 import model.people.Employee;

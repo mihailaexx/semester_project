@@ -21,13 +21,12 @@ public abstract class Employee extends User implements Serializable {
         this.messages = new HashMap<>();
     }
 
-    // Getters and setters
+
     public String getEmployeeId() { return employeeId;}
     public double getSalary() { return salary; }
     public void setSalary(double salary) { this.salary = salary; }
     public Date getHireDate() {return hireDate; }
 
-    // Other methods
 
     private String generateEmployeeId() {
         String prefix = (this instanceof Teacher) ? "T" : "E"; // Differentiate between Teacher and other Employee types

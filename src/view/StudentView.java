@@ -28,11 +28,11 @@ public class StudentView {
 
     public int displayStudentMenu() {
         System.out.println("\nStudent Menu:");
-        System.out.println("1. View Transcript"); // finish
-        System.out.println("2. View Courses"); // all courses
-        System.out.println("3. Register for Course"); // send request to or manager
+        System.out.println("1. View Transcript");
+        System.out.println("2. View Courses");
+        System.out.println("3. Register for Course");
         System.out.println("4. View Marks");
-        System.out.println("5. Rate Teacher"); // implement it
+        System.out.println("5. Rate Teacher");
         System.out.println("6. View Schedule");
         System.out.println("0. Back to Main Menu");
         System.out.print("Enter your choice: ");

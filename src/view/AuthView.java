@@ -26,8 +26,7 @@ public class AuthView {
         System.out.println("1. Student");
         System.out.println("2. Teacher");
         System.out.println("3. Employee");
-        System.out.println("4. OrManager"); //Add OrManager,FinanceManager
-        //Add OrManager,FinanceManager
+        System.out.println("4. OrManager");
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();

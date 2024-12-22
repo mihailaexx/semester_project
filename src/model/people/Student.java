@@ -46,7 +46,6 @@ public class Student extends User implements Serializable {
         DEPARTMENT_CODES.put("KMA", "08");
         DEPARTMENT_CODES.put("IS", "18");
     }
-    // Getters
     public String getStudentID() { return studentId; }
     public String getMajor() { return major; }
     public int getYearOfStudy() { return yearOfStudy; }
@@ -57,7 +56,6 @@ public class Student extends User implements Serializable {
     public STUDENTDEGREE getDegree() { return degree; }
     public STUDENTTYPE getType() { return type; }
     public Map<Course, Mark> getMarks() { return marks; }
-    // Setters
     public void setMajor(String major) { this.major = major; }
     public void setYearOfStudy(int yearOfStudy) { this.yearOfStudy = yearOfStudy;}
     public void setType(STUDENTTYPE studenttype) {this.type = studenttype;}
@@ -107,7 +105,6 @@ public class Student extends User implements Serializable {
         this.gpa = (totalCredits > 0) ? totalWeightedGrade / totalCredits : 0;
     }
 
-    // equals, hashCode, and toString methods
 
     @Override
     public boolean equals(Object o) {

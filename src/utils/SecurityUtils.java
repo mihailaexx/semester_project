@@ -27,9 +27,4 @@ public class SecurityUtils {
             throw new RuntimeException("Error hashing password", e);
         }
     }
-
-//    public static boolean verifyPassword(String password, String salt, String hashedPassword) {
-//        String newHash = hashPassword(password, salt);
-//        return newHash.equals(hashedPassword);
-//    }
 }

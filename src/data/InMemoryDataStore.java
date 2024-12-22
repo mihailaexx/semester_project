@@ -1,6 +1,5 @@
 package data;
 
-// ... other imports ...
 import enums.*;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
@@ -402,8 +401,8 @@ public class InMemoryDataStore implements DataStore {
     public void loadData() {
         File dataFile = new File(DATA_FILE_PATH);
         if (!dataFile.exists()) {
-            initializeTestData(); // Initialize only if file doesn't exist
-            saveData(); // Save the initialized data to file
+            initializeTestData();
+            saveData();
             return;
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataFile))) {

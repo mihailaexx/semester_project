@@ -101,7 +101,7 @@ public class UserService {
         if (course != null) {
             try {
                 student.registerForCourse(course);
-                dataStore.saveStudent(student); // Update the student in the data store
+                dataStore.saveStudent(student);
             } catch (CourseRegistrationException e) {
                 System.err.println("Error registering student for course: " + e.getMessage());
             }
@@ -165,7 +165,4 @@ public class UserService {
             throw new InvalidInputException("Invalid input: " + e.getMessage(), e);
         }
     }
-    //    public void createOrManager(String[] details) throws InvalidInputException
-    //    public void createFinanceManager(String[] details) throws InvalidInputException
-
 }

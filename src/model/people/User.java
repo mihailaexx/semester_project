@@ -20,7 +20,6 @@ public abstract class User extends Person implements Serializable {
     private String citizenship;
     private Researcher researcher;
 
-    // Constructor for initial user creation
     public User(String name, String surname, SEX sex, Date birthDate, String username, String email, String password, String phoneNumber, String citizenship) {
         super(name, surname, sex, birthDate);
         this.username = username;
@@ -31,7 +30,6 @@ public abstract class User extends Person implements Serializable {
         this.citizenship = citizenship;
     }
 
-    // Constructor for creating users from data (e.g., when loading from memory)
     public User(int userId, String username, String email, String passwordHash, String name, String surname, SEX sex, Date birthDate, String phoneNumber, String citizenship) {
         super(name, surname, sex, birthDate);
         this.userId = userId;
@@ -43,59 +41,45 @@ public abstract class User extends Person implements Serializable {
         this.citizenship = citizenship;
     }
 
-    // Getters and setters
     public int getUserId() {
         return userId;
     }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getPasswordHash() {
         return passwordHash;
     }
-
     public String getSalt() {
         return salt;
     }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
     public String getCitizenship() {
         return citizenship;
     }
-
     public void setCitizenship(String citizenship) {
         this.citizenship = citizenship;
     }
-
     public Researcher getResearcher() {
         return researcher;
     }
-
     public void setResearcher(Researcher researcher) {
         this.researcher = researcher;
     }
@@ -103,6 +87,7 @@ public abstract class User extends Person implements Serializable {
         String hashedInputPassword = SecurityUtils.hashPassword(password, this.salt);
         return this.passwordHash.equals(hashedInputPassword);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

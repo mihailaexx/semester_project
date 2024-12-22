@@ -1,9 +1,7 @@
 package controller;
 
 import data.DataStore;
-import exceptions.InvalidMarkException;
 import model.academic.Schedule;
-import model.people.Student;
 import model.people.Teacher;
 import service.CourseService;
 import service.TeacherService;
