@@ -3,53 +3,51 @@ package model.people;
 import enums.SEX;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Employee extends User implements Serializable {
     private static final long serialVersionUID = 3L;
 
-    private int employeeId;
+    private String employeeId;
     private double salary;
     private Date hireDate;
-//    private Map<User, String> messages; // Key: sender, Value: message content
+    private Map<User, String> messages;
 
     public Employee(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary) {
         super(name, surname, sex, birthDate, email, email, password, phoneNumber, citizenship);
-        this.employeeId = generateEmployeeId(); // Use a method to generate unique IDs
+        this.employeeId = generateEmployeeId();
         this.salary = salary;
-        this.hireDate = new Date(); // Set hire date to current date
-//        this.messages = new HashMap<>();
+        this.hireDate = new Date();
+        this.messages = new HashMap<>();
     }
 
     // Getters and setters
-    public int getEmployeeId() { return employeeId;}
+    public String getEmployeeId() { return employeeId;}
     public double getSalary() { return salary; }
     public void setSalary(double salary) { this.salary = salary; }
     public Date getHireDate() {return hireDate; }
 
     // Other methods
 
-    private int generateEmployeeId() {
-        // Implement a more robust employee ID generation strategy here
-        return (int) (System.currentTimeMillis() % 100000); // Simple example for now
+    private String generateEmployeeId() {
+        String prefix = (this instanceof Teacher) ? "T" : "E"; // Differentiate between Teacher and other Employee types
+        String uniqueDigits = String.format("%05d", new Random().nextInt(100000));
+        return prefix + uniqueDigits;
     }
 
-//    public void sendMessage(User recipient, String message) { messages.put(recipient, message); }
-//
-//    public void viewMessages() {
-//        if (messages.isEmpty()) {
-//            System.out.println("No messages.");
-//            return;
-//        }
-//        for (Map.Entry<User, String> entry : messages.entrySet()) {
-//            User sender = entry.getKey();
-//            String message = entry.getValue();
-//            System.out.println("Message from " + sender.getUsername() + ": " + message);
-//        }
-//    }
+    public void sendMessage(User recipient, String message) { messages.put(recipient, message); }
+
+    public void viewMessages() {
+        if (messages.isEmpty()) {
+            System.out.println("No messages.");
+            return;
+        }
+        for (Map.Entry<User, String> entry : messages.entrySet()) {
+            User sender = entry.getKey();
+            String message = entry.getValue();
+            System.out.println("Message from " + sender.getUsername() + ": " + message);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

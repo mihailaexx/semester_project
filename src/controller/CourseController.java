@@ -41,7 +41,6 @@ public class CourseController {
             return;
         }
 
-        // Prompt for new course details (or modify as needed)
         String name = courseView.promptForCourseName();
         int credits = courseView.promptForCredits();
         String major = courseView.promptForMajor();
@@ -99,5 +98,4 @@ public class CourseController {
             courseView.displayErrorMessage("Failed to add course session: " + e.getMessage());
         }
     }
-    // Add other methods for handling course-related actions
 }

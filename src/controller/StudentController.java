@@ -1,9 +1,11 @@
 package controller;
 
+import exceptions.CourseNotFoundException;
 import model.academic.Schedule;
 import model.people.Student;
 import service.CourseService;
 import service.StudentService;
+import service.TeacherService;
 import view.StudentView;
 
 public class StudentController {
@@ -18,7 +20,8 @@ public class StudentController {
     }
 
     public void viewStudentTranscript(Student student) {
-        studentView.displayTranscript(student);
+        String transcript = studentService.getStudentTranscript(student.getStudentID());
+        studentView.displayTranscript(transcript);
     }
 
     public void viewStudentCourses(Student student) {
@@ -27,9 +30,9 @@ public class StudentController {
 
     public void registerStudentForCourse(Student student, String courseCode) {
         try {
-            courseService.registerStudentForCourse(student, courseCode);
+            studentService.requestRegistration(student.getStudentID(), courseCode);
             studentView.displayRegistrationSuccess(courseCode);
-        } catch (Exception e) {
+        } catch (CourseNotFoundException e) {
             studentView.displayRegistrationFailure(e.getMessage());
         }
     }
@@ -44,5 +47,9 @@ public class StudentController {
         } else {
             studentView.displayErrorMessage("Could not retrieve schedule for student " + student.getStudentID());
         }
+    }
+
+    public void addRating(Student student, String teacherId, int rating, TeacherService teacherService) {
+        teacherService.addRating(teacherId, student.getStudentID(), rating);
     }
 }

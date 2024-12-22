@@ -5,6 +5,7 @@ import enums.TEACHERDEGREE;
 import exceptions.AuthenticationException;
 import exceptions.CourseRegistrationException;
 import exceptions.InvalidInputException;
+import model.manager.OrManager;
 import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
@@ -36,22 +37,22 @@ public class UserService {
     public void createStudent(String[] details) throws InvalidInputException {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthDate = dateFormat.parse(details[10]);
+            Date birthDate = dateFormat.parse(details[11]);
 
-            int yearOfStudy = Integer.parseInt(details[9]);
-            STUDENTTYPE studentType = STUDENTTYPE.valueOf(details[8].toUpperCase());
-            String email = details[0].toLowerCase().charAt(0) + "_" + details[1].toLowerCase() + "@kbtu.kz";
+            int yearOfStudy = Integer.parseInt(details[10]);
+            STUDENTTYPE studentType = STUDENTTYPE.valueOf(details[9].toUpperCase());
+            String email = details[1].toLowerCase().charAt(0) + "_" + details[2].toLowerCase() + "@kbtu.kz";
 
             Student student = new Student(
-                    details[0], // first name
-                    details[1], // last name
-                    SEX.valueOf(details[2].toUpperCase()),
+                    details[1], // first name
+                    details[2], // last name
+                    SEX.valueOf(details[3].toUpperCase()),
                     birthDate,
-                    details[3], // phone number
-                    details[4], // citizenship
-                    details[6], // password
+                    details[4], // phone number
+                    details[5], // citizenship
+                    details[7], // password
                     email, // email
-                    details[7], // major
+                    details[8], // major
                     yearOfStudy,
                     STUDENTDEGREE.BACHELOR, // student degree
                     studentType // student type
@@ -102,7 +103,6 @@ public class UserService {
                 student.registerForCourse(course);
                 dataStore.saveStudent(student); // Update the student in the data store
             } catch (CourseRegistrationException e) {
-                // Handle exceptions, e.g., course registration limits
                 System.err.println("Error registering student for course: " + e.getMessage());
             }
         } else {
@@ -137,6 +137,34 @@ public class UserService {
         }
     }
 
+    public void createOrManager(String[] details) throws InvalidInputException {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthDate = dateFormat.parse(details[9]);
+
+            OrManager orManager = new OrManager(
+                    details[1], // first name
+                    details[2], // last name
+                    SEX.valueOf(details[3].toUpperCase()),
+                    birthDate,
+                    details[4], // email
+                    details[5], // password
+                    details[6], // phone number
+                    details[7], // citizenship
+                    Double.parseDouble(details[8]) // salary
+            );
+
+            dataStore.saveEmployee(orManager);
+            dataStore.saveUser(orManager);
+            dataStore.saveOrManager(orManager);
+        } catch (ParseException e) {
+            throw new InvalidInputException("Invalid date format for birth date. Use yyyy-MM-dd.", e);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid number format. Check salary.", e);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Invalid input: " + e.getMessage(), e);
+        }
+    }
     //    public void createOrManager(String[] details) throws InvalidInputException
     //    public void createFinanceManager(String[] details) throws InvalidInputException
 

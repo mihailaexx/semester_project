@@ -49,6 +49,23 @@ public class Schedule implements Serializable {
         schedule.get(day).put(time, new ScheduledClass(course, lessonType));
     }
 
+    public void merge(Schedule other) {
+        for (DayOfWeek day : DayOfWeek.values()) {
+            if (day.getValue() > NUMBER_OF_WORKING_DAYS) break;
+            Map<LocalTime, ScheduledClass> thisDay = this.schedule.get(day);
+            Map<LocalTime, ScheduledClass> otherDay = other.schedule.get(day);
+
+            if (otherDay != null) {
+                for (int hour = START_HOUR; hour < END_HOUR; hour++) {
+                    LocalTime time = LocalTime.of(hour, 0);
+                    ScheduledClass otherSession = otherDay.get(time);
+                    if (otherSession != null) {
+                        thisDay.put(time, otherSession);
+                    }
+                }
+            }
+        }
+    }
     public void display() {
         System.out.println("======================== SCHEDULE ========================");
         for (DayOfWeek day : DayOfWeek.values()) {
@@ -76,7 +93,6 @@ public class Schedule implements Serializable {
         return schedule.getOrDefault(day, new HashMap<>());
     }
 
-    // Inner class to represent a scheduled class with course and lesson type
     public static class ScheduledClass implements Serializable {
         private final Course course;
         private final LESSON_TYPE lessonType;

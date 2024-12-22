@@ -44,11 +44,9 @@ public class EmployeeView {
         scanner.nextLine();
         return choice;
     }
-    // Add a method to display messages
+    // in future
     public void displayMessages(Employee employee) {
         System.out.println("\nMessages for " + employee.getName() + " " + employee.getSurname() + ":");
-        // In a real application, you would retrieve messages from the data store
-        // For now, just print a placeholder message
         System.out.println("No messages to display.");
     }
 

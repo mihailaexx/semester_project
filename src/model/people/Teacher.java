@@ -3,27 +3,28 @@ package model.people;
 import enums.SEX;
 import enums.TEACHERDEGREE;
 import model.academic.Course;
+import model.research.Researcher;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Teacher extends Employee implements Serializable {
     private static final long serialVersionUID = 4L;
 
-    private String department; // Replaces School, as a Teacher belongs to a department
-    private TEACHERDEGREE teacherDegree; // e.g., Professor, Assistant Professor, etc.
+    private String department;
+    private TEACHERDEGREE teacherDegree; //  Professor, Assistant Professor, etc.
     private List<Course> courses;
-    private List<Integer> ratings;
+    private Map<Student, Integer> ratings;
 
     public Teacher(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary, String department, TEACHERDEGREE teacherDegree) {
         super(name, surname, sex, birthDate, email, password, phoneNumber, citizenship, salary);
+        if (teacherDegree == TEACHERDEGREE.PROFESSOR) {
+            this.setResearcher(new Researcher(this));
+        }
         this.department = department;
         this.teacherDegree = teacherDegree;
         this.courses = new ArrayList<>();
-        this.ratings = new ArrayList<>();
+        this.ratings = new HashMap<>();
     }
 
     // Getters
@@ -37,8 +38,6 @@ public class Teacher extends Employee implements Serializable {
         this.teacherDegree = teacherDegree;
     }
 
-    // Other methods
-
     public void addCourse(Course course) {
         courses.add(course);
     }
@@ -46,13 +45,22 @@ public class Teacher extends Employee implements Serializable {
         courses.remove(course);
     }
 
-    public void addRating(int rating) {
-        ratings.add(rating);
+    public void addRating(Student student, int rating) {
+        if (rating >= 1 && rating <= 5) {
+            ratings.put(student, rating);
+        } else {
+            System.err.println("Invalid rating. Rating should be between 1 and 5.");
+        }
     }
 
     public double getAverageRating() {
-        if (ratings.isEmpty()) return 0;
-        return ratings.stream().mapToInt(Integer::intValue).average().orElse(0);
+        if (ratings.isEmpty()) {
+            return 0;
+        }
+        return ratings.values().stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0);
     }
 
 

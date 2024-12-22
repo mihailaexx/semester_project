@@ -6,6 +6,7 @@ import enums.STUDENTTYPE;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
+import model.manager.Request;
 
 import java.io.Serializable;
 import java.util.*;
@@ -17,18 +18,19 @@ public class Student extends User implements Serializable {
     private String major;
     private int yearOfStudy;
     private List<Course> enrolledCourses;
-    private Map<Course, Mark> marks; // Keep track of marks separately
+    private Map<Course, Mark> marks;
     private double gpa;
     private STUDENTDEGREE degree;
     private STUDENTTYPE type;
 
+    private static final Map<String, String> DEPARTMENT_CODES = new HashMap<>();
     private static final int MAX_CREDITS = 21;
 
     public Student(String name, String surname, SEX sex, Date birthDate, String phoneNumber,
                    String citizenship, String password, String email, String major,
                    int yearOfStudy, STUDENTDEGREE degree, STUDENTTYPE type) {
         super(name, surname, sex, birthDate, email, email, password, phoneNumber, citizenship);
-        this.studentId = generateStudentID(); // Use a method to generate unique IDs
+        this.studentId = generateStudentID();
         this.major = major;
         this.yearOfStudy = yearOfStudy;
         this.type = type;
@@ -38,24 +40,36 @@ public class Student extends User implements Serializable {
         this.gpa = 0.0;
     }
 
+    static {
+        DEPARTMENT_CODES.put("SITE", "03");
+        DEPARTMENT_CODES.put("SEOG", "05");
+        DEPARTMENT_CODES.put("BS", "01");
+        DEPARTMENT_CODES.put("KMA", "08");
+        DEPARTMENT_CODES.put("IS", "18");
+    }
     // Getters
     public String getStudentID() { return studentId; }
     public String getMajor() { return major; }
     public int getYearOfStudy() { return yearOfStudy; }
     public List<Course> getEnrolledCourses() { return enrolledCourses; }
-    public double getGpa() { return gpa; }
+    public double getGpa() {
+        calculateGpa();
+        return gpa; }
     public STUDENTDEGREE getDegree() { return degree; }
     public STUDENTTYPE getType() { return type; }
     public Map<Course, Mark> getMarks() { return marks; }
     // Setters
     public void setMajor(String major) { this.major = major; }
     public void setYearOfStudy(int yearOfStudy) { this.yearOfStudy = yearOfStudy;}
-
-    // Other methods
+    public void setType(STUDENTTYPE studenttype) {this.type = studenttype;}
 
     private String generateStudentID() {
-        // in future; yearOfstudy % 100 + {'B','M','P'} + {'01','02',....'18} + 4 random digits
-        return "STU" + System.currentTimeMillis();
+        String enrollmentYear = String.valueOf(2024 - yearOfStudy).substring(2);
+        String programCode = "B";
+        String departmentCode = DEPARTMENT_CODES.getOrDefault(major, "00");
+        String uniqueDigits = String.format("%04d", new Random().nextInt(1000));
+
+        return enrollmentYear + programCode + departmentCode + uniqueDigits;
     }
 
     public int getTotalCurrentCredits() {
@@ -66,34 +80,16 @@ public class Student extends User implements Serializable {
         if (getTotalCurrentCredits() + course.getCredits() > MAX_CREDITS) {
             throw new CourseRegistrationException("Cannot register for " + course.getName() + ": exceeding max credits.");
         }
+
+        if (enrolledCourses.contains(course)) {
+            throw new CourseRegistrationException("Already registered for course: " + course.getCode());
+        }
         enrolledCourses.add(course);
     }
 
     public void addMark(Course course, Mark mark) {
         marks.put(course, mark);
         calculateGpa();
-    }
-
-    public double calculateFinalGrade(Mark m) {
-        double att1 = (m.getAtt1() != null) ? m.getAtt1() : 0;
-        double att2 = (m.getAtt2() != null) ? m.getAtt2() : 0;
-        double finalExam = (m.getFinalExam() != null) ? m.getFinalExam() : 0;
-
-        return att1 * 0.3 + att2 * 0.3 + finalExam * 0.4;
-    }
-
-    public double gradeToGpa(double finalGrade) {
-        if (finalGrade >= 95) return 4.0;
-        else if (finalGrade >= 90) return 3.67;
-        else if (finalGrade >= 85) return 3.33;
-        else if (finalGrade >= 80) return 3.0;
-        else if (finalGrade >= 75) return 2.67;
-        else if (finalGrade >= 70) return 2.33;
-        else if (finalGrade >= 65) return 2.0;
-        else if (finalGrade >= 60) return 1.67;
-        else if (finalGrade >= 55) return 1.33;
-        else if (finalGrade >= 50) return 1.0;
-        else return 0.0;
     }
 
     public void calculateGpa() {
@@ -103,9 +99,7 @@ public class Student extends User implements Serializable {
         for (Course course : enrolledCourses) {
             Mark mark = marks.get(course);
             if (mark != null) {
-                double finalGrade = calculateFinalGrade(mark);
-                double gradePoint = gradeToGpa(finalGrade);
-
+                double gradePoint = mark.gradeToGpa();
                 totalWeightedGrade += gradePoint * course.getCredits();
                 totalCredits += course.getCredits();
             }

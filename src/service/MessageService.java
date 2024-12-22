@@ -14,7 +14,7 @@ public class MessageService {
         this.dataStore = dataStore;
     }
 
-    public void sendMessage(int senderId, String recipientUsername, String messageText) {
+    public void sendMessage(String senderId, String recipientUsername, String messageText) {
         User sender = dataStore.getEmployeeById(senderId);
         User recipient = dataStore.getUserByUsername(recipientUsername);
 

@@ -59,7 +59,14 @@ public class TeacherController {
             teacherView.displayErrorMessage("Could not retrieve schedule for teacher " + teacher.getEmployeeId());
         }
     }
-    // Placeholder method for getting the current teacher
+    public void rateTeacher(String teacherId, String studentId, int rating) {
+        try {
+            teacherService.addRating(teacherId, studentId, rating);
+            System.out.println("Rating added successfully.");
+        } catch (Exception e) {
+            System.err.println("Error adding rating: " + e.getMessage());
+        }
+    }
     private Teacher getCurrentTeacher() {
         return dataStore.getAllTeachers().stream().findFirst().orElse(null);
     }

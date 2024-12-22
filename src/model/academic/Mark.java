@@ -65,13 +65,38 @@ public class Mark implements Serializable {
         this.stringMark = markToString(totalMark);
     }
 
+    public double calculateFinalGrade() {
+        double att1 = (firstAttestation != null) ? firstAttestation : 0;
+        double att2 = (secondAttestation != null) ? secondAttestation : 0;
+        double finalExam1 = (finalExam != null) ? finalExam : 0;
+
+        return att1 * 0.3 + att2 * 0.3 + finalExam1 * 0.4;
+    }
+
+    public double gradeToGpa() {
+//        double totalMark = calculateFinalGrade();
+        if (totalMark >= 95) return 4.0;
+        else if (totalMark >= 90) return 3.67;
+        else if (totalMark >= 85) return 3.33;
+        else if (totalMark >= 80) return 3.0;
+        else if (totalMark >= 75) return 2.67;
+        else if (totalMark >= 70) return 2.33;
+        else if (totalMark >= 65) return 2.0;
+        else if (totalMark >= 60) return 1.67;
+        else if (totalMark >= 55) return 1.33;
+        else if (totalMark >= 50) return 1.0;
+        else return 0.0;
+    }
+
     public Double getAtt1() { return firstAttestation; }
     public Double getAtt2() { return secondAttestation; }
     public Double getFinalExam() { return finalExam; }
     public String getStringMark() { return stringMark; }
-
+    public Double getTotalMark() { return totalMark; }
     @Override
     public String toString() {
         return "Mark: " + totalMark + " (" + stringMark + ")";
     }
+
+
 }

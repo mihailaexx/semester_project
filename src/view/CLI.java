@@ -4,6 +4,7 @@ import controller.*;
 import data.DataStore;
 import data.InMemoryDataStore;
 import exceptions.AuthenticationException;
+import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.manager.FinanceManager;
 import model.manager.OrManager;
@@ -11,6 +12,7 @@ import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
+import model.research.Researcher;
 import service.*;
 
 import java.util.Scanner;
@@ -27,11 +29,15 @@ public class CLI {
     private final TeacherView teacherView;
     private final EmployeeView employeeView;
     private final OrManagerView orManagerView;
+    private final UserView userView;
     private DataStore dataStore;
     private UserService userService;
     private StudentService studentService;
     private TeacherService teacherService;
     private OrManagerService orManagerService;
+    private final ResearcherController researcherController;
+    private final ResearcherView researcherView;
+    private final ResearcherService researcherService;
     private final MessageService messageService;
     private final CourseService courseService;
     private final CourseController courseController;
@@ -45,19 +51,23 @@ public class CLI {
         this.authView = new AuthView(scanner);
         this.courseService = new CourseService(dataStore);
         this.courseView = new CourseView(scanner);
-        this.courseController = new CourseController(courseService, courseView);
-        this.studentView = new StudentView(scanner, courseView);
-        this.teacherView = new TeacherView(scanner, courseView);
-        this.studentService = new StudentService(dataStore);
         this.teacherService = new TeacherService(dataStore);
+        this.courseController = new CourseController(courseService, courseView);
+        this.studentView = new StudentView(scanner, courseView, teacherService);
+        this.teacherView = new TeacherView(scanner, courseView);
+        this.userView = new UserView(scanner);
+        this.studentService = new StudentService(dataStore, orManagerService);
         this.studentController = new StudentController(studentService, courseService, studentView);
         this.teacherController = new TeacherController(teacherService, courseService, teacherView, dataStore);
         this.employeeView = new EmployeeView(scanner);
         this.orManagerView = new OrManagerView(scanner);
-        this.orManagerService = new OrManagerService(dataStore);
         this.messageService = new MessageService(dataStore);
+        this.researcherView = new ResearcherView(scanner);
+        this.researcherService = new ResearcherService(dataStore, researcherView);
         this.employeeController = new EmployeeController(messageService, employeeView);
-        this.orManagerController = new OrManagerController(orManagerService, orManagerView);
+        this.orManagerService = new OrManagerService(dataStore, userView, courseView, studentView, teacherView, orManagerView);
+        this.orManagerController = new OrManagerController(orManagerService, orManagerView, courseService);
+        this.researcherController = new ResearcherController(researcherService, researcherView, dataStore);
     }
 
     public void run() {
@@ -71,7 +81,7 @@ public class CLI {
             } else if (choice == 2) {
                 handleSignup();
             } else if (choice == 3) {
-                dataStore.saveData(); // Save data option
+                dataStore.saveData();
                 System.out.println("Data saved successfully.");
             } else if (choice == 0) {
                 break;
@@ -83,7 +93,7 @@ public class CLI {
     }
 
     private void displayWelcomeMessage() {
-        System.out.println("Welcome to the KBTU University Information System!");
+        System.out.println("Welcome to the KBTU University!");
     }
 
     private int promptLoginOrSignup() {
@@ -116,7 +126,7 @@ public class CLI {
         userController.handleSignup(authView, details);
     }
 
-    public void showUserMenu(User user) {
+    public void showUserMenu(User user)  {
         if (user instanceof Student) {
             showStudentMenu((Student) user);
         } else if (user instanceof Teacher) {
@@ -127,6 +137,10 @@ public class CLI {
             showOrManagerMenu((OrManager) user);
         } else if (user instanceof FinanceManager) {
             showFinanceManagerMenu((FinanceManager) user);
+        }
+
+        if (user.getResearcher() != null) {
+            showResearcherMenu(user);
         }
     }
 
@@ -149,7 +163,7 @@ public class CLI {
                     studentController.viewMarks(student);
                     break;
                 case 5:
-                    studentView.displayRateTeacherForm(student);
+                    studentView.displayRateTeacherForm(student, studentController);
                     break;
                 case 6:
                     studentController.viewStudentSchedule(student);
@@ -190,6 +204,9 @@ public class CLI {
                 case 7:
                     employeeView.displayMessages(teacher);
                     break;
+                case 8:
+                    showResearcherMenu(teacher);
+                    break;
                 case 0:
                     return; // Return to the main menu
                 default:
@@ -200,10 +217,9 @@ public class CLI {
 
     private void showEmployeeMenu(Employee employee) {
         while (true) {
-            int choice = employeeView.displayEmployeeMenu(); // Assuming you have an EmployeeView instance
+            int choice = employeeView.displayEmployeeMenu();
             switch (choice) {
                 case 1:
-                    // Send a message
                     String recipientUsername = employeeView.promptForRecipientUsername();
                     String messageText = employeeView.promptForMessageText();
                     employeeController.handleSendMessage(employee, recipientUsername, messageText);
@@ -219,11 +235,16 @@ public class CLI {
         }
     }
 
-    private void showOrManagerMenu(OrManager orManager) {
-        orManagerController.handleOrManagerMenu(orManager);
+    private void showOrManagerMenu(OrManager orManager)  {
+        orManagerController.handleOrManagerMenu();
     }
 
     private void showFinanceManagerMenu(FinanceManager user) {
+        //Implement
+    }
+
+    private void showResearcherMenu(User user) {
+        researcherController.handleResearcherMenu(user);
     }
     private void displayInvalidChoice() {
         System.out.println("Invalid choice. Please try again.");

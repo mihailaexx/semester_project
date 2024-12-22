@@ -7,7 +7,7 @@ import java.util.Base64;
 
 public class SecurityUtils {
 
-    private static final String HASH_ALGORITHM = "SHA-256"; // You can use a stronger algorithm like "SHA-512"
+    private static final String HASH_ALGORITHM = "SHA-256";
     private static final int SALT_LENGTH = 16;
 
     public static String generateSalt() {
@@ -28,9 +28,8 @@ public class SecurityUtils {
         }
     }
 
-    // You can add a method for verifying a password against a hash and salt:
-    public static boolean verifyPassword(String password, String salt, String hashedPassword) {
-        String newHash = hashPassword(password, salt);
-        return newHash.equals(hashedPassword);
-    }
+//    public static boolean verifyPassword(String password, String salt, String hashedPassword) {
+//        String newHash = hashPassword(password, salt);
+//        return newHash.equals(hashedPassword);
+//    }
 }

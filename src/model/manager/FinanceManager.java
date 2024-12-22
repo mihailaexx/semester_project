@@ -23,24 +23,20 @@ public class FinanceManager extends Employee implements Serializable {
         }
 
         double stipendAmount = calculateStipend(student);
-        // In a real application, you would update a database or data store here
         System.out.println("Stipend of $" + stipendAmount + " paid to student " + student.getName() + " " + student.getSurname());
     }
 
     public void paySalary(Employee employee) {
         double salaryAmount = employee.getSalary();
-        // In a real application, you would update a database or data store here
         System.out.println("Salary of $" + salaryAmount + " paid to employee " + employee.getName() + " " + employee.getSurname());
     }
 
     private boolean canReceiveStipend(Student student) {
-        // Implement your stipend eligibility logic here
-        return student.getGpa() >= 3.0; // Example: GPA must be 3.0 or higher
+        return student.getGpa() >= 3.0;
     }
 
     private double calculateStipend(Student student) {
-        // Implement your stipend calculation logic here
-        if (student.getGpa() >= 3.67) return 1000.0; // Example amounts
+        if (student.getGpa() >= 3.67) return 1000.0;
         else if (student.getGpa() >= 3.5) return 800.0;
         else if (student.getGpa() >= 3.0) return 600.0;
         else return 0.0;

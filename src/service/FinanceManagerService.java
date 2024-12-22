@@ -20,7 +20,7 @@ public class FinanceManagerService {
         }
     }
 
-    public void processSalaryPayment(int employeeId) {
+    public void processSalaryPayment(String employeeId) {
         Employee employee = dataStore.getEmployeeById(employeeId);
         if (employee != null) {
             // financeManager.paySalary(employee);
