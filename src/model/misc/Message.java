@@ -1,13 +1,9 @@
 package model.misc;
 
-import model.people.Employee;
-import java.util.Date;
-import java.util.Objects;
-
 import model.people.User;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.io.Serializable;
 
 public class Message implements Serializable {
     private static final long serialVersionUID = 19L;

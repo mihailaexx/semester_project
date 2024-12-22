@@ -2,7 +2,7 @@ package model.manager;
 
 import enums.SEX;
 import exceptions.CourseRegistrationException;
-import model.people.*;
+import model.people.Employee;
 
 import java.io.Serializable;
 import java.util.*;

@@ -42,8 +42,6 @@ public class DataWrapper implements Serializable {
         this.orManagers = orManagers;
     }
 
-    // Getters for all the fields
-
     public Map<String, User> getUsers() {
         return users;
     }

@@ -1,7 +1,6 @@
 package model.research;
 
 import enums.CITATIONFORMAT;
-import model.people.Employee;
 import model.people.User;
 
 import java.io.Serializable;

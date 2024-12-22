@@ -3,7 +3,6 @@ package model.academic;
 import model.people.Student;
 import model.people.Teacher;
 
-import javax.swing.plaf.synth.SynthCheckBoxMenuItemUI;
 import java.io.Serializable;
 import java.util.*;
 

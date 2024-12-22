@@ -2,7 +2,6 @@ package service;
 
 import data.DataStore;
 import exceptions.CourseNotFoundException;
-import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
 import model.academic.Schedule;

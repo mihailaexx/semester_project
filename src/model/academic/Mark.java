@@ -1,6 +1,5 @@
 package model.academic;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 public class Mark implements Serializable {

@@ -61,7 +61,6 @@ public class InMemoryDataStore implements DataStore {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            // Create sample courses
             Course course1 = new Course("CSCI1103", "Programming Principles 1",6, "SITE");
             Course course2 = new Course("MATH1102", "Calculus 1", 5, "SHPM");
             Course course3 = new Course("CSCI1102", "Discrete Structures", 5, "SITE");
@@ -71,7 +70,6 @@ public class InMemoryDataStore implements DataStore {
             courses.put(course3.getCode(), course3);
             courses.put(course4.getCode(), course4);
 
-            // Create sample students
             Student student1 = new Student("Aibek", "Kaibulla", SEX.MALE, dateFormat.parse("2006-03-10"), "87081234567", "KAZAKHSTAN", "aibekpassword123", "a_kaibulla@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
             Student student2 = new Student("Mikhail", "Nepomnu", SEX.MALE, dateFormat.parse("2005-07-18"), "87071234567", "KAZAKHSTAN", "password123", "m_nepomnu@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
             Student student3 = new Student("Djaklin", "Nepomnu1", SEX.FEMALE, dateFormat.parse("2005-08-18"), "87071234568", "KAZAKHSTAN", "password123", "d_nepomnu@kbtu.kz", "IS", 2023, STUDENTDEGREE.BACHELOR, STUDENTTYPE.GRANT);
@@ -81,7 +79,6 @@ public class InMemoryDataStore implements DataStore {
             students.put(student3.getStudentID(), student3);
             students.put(student4.getStudentID(), student4);
 
-            // Create sample teachers
             Teacher teacher1 = new Teacher("Assylzhan", "Izbassar", SEX.MALE, dateFormat.parse("2000-01-01"), "a_izbassar@kbtu.kz", "password123", "87771112233", "Kazakhstan", 5000.0, "SITE", TEACHERDEGREE.LECTURER);
             Teacher teacher2 = new Teacher("Pakizar", "Shamoi", SEX.FEMALE, dateFormat.parse("1990-01-01"), "p_shamoi@kbtu.kz", "password123", "87771112233", "Kazakhstan", 8000.0, "SITE", TEACHERDEGREE.PROFESSOR);
             teacher2.setResearcher(new Researcher(teacher2));
@@ -152,7 +149,8 @@ public class InMemoryDataStore implements DataStore {
             System.err.println("Error initializing test data: " + e.getMessage());
         }
     }
-    // User-related methods
+
+
     @Override
     public void saveUser(User user) {
         users.put(user.getUsername(), user);
@@ -161,8 +159,6 @@ public class InMemoryDataStore implements DataStore {
     public List<User> getAllUsers() {
         return new ArrayList<>(users.values());
     }
-
-    // Student-related methods
     @Override
     public void saveStudent(Student student) {
         students.put(student.getStudentID(), student);
@@ -171,77 +167,63 @@ public class InMemoryDataStore implements DataStore {
     public Student getStudentById(String studentId) {
         return students.get(studentId);
     }
-
     @Override
     public List<Student> getAllStudents() {
         return new ArrayList<>(students.values());
     }
 
 
-    // Teacher-related methods
     @Override
     public void saveTeacher(Teacher teacher) {
         teachers.put(teacher.getEmployeeId(), teacher);
     }
-
     @Override
     public Teacher getTeacherById(String teacherId) {
         return teachers.get(teacherId);
     }
-
     @Override
     public List<Teacher> getAllTeachers() {
         return new ArrayList<>(teachers.values());
     }
-
-    // Employee-related methods
     @Override
     public void saveEmployee(Employee employee) {
         employees.put(employee.getEmployeeId(), employee);
     }
-
     @Override
     public Employee getEmployeeById(String employeeId) {
         return employees.get(employeeId);
     }
-
     @Override
     public List<Employee> getAllEmployees() {
         return new ArrayList<>(employees.values());
     }
-
     public void saveOrManager(OrManager orManager) {
         orManagers.put(orManager.getUsername(), orManager);
     }
-
     public OrManager getOrManagerByUsername(String username) {
         return orManagers.get(username);
     }
-
     public List<OrManager> getAllOrManagers() {
         return new ArrayList<>(orManagers.values());
     }
-    // Course-related methods
+
+
     @Override
     public void saveCourse(Course course) {
         courses.put(course.getCode(), course);
     }
-
     @Override
     public Course getCourseByCode(String courseCode) {
         return courses.get(courseCode);
     }
-
     @Override
     public List<Course> getAllCourses() {
         return new ArrayList<>(courses.values());
     }
-
     @Override
     public void removeCourse(Course course) {
         courses.remove(course.getCode());
     }
-
     @Override
     public void addStudentToCourse(String studentId, String courseCode) {
         Student student = students.get(studentId);
@@ -251,8 +233,6 @@ public class InMemoryDataStore implements DataStore {
             student.getEnrolledCourses().add(course);
         }
     }
-
-
     @Override
     public void addMarkToStudent(String studentId, String courseCode, Mark mark) {
         Student student = students.get(studentId);
@@ -263,7 +243,7 @@ public class InMemoryDataStore implements DataStore {
         }
     }
 
-    // Researcher-related methods
+
     @Override
     public void saveResearcher(Researcher researcher) {
         if (researcher.getResearcherId() == null) {
@@ -276,55 +256,44 @@ public class InMemoryDataStore implements DataStore {
             users.put(user.getUsername(), user);
         }
     }
-
     @Override
     public Researcher getResearcherById(int researcherId) {
         return researchers.get(researcherId);
     }
-
     @Override
     public List<Researcher> getAllResearchers() {
         return new ArrayList<>(researchers.values());
     }
-
-
     @Override
     public void addResearchPaper(Researcher researcher, ResearchPaper paper) {
         researcher.addResearchPaper(paper);
         saveResearcher(researcher);
         saveResearchPaper(paper);
     }
-
     @Override
     public void saveResearchPaper(ResearchPaper paper) {
         researchPapers.put(paper.getPaperId(), paper);
     }
-
     @Override
     public ResearchPaper getResearchPaperById(int paperId) {
         return researchPapers.get(paperId);
     }
-
     @Override
     public List<ResearchPaper> getAllResearchPapers() {
         return new ArrayList<>(researchPapers.values());
     }
-
     @Override
     public void saveResearchProject(ResearchProject project) {
         researchProjects.put(project.getProjectId(), project);
     }
-
     @Override
     public ResearchProject getResearchProjectById(int projectId) {
         return researchProjects.get(projectId);
     }
-
     @Override
     public List<ResearchProject> getAllResearchProjects() {
         return new ArrayList<>(researchProjects.values());
     }
-
     @Override
     public void addCourseSession(String courseCode, LESSON_TYPE lessonType, DayOfWeek day, LocalTime time) {
         Course course = getCourseByCode(courseCode);
@@ -338,13 +307,11 @@ public class InMemoryDataStore implements DataStore {
             System.err.println("Course not found: " + courseCode);
         }
     }
-
     @Override
     public Schedule getCourseSchedule(String courseCode) {
         Course course = getCourseByCode(courseCode);
         return (course != null) ? course.getSchedule() : null;
     }
-
     @Override
     public Schedule getStudentSchedule(String studentId) {
         Student student = getStudentById(studentId);
@@ -365,27 +332,22 @@ public class InMemoryDataStore implements DataStore {
         requests.put(request.getRequestId(), request);
         saveData();
     }
-
     @Override
     public Request getRequestById(int requestId) {
         return requests.get(requestId);
     }
-
     @Override
     public List<Request> getAllRequests() {
         return new ArrayList<>(requests.values());
     }
-
     @Override
     public void updateStudent(Student student) {
         saveStudent(student);
     }
-
     @Override
     public void updateCourse(Course course) {
         saveCourse(course);
     }
-
     @Override
     public void saveRequest(Request request) {
         requests.put(request.getRequestId(), request);
@@ -405,7 +367,6 @@ public class InMemoryDataStore implements DataStore {
         }
         return null;
     }
-
     private void mergeSchedules(Schedule targetSchedule, Schedule sourceSchedule) {
         for (DayOfWeek day : DayOfWeek.values()) {
             if (day.getValue() > Schedule.NUMBER_OF_WORKING_DAYS) break;
@@ -421,13 +382,11 @@ public class InMemoryDataStore implements DataStore {
             }
         }
     }
-
     @Override
     public void saveMessage(Message message) {
         String recipientUsername = message.getRecipient().getUsername();
         userMessages.computeIfAbsent(recipientUsername, k -> new ArrayList<>()).add(message);
     }
-
     @Override
     public List<Message> getMessagesForUser(User user) {
         return userMessages.getOrDefault(user.getUsername(), new ArrayList<>());
@@ -437,7 +396,8 @@ public class InMemoryDataStore implements DataStore {
         User user = users.get(username);
         return user;
     }
-    // Data loading and saving
+
+
     @Override
     public void loadData() {
         File dataFile = new File(DATA_FILE_PATH);
@@ -463,7 +423,6 @@ public class InMemoryDataStore implements DataStore {
             System.err.println("Error loading data: " + e.getMessage());
         }
     }
-
     @Override
     public void saveData() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATA_FILE_PATH))) {

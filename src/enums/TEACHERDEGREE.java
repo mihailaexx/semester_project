@@ -1,7 +1,7 @@
 package enums;
 
 public enum TEACHERDEGREE {
-    PROFESSOR, // guaranteed to be a researcher
+    PROFESSOR,
     ASSOCIATE_PROFESSOR,
     ASSISTANT_PROFESSOR,
     SENIOR_LECTURER,

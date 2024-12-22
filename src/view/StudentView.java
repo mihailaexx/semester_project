@@ -6,7 +6,6 @@ import model.academic.Course;
 import model.academic.Mark;
 import model.academic.Schedule;
 import model.people.Student;
-import model.people.Teacher;
 import service.TeacherService;
 
 import java.time.DayOfWeek;

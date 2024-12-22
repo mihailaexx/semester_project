@@ -5,11 +5,9 @@ import exceptions.NonResearcherJoinProjectException;
 import model.people.User;
 import model.research.ResearchPaper;
 import model.research.ResearchProject;
-import model.research.Researcher;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;

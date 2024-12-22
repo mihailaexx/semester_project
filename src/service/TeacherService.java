@@ -7,7 +7,6 @@ import model.academic.Schedule;
 import model.people.Student;
 import model.people.Teacher;
 
-import exceptions.InvalidMarkException;
 import java.util.List;
 import java.util.stream.Collectors;
 

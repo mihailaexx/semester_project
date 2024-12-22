@@ -6,7 +6,6 @@ import enums.STUDENTTYPE;
 import exceptions.CourseRegistrationException;
 import model.academic.Course;
 import model.academic.Mark;
-import model.manager.Request;
 
 import java.io.Serializable;
 import java.util.*;
