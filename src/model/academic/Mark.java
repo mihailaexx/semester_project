@@ -74,7 +74,7 @@ public class Mark implements Serializable {
     }
 
     public double gradeToGpa() {
-        double totalMark = calculateFinalGrade();
+//        double totalMark = calculateFinalGrade();
         if (totalMark >= 95) return 4.0;
         else if (totalMark >= 90) return 3.67;
         else if (totalMark >= 85) return 3.33;

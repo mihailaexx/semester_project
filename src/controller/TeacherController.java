@@ -67,7 +67,6 @@ public class TeacherController {
             System.err.println("Error adding rating: " + e.getMessage());
         }
     }
-    // Placeholder method for getting the current teacher
     private Teacher getCurrentTeacher() {
         return dataStore.getAllTeachers().stream().findFirst().orElse(null);
     }

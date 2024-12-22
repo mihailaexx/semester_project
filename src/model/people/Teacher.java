@@ -3,6 +3,7 @@ package model.people;
 import enums.SEX;
 import enums.TEACHERDEGREE;
 import model.academic.Course;
+import model.research.Researcher;
 
 import java.io.Serializable;
 import java.util.*;
@@ -10,13 +11,16 @@ import java.util.*;
 public class Teacher extends Employee implements Serializable {
     private static final long serialVersionUID = 4L;
 
-    private String department; // Replaces School, as a Teacher belongs to a department
-    private TEACHERDEGREE teacherDegree; // e.g., Professor, Assistant Professor, etc.
+    private String department;
+    private TEACHERDEGREE teacherDegree; //  Professor, Assistant Professor, etc.
     private List<Course> courses;
     private Map<Student, Integer> ratings;
 
     public Teacher(String name, String surname, SEX sex, Date birthDate, String email, String password, String phoneNumber, String citizenship, double salary, String department, TEACHERDEGREE teacherDegree) {
         super(name, surname, sex, birthDate, email, password, phoneNumber, citizenship, salary);
+        if (teacherDegree == TEACHERDEGREE.PROFESSOR) {
+            this.setResearcher(new Researcher(this));
+        }
         this.department = department;
         this.teacherDegree = teacherDegree;
         this.courses = new ArrayList<>();

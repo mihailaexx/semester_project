@@ -32,6 +32,7 @@ public class TeacherView {
         System.out.println("5. View Schedule");
         System.out.println("6. Send Message");
         System.out.println("7. View Messages");
+        System.out.println("8. Research");
         System.out.println("0. Back to Main Menu");
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();

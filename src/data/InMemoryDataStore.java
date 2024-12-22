@@ -13,6 +13,7 @@ import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
 import model.research.ResearchPaper;
+import model.research.ResearchProject;
 import model.research.Researcher;
 import model.manager.Request;
 
@@ -21,10 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class InMemoryDataStore implements DataStore {
@@ -37,8 +35,9 @@ public class InMemoryDataStore implements DataStore {
     private Map<String, Employee> employees;
     private Map<String, OrManager> orManagers;
     private Map<String, Course> courses;
-    private Map<String, Researcher> researchers;
+    private Map<Integer, Researcher> researchers;
     private Map<Integer, ResearchPaper> researchPapers;
+    private Map<Integer, ResearchProject> researchProjects;
     private Map<String, List<Message>> userMessages;
     private Map<Integer, Request> requests;
 
@@ -50,11 +49,11 @@ public class InMemoryDataStore implements DataStore {
         courses = new HashMap<>();
         researchers = new HashMap<>();
         researchPapers = new HashMap<>();
+        researchProjects = new HashMap<>();
         userMessages = new HashMap<>();
         orManagers = new HashMap<>();
         requests = new HashMap<>();
 
-        // Load initial data from files (if available) or hardcode some initial data
         loadData();
     }
 
@@ -85,6 +84,7 @@ public class InMemoryDataStore implements DataStore {
             // Create sample teachers
             Teacher teacher1 = new Teacher("Assylzhan", "Izbassar", SEX.MALE, dateFormat.parse("2000-01-01"), "a_izbassar@kbtu.kz", "password123", "87771112233", "Kazakhstan", 5000.0, "SITE", TEACHERDEGREE.LECTURER);
             Teacher teacher2 = new Teacher("Pakizar", "Shamoi", SEX.FEMALE, dateFormat.parse("1990-01-01"), "p_shamoi@kbtu.kz", "password123", "87771112233", "Kazakhstan", 8000.0, "SITE", TEACHERDEGREE.PROFESSOR);
+            teacher2.setResearcher(new Researcher(teacher2));
             Teacher teacher3 = new Teacher("Tamiris", "Abdildaeva", SEX.FEMALE, dateFormat.parse("2000-01-01"), "t_abdildaeva@kbtu.kz", "password456", "87772223344", "Kazakhstan", 4500.0, "SITE", TEACHERDEGREE.TUTOR);
             teachers.put(teacher1.getEmployeeId(), teacher1);
             employees.put(teacher1.getEmployeeId(), teacher1);
@@ -121,6 +121,31 @@ public class InMemoryDataStore implements DataStore {
             users.put(teacher2.getUsername(), teacher2);
             users.put(teacher3.getUsername(), teacher3);
 
+            List<String> authors1 = new ArrayList<>();
+            authors1.add(teacher1.getName());
+            authors1.add(teacher2.getName());
+            authors1.add(teacher1.getName() + " " + teacher1.getSurname());
+            ResearchPaper paper1 = new ResearchPaper("Research Paper 1", authors1, dateFormat.parse("2023-01-01"), "Journal A", "DOI-1", 10);
+
+            List<String> authors2 = new ArrayList<>();
+            authors2.add(teacher2.getName());
+            authors2.add(teacher2.getName() + " " + teacher2.getSurname());
+            ResearchPaper paper2 = new ResearchPaper("Research Paper 2", authors2, dateFormat.parse("2024-01-01"), "Journal B", "DOI-2", 5);
+
+            researchPapers.put(paper1.getPaperId(), paper1);
+            researchPapers.put(paper2.getPaperId(), paper2);
+
+            if (teacher1.getResearcher() != null) {
+                teacher1.getResearcher().addResearchPaper(paper1);
+            }
+            if (teacher2.getResearcher() != null) {
+                teacher2.getResearcher().addResearchPaper(paper2);
+            }
+
+            ResearchProject project1 = new ResearchProject("AI advancements");
+            project1.addParticipant(teacher2.getResearcher());
+
+            teacher2.getResearcher().addResearchProject(project1);
 
         } catch (ParseException | CourseRegistrationException e) {
             System.err.println("Error initializing test data: " + e.getMessage());
@@ -240,12 +265,19 @@ public class InMemoryDataStore implements DataStore {
     // Researcher-related methods
     @Override
     public void saveResearcher(Researcher researcher) {
-        researchers.put(researcher.getEmployeeId(), researcher);
-        users.put(researcher.getUsername(), researcher);
+        if (researcher.getResearcherId() == null) {
+            researcher.setResearcherId(researcher.generateResearcherId());
+        }
+        researchers.put(researcher.getResearcherId(), researcher);
+
+        User user = researcher.getUser();
+        if (user != null) {
+            users.put(user.getUsername(), user);
+        }
     }
 
     @Override
-    public Researcher getResearcherById(String researcherId) {
+    public Researcher getResearcherById(int researcherId) {
         return researchers.get(researcherId);
     }
 
@@ -258,22 +290,38 @@ public class InMemoryDataStore implements DataStore {
     @Override
     public void addResearchPaper(Researcher researcher, ResearchPaper paper) {
         researcher.addResearchPaper(paper);
-        // If you need to maintain a separate list of all research papers:
-        researchPapers.put(paper.hashCode(), paper); // Assuming ResearchPaper has a unique identifier
+        saveResearcher(researcher);
+        saveResearchPaper(paper);
     }
 
     @Override
-    public List<ResearchPaper> getResearchPapersByResearcher(Researcher researcher) {
-        return researcher.getResearchPapers();
+    public void saveResearchPaper(ResearchPaper paper) {
+        researchPapers.put(paper.getPaperId(), paper);
+    }
+
+    @Override
+    public ResearchPaper getResearchPaperById(int paperId) {
+        return researchPapers.get(paperId);
     }
 
     @Override
     public List<ResearchPaper> getAllResearchPapers() {
-        List<ResearchPaper> allPapers = new ArrayList<>();
-        for (Researcher researcher : researchers.values()) {
-            allPapers.addAll(researcher.getResearchPapers());
-        }
-        return allPapers;
+        return new ArrayList<>(researchPapers.values());
+    }
+
+    @Override
+    public void saveResearchProject(ResearchProject project) {
+        researchProjects.put(project.getProjectId(), project);
+    }
+
+    @Override
+    public ResearchProject getResearchProjectById(int projectId) {
+        return researchProjects.get(projectId);
+    }
+
+    @Override
+    public List<ResearchProject> getAllResearchProjects() {
+        return new ArrayList<>(researchProjects.values());
     }
 
     @Override
@@ -387,22 +435,6 @@ public class InMemoryDataStore implements DataStore {
     public User getUserByUsername(String username) {
         User user = users.get(username);
         return user;
-//        if (user != null) {
-//            // Create a new instance of User or its subclass with necessary details
-//            if (user instanceof Student) {
-//                Student student = (Student) user;
-//                return new Student(student.getName(), student.getSurname(), student.getSex(), student.getBirthDate(),
-//                        student.getPhoneNumber(), student.getCitizenship(), null, student.getEmail(),
-//                        student.getMajor(), student.getYearOfStudy(), student.getDegree(), student.getType());
-//            } else if (user instanceof Teacher) {
-//                Teacher teacher = (Teacher) user;
-//                return new Teacher(teacher.getName(), teacher.getSurname(), teacher.getSex(), teacher.getBirthDate(),
-//                        teacher.getEmail(), null, teacher.getPhoneNumber(), teacher.getCitizenship(), teacher.getSalary(),
-//                        teacher.getDepartment(), teacher.getTeacherDegree());
-//            }
-//            // ... handle other user types ...
-//        }
-//        return null;
     }
     // Data loading and saving
     @Override
@@ -422,6 +454,7 @@ public class InMemoryDataStore implements DataStore {
             this.courses = dataWrapper.getCourses();
             this.researchers = dataWrapper.getResearchers();
             this.researchPapers = dataWrapper.getResearchPapers();
+            this.researchProjects = dataWrapper.getResearchProjects();
             this.orManagers = dataWrapper.getOrManagers();
         } catch (FileNotFoundException e) {
             System.err.println("Data file not found. Starting with empty data.");
@@ -433,7 +466,7 @@ public class InMemoryDataStore implements DataStore {
     @Override
     public void saveData() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATA_FILE_PATH))) {
-            DataWrapper dataWrapper = new DataWrapper(users, students, teachers, employees, courses, researchers, researchPapers, orManagers);
+            DataWrapper dataWrapper = new DataWrapper(users, students, teachers, employees, courses, researchers, researchPapers, researchProjects, orManagers);
             oos.writeObject(dataWrapper);
         } catch (IOException e) {
             System.err.println("Error saving data: " + e.getMessage());

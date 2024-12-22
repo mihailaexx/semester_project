@@ -30,7 +30,7 @@ public class Student extends User implements Serializable {
                    String citizenship, String password, String email, String major,
                    int yearOfStudy, STUDENTDEGREE degree, STUDENTTYPE type) {
         super(name, surname, sex, birthDate, email, email, password, phoneNumber, citizenship);
-        this.studentId = generateStudentID(); // Use a method to generate unique IDs
+        this.studentId = generateStudentID();
         this.major = major;
         this.yearOfStudy = yearOfStudy;
         this.type = type;
@@ -52,7 +52,9 @@ public class Student extends User implements Serializable {
     public String getMajor() { return major; }
     public int getYearOfStudy() { return yearOfStudy; }
     public List<Course> getEnrolledCourses() { return enrolledCourses; }
-    public double getGpa() { return gpa; }
+    public double getGpa() {
+        calculateGpa();
+        return gpa; }
     public STUDENTDEGREE getDegree() { return degree; }
     public STUDENTTYPE getType() { return type; }
     public Map<Course, Mark> getMarks() { return marks; }
@@ -97,7 +99,7 @@ public class Student extends User implements Serializable {
         for (Course course : enrolledCourses) {
             Mark mark = marks.get(course);
             if (mark != null) {
-                double gradePoint = mark.gradeToGpa(); // Use the Mark object's method
+                double gradePoint = mark.gradeToGpa();
                 totalWeightedGrade += gradePoint * course.getCredits();
                 totalCredits += course.getCredits();
             }

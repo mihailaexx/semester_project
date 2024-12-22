@@ -12,6 +12,7 @@ import model.people.Employee;
 import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
+import model.research.Researcher;
 import service.*;
 
 import java.util.Scanner;
@@ -34,6 +35,9 @@ public class CLI {
     private StudentService studentService;
     private TeacherService teacherService;
     private OrManagerService orManagerService;
+    private final ResearcherController researcherController;
+    private final ResearcherView researcherView;
+    private final ResearcherService researcherService;
     private final MessageService messageService;
     private final CourseService courseService;
     private final CourseController courseController;
@@ -58,9 +62,12 @@ public class CLI {
         this.employeeView = new EmployeeView(scanner);
         this.orManagerView = new OrManagerView(scanner);
         this.messageService = new MessageService(dataStore);
+        this.researcherView = new ResearcherView(scanner);
+        this.researcherService = new ResearcherService(dataStore, researcherView);
         this.employeeController = new EmployeeController(messageService, employeeView);
         this.orManagerService = new OrManagerService(dataStore, userView, courseView, studentView, teacherView, orManagerView);
         this.orManagerController = new OrManagerController(orManagerService, orManagerView, courseService);
+        this.researcherController = new ResearcherController(researcherService, researcherView, dataStore);
     }
 
     public void run() {
@@ -131,6 +138,10 @@ public class CLI {
         } else if (user instanceof FinanceManager) {
             showFinanceManagerMenu((FinanceManager) user);
         }
+
+        if (user.getResearcher() != null) {
+            showResearcherMenu(user);
+        }
     }
 
 
@@ -193,6 +204,9 @@ public class CLI {
                 case 7:
                     employeeView.displayMessages(teacher);
                     break;
+                case 8:
+                    showResearcherMenu(teacher);
+                    break;
                 case 0:
                     return; // Return to the main menu
                 default:
@@ -227,6 +241,10 @@ public class CLI {
 
     private void showFinanceManagerMenu(FinanceManager user) {
         //Implement
+    }
+
+    private void showResearcherMenu(User user) {
+        researcherController.handleResearcherMenu(user);
     }
     private void displayInvalidChoice() {
         System.out.println("Invalid choice. Please try again.");

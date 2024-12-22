@@ -11,7 +11,7 @@ public class AuthView {
 
     public String[] promptForCredentials() {
         System.out.println("Please enter your credentials.");
-        scanner.nextLine(); // Consume any leftover newline
+        scanner.nextLine();
         System.out.print("Username: ");
         String username = scanner.nextLine();
 
@@ -82,8 +82,7 @@ public class AuthView {
         System.out.print("Date of Birth (yyyy-MM-dd): ");
         String dateOfBirth = scanner.nextLine();
 
-        // Add user type
-        return new String[]{firstName, lastName, sex, phoneNumber, citizenship, email, password, major, studentType, yearOfStudy, dateOfBirth};
+        return new String[]{"STUDENT",firstName, lastName, sex, phoneNumber, citizenship, email, password, major, studentType, yearOfStudy, dateOfBirth};
     }
 
     private String[] promptForTeacherDetails() {

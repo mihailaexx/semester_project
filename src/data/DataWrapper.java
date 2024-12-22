@@ -7,6 +7,7 @@ import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
 import model.research.ResearchPaper;
+import model.research.ResearchProject;
 import model.research.Researcher;
 
 import java.io.Serializable;
@@ -21,14 +22,15 @@ public class DataWrapper implements Serializable {
     private final Map<String, Teacher> teachers;
     private final Map<String, Employee> employees;
     private final Map<String, Course> courses;
-    private final Map<String, Researcher> researchers;
+    private final Map<Integer, Researcher> researchers;
     private final Map<Integer, ResearchPaper> researchPapers;
+    private final Map<Integer, ResearchProject> researchProjects;
     private final Map<String, OrManager> orManagers;
 
     public DataWrapper(Map<String, User> users, Map<String, Student> students,
                        Map<String, Teacher> teachers, Map<String, Employee> employees,
-                       Map<String, Course> courses, Map<String, Researcher> researchers,
-                       Map<Integer, ResearchPaper> researchPapers, Map<String, OrManager> orManagers) {
+                       Map<String, Course> courses, Map<Integer, Researcher> researchers,
+                       Map<Integer, ResearchPaper> researchPapers, Map<Integer, ResearchProject> researchProjects, Map<String, OrManager> orManagers) {
         this.users = users;
         this.students = students;
         this.teachers = teachers;
@@ -36,6 +38,7 @@ public class DataWrapper implements Serializable {
         this.courses = courses;
         this.researchers = researchers;
         this.researchPapers = researchPapers;
+        this.researchProjects = researchProjects;
         this.orManagers = orManagers;
     }
 
@@ -61,12 +64,14 @@ public class DataWrapper implements Serializable {
         return courses;
     }
 
-    public Map<String, Researcher> getResearchers() {
+    public Map<Integer, Researcher> getResearchers() {
         return researchers;
     }
-
     public Map<Integer, ResearchPaper> getResearchPapers() {
         return researchPapers;
+    }
+    public Map<Integer, ResearchProject> getResearchProjects() {
+        return researchProjects;
     }
     public Map<String, OrManager> getOrManagers() {
         return orManagers;

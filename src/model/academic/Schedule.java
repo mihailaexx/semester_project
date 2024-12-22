@@ -93,7 +93,6 @@ public class Schedule implements Serializable {
         return schedule.getOrDefault(day, new HashMap<>());
     }
 
-    // Inner class to represent a scheduled class with course and lesson type
     public static class ScheduledClass implements Serializable {
         private final Course course;
         private final LESSON_TYPE lessonType;

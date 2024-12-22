@@ -12,6 +12,7 @@ import model.people.Student;
 import model.people.Teacher;
 import model.people.User;
 import model.research.ResearchPaper;
+import model.research.ResearchProject;
 import model.research.Researcher;
 
 import java.time.DayOfWeek;
@@ -30,6 +31,12 @@ public interface DataStore {
      * @return The User object if found, null otherwise.
      */
     User getUserByUsername(String username);
+
+    /**
+     * Retrieves a list of all users in the data store.
+     *
+     * @return A list of all User objects.
+     */
     List<User> getAllUsers();
     /**
      * Saves a user to the data store.
@@ -191,7 +198,7 @@ public interface DataStore {
      * @param researcherId The ID of the researcher to retrieve.
      * @return The Researcher object if found, null otherwise.
      */
-    Researcher getResearcherById(String researcherId);
+    Researcher getResearcherById(int researcherId);
 
     /**
      * Retrieves a list of all researchers in the data store.
@@ -207,14 +214,15 @@ public interface DataStore {
      * @param paper      The ResearchPaper object to add.
      */
     void addResearchPaper(Researcher researcher, ResearchPaper paper);
+    public void saveResearchPaper(ResearchPaper paper);
 
-    /**
-     * Retrieves a list of research papers for a given researcher.
-     *
-     * @param researcher The Researcher object.
-     * @return A list of ResearchPaper objects.
-     */
-    List<ResearchPaper> getResearchPapersByResearcher(Researcher researcher);
+        /**
+         * Retrieves a list of research papers for a given researcher.
+         *
+         * @param paperId id of Researcher
+         * @return A list of ResearchPaper objects.
+         */
+    ResearchPaper getResearchPaperById(int paperId);
 
     /**
      * Retrieves a list of all research papers in the data store.
@@ -223,6 +231,9 @@ public interface DataStore {
      */
     List<ResearchPaper> getAllResearchPapers();
 
+    void saveResearchProject(ResearchProject project);
+    ResearchProject getResearchProjectById(int projectId);
+    List<ResearchProject> getAllResearchProjects();
     /**
      * Adds a course session to the schedule of a specific course.
      *

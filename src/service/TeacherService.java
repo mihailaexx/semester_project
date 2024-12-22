@@ -67,7 +67,7 @@ public class TeacherService {
             for (Course course : teacher.getCourses()) {
                 Schedule courseSchedule = course.getSchedule();
                 if (courseSchedule != null) {
-                    schedule.merge(courseSchedule); // Assuming you have a merge method in Schedule
+                    schedule.merge(courseSchedule);
                 }
             }
             return schedule;
@@ -83,11 +83,8 @@ public class TeacherService {
             return;
         }
 
-        // In a real application, you would likely have a Complaint object or a more sophisticated
-        // mechanism for handling complaints. This is a placeholder.
         System.out.println("Sending complaint from teacher (ID: " + teacherId + ") about student (ID: " + studentId + "):");
         System.out.println("Message: " + message);
         System.out.println("Urgency: " + urgency);
-        // Here you would typically store the complaint in your data store or send it to another system
     }
 }

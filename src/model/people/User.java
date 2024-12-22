@@ -1,6 +1,7 @@
 package model.people;
 
 import enums.SEX;
+import model.research.Researcher;
 import utils.SecurityUtils;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public abstract class User extends Person implements Serializable {
     private String salt;
     private String phoneNumber;
     private String citizenship;
+    private Researcher researcher;
 
     // Constructor for initial user creation
     public User(String name, String surname, SEX sex, Date birthDate, String username, String email, String password, String phoneNumber, String citizenship) {
@@ -90,6 +92,13 @@ public abstract class User extends Person implements Serializable {
         this.citizenship = citizenship;
     }
 
+    public Researcher getResearcher() {
+        return researcher;
+    }
+
+    public void setResearcher(Researcher researcher) {
+        this.researcher = researcher;
+    }
     public boolean authenticate(String password) {
         String hashedInputPassword = SecurityUtils.hashPassword(password, this.salt);
         return this.passwordHash.equals(hashedInputPassword);
